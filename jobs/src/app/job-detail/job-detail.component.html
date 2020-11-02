@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-md-12">
+        <img
+        [src]="job.company_logo ? job.company_logo : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'"
+        class="img-responsive"
+        style=" height: 200px; width: inherit;"
+        />
+        <div style="padding:20px">
+            <h4>{{ job.title }}</h4>
+            <p [innerHTML]="job.description"></p>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,18 @@
+.title {
+    margin-bottom: 0;
+    font-family: cursive;
+    color: white;    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    max-width: 30%;
+    transform: translate(-50%,-50%);
+    background: rgb(34, 89, 192);
+}
+.back{
+    margin-bottom: 0;
+    font-size: 12px;
+    font-family: cursive;
+    color: white;    
+}

@@ -1,0 +1,10 @@
+<div style="padding: 10px;position: relative; height : 60px; background: rgb(34, 89, 192);">
+    <div *ngIf ="showBack" class="float-left" style="width: 30%; align-items: center;display: flex;height: -webkit-fill-available;" routerLink='/job-list' (click)="onBack()">
+        <img src="https://www.pngkit.com/png/full/155-1554499_kudos-back-white-icon-png.png"  style="width: 20px;margin-right: 5px; " alt="">
+        <label class="back" style="margin-bottom: 0;">Jobs reader</label> 
+    </div>
+    <label class="title" *ngIf="title.length < 15" style="font-size: medium;">{{title}}</label>
+    <label class="title" *ngIf="title.length >= 15 && title.length <30" style="font-size: small;">{{title}}</label>
+    <label class="title" *ngIf="title.length >= 30 " style="font-size: x-small;">{{title}}</label>
+</div>
+

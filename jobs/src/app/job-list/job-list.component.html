@@ -1,0 +1,10 @@
+<div class="row" style="margin-right: 0; margin-left: 0;">
+    <div class="col-md-12" style="padding-right: 0; padding-left: 0;">
+        <app-job-item
+        *ngFor="let jobElement of jobs"
+        [job]="jobElement"
+        [id]="jobElement.id"></app-job-item>
+    </div>
+</div>
+  
+  
