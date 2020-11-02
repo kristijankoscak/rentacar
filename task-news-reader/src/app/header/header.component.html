@@ -1,0 +1,16 @@
+<nav class="navbar background-main" style="margin:0;padding:10px;">
+  <span
+    class="navbar-text h4"
+    style="color:white; margin:10px;">
+      <span
+        class="glyphicon glyphicon-chevron-left"
+        style="color: white; cursor: pointer;"
+        *ngIf="title"
+        (click)="onBack()"
+        >
+      </span>
+      News reader
+      {{ title }}
+
+  </span>
+</nav>

@@ -1,0 +1,19 @@
+<a
+  style="cursor: pointer; padding: 0; border: none;"
+  [routerLink] = "[postId]"
+  class="list-group-item clearfix"
+  (click)="onPostSelected()"
+>
+  <span class="pull-left">
+    <img
+      [src]="post.imagePath"
+      alt="{{ post.title }}"
+      class="img-fluid"
+      style="height: 70px; width:70px; margin-right: 10px; background-size: cover;"
+    />
+  </span>
+  <div class="">
+    <h4 class="list-group-item-heading">{{ post.title }}</h4>
+    <p class="list-group-item-text gradient">{{ post.description.slice(0,30) }} ...</p>
+  </div>
+</a>

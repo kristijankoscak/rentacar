@@ -1,0 +1,16 @@
+
+<div class="row"  *ngIf="error" style="margin:0px;">
+  <div class="col-md-12" style="padding: 0; text-align: center">
+    <app-alert [message]="error"></app-alert>
+  </div>
+</div>
+<div class="row" *ngIf="isLoading" style="margin:0px;">
+  <div class="col-md-12" style="padding: 0; text-align: center">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+</div>
+<div class="row" *ngIf="!isLoading && !error" style="margin:0px;">
+  <div class="col-md-12" style="padding: 0">
+    <router-outlet></router-outlet>
+  </div>
+</div>
