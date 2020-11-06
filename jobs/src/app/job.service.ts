@@ -26,4 +26,8 @@ export class JobService {
   getJobs() {
     return this.loadedJobs;
   }
+
+  filterJobs(type: string) {
+    // TODO: implement filtering functionality
+  }
 }
