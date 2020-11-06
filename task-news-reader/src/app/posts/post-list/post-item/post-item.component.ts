@@ -10,16 +10,16 @@ import { PostService } from '../../post.service';
 export class PostItemComponent implements OnInit {
 
   @Input() post: Post;
-  @Input() postId : number;
+  @Input() postId: number;
 
   constructor(
-    private postService:PostService
+    private postService: PostService
   ) { }
 
   ngOnInit(): void {
   }
 
-  onPostSelected(){
+  onPostSelected(): void{
     this.postService.selectedPostTitle.next(this.post.title);
   }
 
