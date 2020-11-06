@@ -14,22 +14,22 @@ export class PostDetailComponent implements OnInit {
   postId: number;
 
   constructor(
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     private postService: PostService
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(
-      (params:Params)=> {
-        this.postId = +params['id'];
+      (params: Params) => {
+        this.postId = +params.id;
         this.post = this.postService.getPost(this.postId);
         this.refreshHeader();
       }
-    )
+    );
 
   }
 
-  refreshHeader(){
+  refreshHeader(): void{
     this.postService.selectedPostTitle.next(this.post.title);
   }
 
