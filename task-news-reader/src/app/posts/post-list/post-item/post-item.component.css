@@ -3,3 +3,10 @@
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
 }
+
+.list-item-image{
+  height: 70px;
+  width:70px;
+  margin-right: 10px;
+  background-size: cover;
+}
