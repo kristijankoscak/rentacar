@@ -8,25 +8,25 @@ import { PostService } from '../post.service';
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.css']
 })
-export class PostListComponent implements OnInit,OnDestroy {
+export class PostListComponent implements OnInit, OnDestroy {
 
-  posts:Post[];
-  subscription : Subscription;
+  posts: Post[];
+  subscription: Subscription;
 
   constructor(
-    private postService:PostService,
+    private postService: PostService,
     ) { }
 
   ngOnInit(): void {
     this.subscription = this.postService.postsChanged.subscribe(
-      (posts: Post[])=>{
+      (posts: Post[]) => {
         this.posts = posts;
       }
     );
     this.posts = this.postService.getPosts();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy(): void{
     this.subscription.unsubscribe();
   }
 
