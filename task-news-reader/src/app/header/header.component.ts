@@ -9,27 +9,27 @@ import { PostService } from '../posts/post.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit,OnDestroy {
-  title:string;
-  subscription : Subscription;
+export class HeaderComponent implements OnInit, OnDestroy {
+  title: string;
+  subscription: Subscription;
 
   constructor(
-    private postService:PostService,
-    private router:Router,
+    private postService: PostService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.subscription = this.postService.selectedPostTitle.subscribe(title => {
       this.title = title;
-    })
+    });
   }
-  ngOnDestroy(){
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  onBack(){
+  onBack(): void {
     this.router.navigate(['../']);
-    this.title = "";
+    this.title = '';
   }
 
 }
