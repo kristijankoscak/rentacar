@@ -4,6 +4,13 @@
   -webkit-background-clip: text;
 }
 
+
+.list-item{
+  cursor: pointer;
+  padding: 0;
+  border: none;
+}
+
 .list-item-image{
   height: 7rem;
   width:7rem;
