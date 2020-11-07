@@ -1,9 +1,9 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 
 import { PostService } from './posts/post.service';
 
 @NgModule({
-  providers:[
+  providers: [
     PostService
   ]
 })
