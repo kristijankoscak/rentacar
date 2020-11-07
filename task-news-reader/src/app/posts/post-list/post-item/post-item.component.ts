@@ -11,6 +11,8 @@ export class PostItemComponent implements OnInit {
 
   @Input() post: Post;
   @Input() postId: number;
+  descStart = 0;
+  descEnd = 30;
 
   constructor(
     private postService: PostService
