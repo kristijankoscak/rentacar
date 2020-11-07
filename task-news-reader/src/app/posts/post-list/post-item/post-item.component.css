@@ -5,8 +5,8 @@
 }
 
 .list-item-image{
-  height: 70px;
-  width:70px;
-  margin-right: 10px;
+  height: 7rem;
+  width:7rem;
+  margin-right: 1rem;
   background-size: cover;
 }
