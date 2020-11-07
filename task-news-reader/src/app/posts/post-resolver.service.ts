@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { DataStorageService } from '../shared/data-storage.service';
 
@@ -10,14 +10,14 @@ export class PostResolverService implements Resolve<Post[]>{
 
   constructor(
     private postService: PostService,
-    private dataStorageService:DataStorageService
+    private dataStorageService: DataStorageService
   ) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Post[] {
     const posts = this.postService.getPosts();
     if (posts.length === 0) {
       this.dataStorageService.fetchPosts().subscribe(
-        posts => {},
+        postsResponse => { },
         errorMessage => {
           this.postService.occurredError.next(errorMessage);
           this.postService.postsLoading.next(false);
