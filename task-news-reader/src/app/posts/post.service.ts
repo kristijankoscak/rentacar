@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { Post } from './post.model';
@@ -16,18 +16,18 @@ export class PostService {
 
   private posts: Post[] = [];
 
-  setPosts(posts:Post[]){
+  setPosts(posts: Post[]): void{
     this.posts = posts;
     this.postsChanged.next(this.posts.slice());
     this.postsLoading.next(false);
   }
 
-  getPosts() {
+  getPosts(): Post[] {
     return this.posts.slice();
   }
-  getPost(postId: number) {
+  getPost(postId: number): Post {
     return this.posts.find((post, index) => {
-      return index === postId
-    })
+      return index === postId;
+    });
   }
 }
