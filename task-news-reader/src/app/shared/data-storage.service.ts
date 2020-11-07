@@ -21,7 +21,7 @@ export class DataStorageService {
   fetchPosts(): Observable<Post[]> {
     return this.http
       .get<any>(
-        'http://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=' + environment.dataApiKey
+        environment.postsApiUrl + environment.postsApiKey
       )
       .pipe(
         catchError(this.handleError),
