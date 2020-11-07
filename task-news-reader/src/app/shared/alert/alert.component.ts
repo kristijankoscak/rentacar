@@ -7,9 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class AlertComponent{
 
-  @Input() message:string;
+  @Input() message: string;
 
-  onClose(){
+  onClose(): void{
     this.message = null;
   }
 }
