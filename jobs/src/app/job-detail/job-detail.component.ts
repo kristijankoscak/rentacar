@@ -11,21 +11,25 @@ import { JobService } from '../job.service';
 })
 export class JobDetailComponent implements OnInit {
 
-  id : string
-  job : Job
-  constructor(private jobService : JobService,
-    private route : ActivatedRoute) { }
+  id: string;
+  job: Job;
+  detailloader: boolean;
+  constructor(private jobService: JobService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
     this.route.params
       .subscribe(
-        (params : Params)=> {
-          this.id=params['id']
-          this.job = this.jobService.getJob(this.id)
-          this.jobService.headerTitle.next(this.job.title)
-          this.jobService.setloader.next(false)
+        (params: Params) => {
+          this.id = params.id;
+          this.job = this.jobService.getJob(this.id);
+          if (!this.job.company_logo){
+            this.job.company_logo = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg';
+          }
+          this.jobService.headerTitle.next(this.job.title);
+          this.jobService.setloader.next(false);
         }
-      )
-  }
+      );
+    }
 }

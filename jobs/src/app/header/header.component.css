@@ -1,3 +1,11 @@
+.header-wrapper {
+    height : 3.75rem; 
+    background: rgb(34, 89, 192);
+    padding: 0.625em;
+}
+.back-wrapper{
+    height: -webkit-fill-available;
+}
 .title {
     margin-bottom: 0;
     font-family: cursive;
@@ -11,7 +19,6 @@
     background: rgb(34, 89, 192);
 }
 .back{
-    margin-bottom: 0;
     font-size: 12px;
     font-family: cursive;
     color: white;    

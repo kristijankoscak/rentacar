@@ -2,17 +2,10 @@
 <div class="container" >
   <div class="row" >
     <div class="col-md-12">
-      <div style="position : absolute; width : 100%;height: calc(100vh - 60px);">
-        <div *ngIf = "loader" class="loadingio-spinner-gear-yi5719vuu79"><div class="ldio-n240gqzsond">
-            <div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-            </div></div>
-        <div class="error" *ngIf="error">
-          <h4>Error</h4>
-          <p><b>Ups, error occured</b></p>
-          <hr>
-          <button (click)="closeErrorBox()"><b>OK</b></button>
+      <div class="screen-center position-absolute">
+        <app-loading-spinner></app-loading-spinner>
+        <app-error-alert></app-error-alert>
       </div>
-    </div>
       <router-outlet></router-outlet>
     </div>
   </div>

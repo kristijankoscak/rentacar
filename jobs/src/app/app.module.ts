@@ -2,27 +2,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { JobListComponent } from './job-list/job-list.component';
-import { JobItemComponent } from './job-list/job-item/job-item.component';
-import { JobDetailComponent } from './job-detail/job-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { ErrorAlertComponent } from './shared/error-alert/error-alert.component';
+import { CoreModule } from './core.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    JobListComponent,
-    JobItemComponent,
-    JobDetailComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoadingSpinnerComponent,
+    ErrorAlertComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { JobDetailComponent } from './job-detail/job-detail.component';
-import { JobListComponent } from './job-list/job-list.component';
-import { JobsResolverService } from './job-resolver.service';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-const appRouter : Routes = [
-    {path:'', redirectTo: '/job-list',pathMatch:'full'},
-    {path : 'job-list', component : JobListComponent},
-    {path : 'job-detail/:id', component : JobDetailComponent,resolve : [JobsResolverService]}
-]
+const appRouter: Routes = [
+    {path: '', redirectTo: '/job-list', pathMatch: 'full'},
+    {
+        path: 'job-list',
+        loadChildren: () => import('./job-list/jobs-list.module').then(m => m.JobListModule)
+    },
+    {
+        path: 'job-detail/:id',
+        loadChildren: () => import('./job-detail/job-detail.module').then(m => m.JobDetailModule)
+    },
+];
 @NgModule({
-    imports: [RouterModule.forRoot(appRouter)],
+    imports: [RouterModule.forRoot(appRouter, {preloadingStrategy: PreloadAllModules})],
     exports : [RouterModule]
 })
 export class AppRoutingModule {

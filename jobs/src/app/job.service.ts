@@ -1,10 +1,6 @@
-import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Job} from './job.model';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class JobService {
   headerTitle = new Subject<string>();
   setloader = new Subject<boolean>();
@@ -19,15 +15,12 @@ export class JobService {
     return this.loadedJobs.find(job => job.id === idd);
   }
 
-  setJobs(jobs: Job[]) {
+  setJobs(jobs: Job[]): void {
     this.loadedJobs = jobs;
   }
 
-  getJobs() {
+  getJobs(): Job[] {
     return this.loadedJobs;
   }
 
-  filterJobs(type: string) {
-    // TODO: implement filtering functionality
-  }
 }

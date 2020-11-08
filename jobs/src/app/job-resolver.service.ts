@@ -8,17 +8,20 @@ import { DataStorageService } from './shared/data-storage.service';
 
 @Injectable({providedIn: 'root'})
 export class JobsResolverService implements Resolve<Job[]>{
-    constructor(private dataStorageService : DataStorageService,
-        private jobService : JobService){}
+    constructor(private dataStorageService: DataStorageService,
+                private jobService: JobService){}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Job[] | Observable<Job[]> | Promise<Job[]> {
-        if(!this.jobService.getJobs())
+        if (!this.jobService.getJobs()){
             return this.dataStorageService.fetchJobs().pipe(
                 catchError((error) => {
-                    this.jobService.errorHappened.next(true)
+                    this.jobService.errorHappened.next(true);
                     return EMPTY;
                 })
-            )
+            );
+        }
+
+
     }
 
 }

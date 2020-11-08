@@ -1,10 +1,10 @@
-<div style="padding: 10px;position: relative; height : 60px; background: rgb(34, 89, 192);">
-    <div *ngIf ="showBack" class="float-left" style="width: 30%; align-items: center;display: flex;height: -webkit-fill-available;" routerLink='/job-list' (click)="onBack()">
-        <img src="https://www.pngkit.com/png/full/155-1554499_kudos-back-white-icon-png.png"  style="width: 20px;margin-right: 5px; " alt="">
-        <label class="back" style="margin-bottom: 0;">Jobs reader</label> 
+<div class="header-wrapper position-relative">
+    <div *ngIf ="showBack" class="float-left d-flex align-items-center back-wrapper" routerLink='/job-list' (click)="onBack()">
+        <img src="https://lh3.googleusercontent.com/proxy/3nT6uDtYME8LTeqB2h1ri7pwcHMHx7KmhtvaAIlA_KfXr8yVTH8wos7p3qfAzbkx_88YI0ybSiCWW6AqN3r7_E76CVmv_wCJN06rucBlgi7kUyvzDA"  style="width: 20px;margin-right: 5px; " alt="">
+        <label class="back mb-0">Jobs reader</label> 
     </div>
-    <label class="title" *ngIf="title.length < 15" style="font-size: medium;">{{title}}</label>
-    <label class="title" *ngIf="title.length >= 15 && title.length <30" style="font-size: small;">{{title}}</label>
-    <label class="title" *ngIf="title.length >= 30 " style="font-size: x-small;">{{title}}</label>
+    <label class="title" *ngIf="title.length < 20" style="font-size: 1em;">{{title}}</label>
+    <label class="title" *ngIf="title.length >= 20 && title.length <35" style="font-size: 0.7em;">{{title}}</label>
+    <label class="title" *ngIf="title.length >= 35 " style="font-size: 0.6em;">{{title}}</label>
 </div>
 

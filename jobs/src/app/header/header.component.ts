@@ -8,26 +8,26 @@ import { JobService } from '../job.service';
 })
 export class HeaderComponent implements OnInit {
 
-  title : string =""
-  showBack = false
-  constructor(private jobService : JobService) { }
+  title = '';
+  showBack = false;
+  constructor(private jobService: JobService) { }
 
   ngOnInit(): void {
     this.jobService.headerTitle.subscribe(
       (data) => {
-        this.title = data
-        if(this.title=="Jobs reader"){
-          this.showBack=false
+        this.title = data;
+        if (this.title === 'Jobs reader'){
+          this.showBack = false;
         }
         else{
-          this.showBack = true
+          this.showBack = true;
         }
       }
-    )
+    );
   }
-  onBack(){
-    this.showBack = !this.showBack
-    this.jobService.headerTitle.next("Jobs reader")
+  onBack(): void{
+    this.showBack = !this.showBack;
+    this.jobService.headerTitle.next('Jobs reader');
   }
 
 }
