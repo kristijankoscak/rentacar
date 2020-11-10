@@ -14,6 +14,7 @@ export class JobDetailComponent implements OnInit {
   id: string;
   job: Job;
   detailloader: boolean;
+  defoultImage = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg';
   constructor(private jobService: JobService,
               private route: ActivatedRoute) { }
 
@@ -25,7 +26,7 @@ export class JobDetailComponent implements OnInit {
           this.id = params.id;
           this.job = this.jobService.getJob(this.id);
           if (!this.job.company_logo){
-            this.job.company_logo = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg';
+            this.job.company_logo = this.defoultImage;
           }
           this.jobService.headerTitle.next(this.job.title);
           this.jobService.setloader.next(false);
