@@ -36,6 +36,7 @@ import { ReservationItemComponent } from './shared/reservation-item/reservation-
 import { VehicleItemComponent } from './shared/vehicle-item/vehicle-item.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VehicleComponent } from './vehicle/vehicle.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { VehicleComponent } from './vehicle/vehicle.component';
     MatSelectModule,
     MatSlideToggleModule,
     MatStepperModule,
-    MatTabsModule
+    MatTabsModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]
