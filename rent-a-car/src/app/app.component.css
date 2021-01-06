@@ -1,0 +1,5 @@
+.background {
+  background-image: linear-gradient(to top, rgb(54, 109, 172), rgb(36, 92, 212));
+  height: 100vh;
+  width: 100vw;
+}

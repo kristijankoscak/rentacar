@@ -1,18 +1,21 @@
-<p>vehicle-item works!</p>
-
 <button mat-raised-button class="vehicle-container">
-  <div fxLayout="row" fxLayoutAlign="start start">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
     <div class="vehicle-image" [ngStyle]="{'background-image': 'url(' + vehicle.coverImage + ')'}"></div>
-    <div fxLayout="column">
-        <div fxLayout="row" class="vehicle-info">
-          <span>marka model</span>
-          <span>mijenjac</span>
-          <span>boja</span>
-          <span>cijena</span>
+    <div fxLayout="column" class="vehicle-info">
+        <div fxLayout="row">
+          <span>{{vehicle.make}} {{vehicle.model}}</span>
+        </div>
+        <div fxLayout="row">
+          <span>{{vehicle.transmissionType}}</span>
+        </div>
+        <div fxLayout="row">
+          <span>{{vehicle.color}}</span>
+        </div>
+        <div fxLayout="row">
+          <span>{{vehicle.price}}</span>
         </div>
     </div>
   </div>
-
 </button>
 
 
