@@ -8,7 +8,7 @@
   transform: translate(-50%, -50%);
   padding: 1em;
 }
-input{
+.location{
   border-radius: .2em;
   border: 1px solid grey;
   height: 3em;
@@ -18,29 +18,22 @@ input{
 input[type=text]:nth-child(3){
   margin-right: 0em;
 }
-button{
-  padding: 12px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 2px;
-  text-decoration: none;
-  cursor: pointer;
-  margin-top: 0.5em;
-  width: 100%;
-  border: 2px solid rgb(77, 110, 180);
-  border-radius: 5px;
-}
 button:focus {outline:0;}
-
-
+.form-wrapper > button{
+  border-color: rgba(0, 0, 0, 0.5);
+  padding: 0.1rem;
+}
 @media only screen and (max-width: 350px) {
   .form-wrapper > form{
-    flex-direction: column;
+    flex-direction: column!important;
     box-sizing: border-box;
     display: flex;
   }
   input[type="text"]{
     width:100%;
     margin-bottom: 0.3rem;
+  }
+  .mat-form-field{
+    margin-left: 0!important;
   }
 }

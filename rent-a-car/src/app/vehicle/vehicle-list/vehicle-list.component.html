@@ -1,5 +1,12 @@
-<div fxLayout="column" class="vehicles-container" fxLayoutGap="0.5rem grid">
-  <app-vehicle-item *ngFor="let vehicle of vehicles" [vehicle]="vehicle"></app-vehicle-item>
+<div
+class="list-wrapper">
+  <div 
+  class="vehicles-container" >
+    <app-vehicle-item 
+    *ngFor="let vehicle of vehicles" 
+    [vehicle]="vehicle"></app-vehicle-item>
+  </div>
+  
 </div>
 
 

@@ -14,15 +14,37 @@ class="form-wrapper"
 fxLayout="column"
 fxLayoutAlign="space-between">
   <form
-  fxLayoutAlign="start start"
-  fxLayoutGap="0.5rem flex">
-    <input
-    type="text"
-    placeholder="Lokacija">
-    <input type="text" placeholder="Datum preuzimanja">
-    <input type="text" placeholder="Datum vraćanja">
+  fxLayout=row>
+    <mat-form-field class="example-full-width">
+      <input type="text"
+            placeholder="Pick one"
+            aria-label="Number"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field
+    fxFlexOffset=1rem>
+      <mat-label>Datum preuzimanja</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field
+    fxFlexOffset=1rem>
+      <mat-label>Datum preuzimanja</mat-label>
+      <input matInput [matDatepicker]="picker1">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
   </form>
-  <button>
-    Filtriraj
-  </button>
+  <button 
+  mat-stroked-button>
+    Filter</button>
 </div>

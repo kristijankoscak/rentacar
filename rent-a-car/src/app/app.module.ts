@@ -39,7 +39,9 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeComponent } from './home/home.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     SignUpComponent,
     VehicleReserveComponent,
     ReservationComponent,
+    HomeComponent,
     HeaderComponent,
     ReservationStatusComponent,
     ReservationListComponent,
@@ -82,7 +85,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatTabsModule,
     MatAutocompleteModule,
     FlexLayoutModule,
-    MatToolbarModule
+    MatToolbarModule,
+    NoopAnimationsModule,
+    MatNativeDateModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
