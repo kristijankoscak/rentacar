@@ -4,7 +4,14 @@
   fxLayoutGap="2rem">
     <span class="nav-item" routerLink="/home" routerLinkActive="active">Home</span>
     <span class="nav-item" routerLink="/vehicle" routerLinkActive="active">Vehicless</span>
-    <span class="nav-item" routerLink="/auth" routerLinkActive="active">Sign</span>
+    <span  
+    class="login" 
+    [matMenuTriggerFor]="menu" 
+    routerLinkActive="active">Sign</span>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/auth/sign-in" >Sign in</button>
+      <button mat-menu-item routerLink="/auth" >Sign up</button>
+    </mat-menu>
   </div>
 </div>
 <!--
