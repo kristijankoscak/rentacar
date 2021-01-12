@@ -1,0 +1,28 @@
+.sign-up-form-wrapper{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 24rem;
+    background-color: white;
+}
+.register-wrapper{
+    position: absolute;
+    width: 26rem;
+    padding: 0.5rem 0;
+    transform: translateX(-1rem);
+    margin-top: 1rem;
+}
+.registartion-form{
+    padding: 2rem 1rem;
+
+}
+.register-wrapper > p{
+    margin-bottom: unset;
+}
+.register-title{
+    margin: 0;
+}
+.btn-signup{
+    color: white;
+}

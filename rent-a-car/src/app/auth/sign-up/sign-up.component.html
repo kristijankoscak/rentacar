@@ -1,6 +1,70 @@
-<p>sign-up works!</p>
+<div
+class="sign-up-form-wrapper"
+fxLayout=column
+fxLayoutGap=1rem>
+  <div
+  class="register-title-wrapper"
+  fxFlex=4rem>
+    <div
+    class="register-wrapper bg-primary"
+    fxLayoutAlign=" center"
+    fxLayout=column>
+      <h2
+      fxFlexAlign=center
+      class="register-title">REGISTRATION</h2>
+      <p>
+        Enter your personal data
+      </p>
+    </div>
+  </div>
+  
+  <form 
+  fxLayout=column
+  fxLayoutGap=1rem
+  action=""
+  class="registartion-form">
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
+      <input matInput>
+      <mat-icon matSuffix>person_outline</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input matInput>
+      <mat-icon matSuffix>person_outline</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Date Of Birth</mat-label>
+      <input matInput [matDatepicker]="picker1">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput>
+      <mat-icon matSuffix>email</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput>
+      <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Confirm Password</mat-label>
+      <input matInput>
+      <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+    <button 
+    class="btn-signup bg-primary"
+    mat-raised-button>
+    Sign up</button>
+  </form>
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates maiores sequi, numquam tempora tenetur blanditiis ex facilis rem non provident ea!
+  </div>
+</div>
 
-<!--
+  <!--
 
   Forma s podacima za:
     Ime
@@ -13,3 +77,4 @@
     Možda: dodati jos jedno za ponovit lozinku ?
 
  -->
+
