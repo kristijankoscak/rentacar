@@ -3,26 +3,43 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
-    width: 24rem;
+    width: 26rem;
     background-color: white;
 }
 .register-wrapper{
     position: absolute;
-    width: 26rem;
+    width: 28rem;
     padding: 0.5rem 0;
     transform: translateX(-1rem);
     margin-top: 1rem;
+    background: linear-gradient(120deg, rgb(114, 148, 174) 25%, rgb(93, 140, 175) 25%);
 }
 .registartion-form{
-    padding: 2rem 1rem;
-
+    padding: 2rem;
+    margin-bottom: unset!important;
 }
 .register-wrapper > p{
     margin-bottom: unset;
+    color: white;
+}
+.register-title{
+    color: white;
 }
 .register-title{
     margin: 0;
 }
-.btn-signup{
+.btn-signup,
+.footer-text-wrapper > span{
     color: white;
+}
+.footer-text-wrapper{
+    background: linear-gradient(120deg, rgb(114, 148, 174) 25%, rgb(93, 140, 175) 25%);
+}
+.btn-signup{
+    border-radius: unset;
+    width: fit-content;
+    padding: 0 2rem;
+}
+.material-icons{
+    color: grey;
 }

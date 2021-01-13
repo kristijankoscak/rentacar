@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-reserve.component.css']
 })
 export class VehicleReserveComponent implements OnInit {
-
+  backgroundColor='rgb(255, 211, 130)'
   constructor() { }
 
   ngOnInit(): void {
