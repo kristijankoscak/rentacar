@@ -59,6 +59,7 @@
 }
 .reservation-detail-wrapper{
     padding: 1rem;
+    padding-bottom: unset!important;
 }
 .check-in-wrapper,
 .check-out-wrapper,
@@ -75,6 +76,16 @@
 .final-price,
 .sum-price{
     font-weight: bold;
+}
+hr{
+    background-color: rgb(219, 219, 219); 
+    width: 100%; 
+    border: 0; 
+    height: 1px;
+    margin: 0;
+}
+.price-wrapper{
+    padding: 1rem 0;
 }
 .user-info-wrapper{
     padding: 1rem;
