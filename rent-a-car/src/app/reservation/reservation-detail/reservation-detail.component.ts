@@ -33,13 +33,15 @@ export class ReservationDetailComponent implements OnInit {
   }
   fetchVehicle(): void{
     this.vehicle = {
-      make:'Hyundai',
+      id: 1,
+      mark:'Hyundai',
       model: 'i30',
-      modelYear:'2017',
-      manufactureYear: '2017',
-      speedsNumber: 6,
+      model_year:'2017',
+      manufacture_year: '2017',
+      gears: 6,
       color: 'Black',
-      transmissionType: 'Manual',
+      gearbox: 'Manual',
+      status: 'Dostupan',
       power: 85,
       price: 55,
       type: 'Limusine',

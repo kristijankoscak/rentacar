@@ -14,13 +14,15 @@ export class ReservationItemComponent implements OnInit {
   name: string = "Marko";
   surname: string = "Markovic";
   vehicle: Vehicle = {
-    make:'Hyundai',
+    id:1,
+    mark:'Hyundai',
     model: 'i30',
-    modelYear:'2017',
-    manufactureYear: '2017',
-    speedsNumber: 5,
+    model_year:'2017',
+    manufacture_year: '2017',
+    gears: 5,
     color: 'Black',
-    transmissionType: 'Manual',
+    gearbox: 'Manual',
+    status: 'Dostupan',
     power: 85,
     price: 55,
     type: '',
