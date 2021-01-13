@@ -1,0 +1,87 @@
+.summary-background{
+    width: 60rem;
+    margin: auto;
+    min-height: 100vh;
+    background-color: white;
+}
+.car-infoAndImg-wrapper {
+    padding: 1rem;
+}
+.car-infoAndImg-wrapper > img {
+    width: 20rem;
+    height: 20rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.car-info-wrapper{
+    width: 100%;
+    padding: 1rem;
+}
+.right-side-car-info{
+    padding: 0.5rem;
+}
+.right-side-car-info > img {
+    margin: auto;
+    width: 4rem;
+}
+.right-side-car-info > h2 {
+    text-align: center;
+}
+.car-advantage-wrapper{
+    width: 100%;
+    height: 8rem;
+    padding: 1rem;
+    background-color: rgb(212, 212, 212);
+}
+.advantage-item{
+    border: 2px solid black;
+    width: 8rem;
+    border-radius: 10px;
+    padding: 0.5rem;
+}
+.advantage-item > h2{
+    margin-bottom: unset;
+}
+.advantage-item.power > img{
+    width: 40%;
+    height: 60%;
+    object-fit: cover;
+}
+.advantage-item.color > div{
+    width: 50%;
+    height: 60%;
+    object-fit: cover;
+}
+.advantage-item.gear > img {
+    height: 60%;
+    width: 50%;
+    object-fit: contain;
+}
+.reservation-detail-wrapper{
+    padding: 1rem;
+}
+.check-in-wrapper,
+.check-out-wrapper,
+.for-wrapper{
+    line-height: 3em;  
+}
+.check-in-wrapper,
+.check-out-wrapper,
+.for-wrapper,
+.taxes-wrapper,
+.final-price-wrapper{
+    justify-content: space-between;
+}
+.final-price,
+.sum-price{
+    font-weight: bold;
+}
+.user-info-wrapper{
+    padding: 1rem;
+}
+.user-info-wrapper > img{
+    width: 20rem;
+    height: 20rem;
+    object-fit: cover;
+    border-radius: 50%;
+}

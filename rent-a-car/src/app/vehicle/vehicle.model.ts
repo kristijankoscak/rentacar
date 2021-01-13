@@ -1,14 +1,16 @@
 export class Vehicle{
-  make:string;
+  id: number;
+  mark:string;
   model: string;
-  modelYear:string;
-  manufactureYear: string;
-  speedsNumber: number;
+  model_year:string;
+  manufacture_year: string;
+  gears: number;
   color:string;
-  transmissionType:string;
+  gearbox:string;
+  status: string;
   power: number;
-  price: number;
   type: string;
+  price: number;
   coverImage: string;
   otherImages: string[];
 }
