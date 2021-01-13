@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Vehicle } from 'src/app/vehicle/vehicle.model';
+import { Reservation } from '../reservation.model';
+import { ReservationService } from '../reservation.service';
 
 @Component({
   selector: 'app-reservation-detail',
@@ -7,9 +11,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReservationDetailComponent implements OnInit {
 
-  constructor() { }
+  reservationID:number;
+  reservation: Reservation;
+  name: string;
+  surname: string;
+  vehicle: Vehicle;
+
+  constructor(private route: ActivatedRoute,private reservationService: ReservationService) { }
 
   ngOnInit(): void {
+    this.fetchReservationID();
+    this.fetchReservation();
+    this.fetchVehicle();
+  }
+
+  fetchReservationID(): void{
+    this.reservationID = +this.route.snapshot.paramMap.get('id');
+  }
+  fetchReservation(): void{
+    this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
+  }
+  fetchVehicle(): void{
+    this.vehicle = {
+      make:'Hyundai',
+      model: 'i30',
+      modelYear:'2017',
+      manufactureYear: '2017',
+      speedsNumber: 6,
+      color: 'Black',
+      transmissionType: 'Manual',
+      power: 85,
+      price: 55,
+      type: 'Limusine',
+      coverImage: 'https://www.autoto.hr/EasyEdit/UserFiles/CatalogGallery/hyundai-i30-14i-benzin-rabljeno-vozilo-at145019/hyundai-i30-14i-benzin-rabljeno-vozilo-at145019-637402731521255325_370_209@2x.jpeg',
+      otherImages: [
+        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
+        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
+        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
+        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
+        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
+      ]
+    };
   }
 
 }

@@ -1,1 +1,70 @@
-<p>reservation-detail works!</p>
+<div fxLayout="column" class="reservation-detail-container">
+  <div fxLayout="row" fxLayoutAlign="space-between" class="reservation-user-container">
+    <div fxLayout="row" fxFlex="45">
+      <div fxLayout="row" class="badge">
+        <mat-icon>person</mat-icon>
+      </div>
+      <div fxLayout="column" class="bg-white reservation-section rounded-borders" fxLayoutAlign="center center" fxFlex="100">
+        <span class="text-size-16 break-word">Ime: Marko</span>
+        <span class="text-size-16 break-word">Prezime: Markovic</span>
+        <span class="text-size-16 break-word">Email: marko.markovic@gmail.com</span>
+        <span class="text-size-16 break-word">Način plaćanja: Gotovina</span>
+        <span class="text-size-16 break-word">Iznos: 500 kn</span>
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="45">
+      <div fxLayout="row" class="badge">
+        <mat-icon>assignment</mat-icon>
+      </div>
+      <div fxLayout="column" class="bg-white reservation-section rounded-borders" fxLayoutAlign="center center" fxFlex="100">
+        <span class="text-size-16 break-word">ID rezervacije: 252</span>
+        <span class="text-size-16 break-word">Datum preuzimanja: 16.5.2021.</span>
+        <span class="text-size-16 break-word">Datum povrata: 20.5.2021.</span>
+        <span class="text-size-16 break-word">Status rezervacije: Obrađuje se</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start" class="vehicle-container">
+      <div fxLayout="row" class="badge">
+        <mat-icon>directions_car</mat-icon>
+      </div>
+      <div fxLayout="row" class="bg-white rounded-borders" fxFlex="99" fxLayoutAlign="space-evenly center">
+        <div class="vehicle-image" [ngStyle]="{'background-image': 'url(' + vehicle.coverImage + ')'}"></div>
+        <div fxLayout="column">
+          <span class="text-size-16 break-word">Marka: Hyundai</span>
+          <span class="text-size-16 break-word">Model: i30</span>
+          <span class="text-size-16 break-word">Godina proizvodnje: 2017</span>
+          <span class="text-size-16 break-word">Mjenjač: Sekvencijalni</span>
+        </div>
+        <div fxLayout="column">
+          <span class="text-size-16 break-word">Broj brzina: 5</span>
+          <span class="text-size-16 break-word">Snaga: 85kW</span>
+          <span class="text-size-16 break-word">Boja: Bijela</span>
+          <span class="text-size-16 break-word">Cijena: 55€</span>
+        </div>
+      </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start" class="actions-container">
+    <div fxLayout="row" class="badge">
+      <mat-icon>security</mat-icon>
+    </div>
+    <div fxLayout="row" class="bg-white rounded-borders" fxFlex="100" fxLayoutAlign="center center" fxLayoutGap="8rem">
+      <div fxLayout="column" fxLayoutGap="0.5rem">
+        <span class="text-size-16 break-word">Korisničke opcije:</span>
+        <button mat-raised-button class="button-decline">Poništi</button>
+      </div>
+      <div fxLayout="column" fxLayoutGap="0.5rem">
+        <span class="text-size-16 break-word">Djelatnikove opcije:</span>
+        <button mat-raised-button class="button-approve">Prihvati</button>
+        <button mat-raised-button class="button-decline">Odbij</button>
+      </div>
+      <div fxLayout="column" class="color-white" fxLayoutGap="0.5rem">
+        <span class="text-size-16 break-word">Kratka napomena:</span>
+        <mat-form-field class="example-full-width" hei>
+          <mat-label>Ostavite komentar...</mat-label>
+          <textarea matInput placeholder="..."></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+</div>
+</div>
