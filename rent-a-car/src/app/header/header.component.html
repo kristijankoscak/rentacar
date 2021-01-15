@@ -1,14 +1,15 @@
 <div fxLayout="row" class="navigation-bar-container" fxLayoutAlign="space-between center">
   <span class="app-name" routerLink="/">RentACar</span>
-  <div 
+  <div
   fxLayoutGap="2rem">
     <span class="nav-item" routerLink="/home" routerLinkActive="active">Home</span>
     <span class="nav-item" routerLink="/vehicle" routerLinkActive="active">Vehicless</span>
-    <span  
-    class="login nav-item" 
-    [matMenuTriggerFor]="menu" 
+    <span
+    class="login nav-item"
+    [matMenuTriggerFor]="menu"
     routerLinkActive="active">Sign</span>
     <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/reservation" >Reservations</button>
       <button mat-menu-item routerLink="/auth/sign-in" >Sign in</button>
       <button mat-menu-item routerLink="/auth/sign-up" >Sign up</button>
     </mat-menu>

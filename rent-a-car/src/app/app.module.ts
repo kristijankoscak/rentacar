@@ -42,6 +42,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { VehicleDetailComponent } from './vehicle/vehicle-detail/vehicle-detail.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     VehicleListComponent,
     ReservationItemComponent,
     VehicleItemComponent,
-    VehicleComponent
+    VehicleComponent,
+    VehicleListComponent,
+    VehicleDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +90,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     FlexLayoutModule,
     MatToolbarModule,
     NoopAnimationsModule,
-    MatNativeDateModule 
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
