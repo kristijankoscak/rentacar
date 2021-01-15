@@ -44,6 +44,7 @@ import { HomeComponent } from './home/home.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { VehicleDetailComponent } from './vehicle/vehicle-detail/vehicle-detail.component';
 import { CarRentalComponent } from './car-rental/car-rental.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { CarRentalComponent } from './car-rental/car-rental.component';
     VehicleComponent,
     VehicleListComponent,
     VehicleDetailComponent,
-    CarRentalComponent
+    CarRentalComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
