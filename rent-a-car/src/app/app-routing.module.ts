@@ -51,7 +51,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'car-dealer/:id',
+    path: 'car-rental/:id',
     component: CarDealerComponent,
   }
 ];
