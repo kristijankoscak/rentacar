@@ -1,5 +1,6 @@
 <div
-class="summary-background">
+class="summary-background"
+fxLayout=column>
     <div
     class="car-infoAndImg-wrapper"
     fxLayout=row>
@@ -17,7 +18,7 @@ class="summary-background">
           class="left-side-car-info">
             <h2>Mark and model: <b>BMW M5</b></h2>
             <h3>Model year: <b>2018</b></h3>
-            <h3>Manufactured: <b>2019</b></h3>
+            <h3>Manufacture year: <b>2019</b></h3>
             <h3>Gearbox: <b>Automatic</b></h3>
             <h3>Type: <b>SUV</b></h3>
           </div>
@@ -84,13 +85,13 @@ class="summary-background">
       class="for-wrapper">
           <span
           class="normal-bold"><b>For</b></span>
-          <span>5 days</span>
+          <span>7 days</span>
       </div>
       <hr>
     <div
     class="price-wrapper">
         <div
-        class="stay-room-wrapper"
+        class="car-wrapper"
         fxLayout=row>
             <span>BMW M5</span>
             <span>€ {{1000}}</span>
@@ -112,6 +113,30 @@ class="summary-background">
     </div>
   </div>
   <div
+    fxFlexOffset=2
+    class="estimate-arrival-time-container"
+    fxLayout=row>
+        <span 
+        class="material-icons material-icons-outlined clock-icon"> 
+        query_builder</span>
+        <div
+        fxFlexOffset=1.5em
+        fxLayout=column>
+            <span
+            class="normal-bold"><b>Share your estimated arrival time</b></span>
+            <span>
+                We would like to know when you arrive. Don't worry - you can send us mail if your plan changed.
+            </span>
+            <mat-form-field>
+                <mat-select [value]="times[0]">
+                    <mat-option *ngFor="let time of times" [value]="times[0]">
+                    {{time}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+  <div
     fxLayout=row>
       <div
       class="user-info-wrapper"
@@ -122,13 +147,23 @@ class="summary-background">
         fxLayoutAlign="space-between center">
           <div
           class="left-side-user-info">
-            <h2>FirstName and LastName: <b>Petar Pejić</b></h2>
+            <h2>User informations: </h2>
+            <h3>FirstName and LastName: <b>Petar Pejić</b></h3>
             <h3>Email: <b>petar.pejic@outlook.com</b></h3>
             <h3>Birthday: <b>13.05.1997.</b></h3>
           </div>
         </div>
       </div>
     </div>
+    <div
+    class="btn-reserve-now-wrapper"
+    fxLayoutAlign="end ">
+      <button 
+      class="btn-reserve-now bg-primary"
+      mat-raised-button>
+      RESERVE NOW</button>
+    </div>
+    
 </div>
 <!--
 
