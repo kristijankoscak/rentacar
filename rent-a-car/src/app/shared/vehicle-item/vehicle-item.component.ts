@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Vehicle } from 'src/app/vehicle/vehicle.model';
 
 @Component({
@@ -10,11 +11,17 @@ export class VehicleItemComponent implements OnInit {
 
   @Input() vehicle: Vehicle;
 
-  constructor() { }
+  constructor(private router: Router, 
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
-
+  seeCarDetail(): void{
+    this.router.navigate(['./{{vehicle.id}}'], {
+      relativeTo: this.route,
+      }
+    );
+  }
 }
 
 
