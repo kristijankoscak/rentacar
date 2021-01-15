@@ -13,7 +13,7 @@ import { ReservationListComponent } from "./reservation/reservation-list/reserva
 import { ReservationDetailComponent } from "./reservation/reservation-detail/reservation-detail.component";
 import { ReservationStatusComponent } from "./reservation/reservation-status/reservation-status.component";
 import { VehicleListComponent } from "./vehicle/vehicle-list/vehicle-list.component";
-import { CarDealerComponent } from "./car-dealer/car-dealer.component";
+import { CarRentalComponent } from "./car-rental/car-rental.component";
 
 
 const appRoutes: Routes = [
@@ -52,7 +52,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'car-rental/:id',
-    component: CarDealerComponent,
+    component: CarRentalComponent,
   }
 ];
 

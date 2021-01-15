@@ -43,7 +43,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { VehicleDetailComponent } from './vehicle/vehicle-detail/vehicle-detail.component';
-import { CarDealerComponent } from './car-dealer/car-dealer.component';
 import { CarRentalComponent } from './car-rental/car-rental.component';
 
 @NgModule({
@@ -66,7 +65,6 @@ import { CarRentalComponent } from './car-rental/car-rental.component';
     VehicleComponent,
     VehicleListComponent,
     VehicleDetailComponent,
-    CarDealerComponent,
     CarRentalComponent
   ],
   imports: [
