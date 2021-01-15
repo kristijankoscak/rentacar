@@ -13,6 +13,7 @@ import { ReservationListComponent } from "./reservation/reservation-list/reserva
 import { ReservationDetailComponent } from "./reservation/reservation-detail/reservation-detail.component";
 import { ReservationStatusComponent } from "./reservation/reservation-status/reservation-status.component";
 import { VehicleListComponent } from "./vehicle/vehicle-list/vehicle-list.component";
+import { CarDealerComponent } from "./car-dealer/car-dealer.component";
 
 
 const appRoutes: Routes = [
@@ -48,6 +49,10 @@ const appRoutes: Routes = [
       { path: 'sign-in', component: SignInComponent },
       { path: 'sign-up', component: SignUpComponent }
     ]
+  },
+  {
+    path: 'car-dealer/:id',
+    component: CarDealerComponent,
   }
 ];
 
