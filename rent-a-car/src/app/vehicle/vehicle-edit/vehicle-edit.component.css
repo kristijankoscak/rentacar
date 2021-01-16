@@ -1,0 +1,7 @@
+.vehicle-image-container {
+  width: 50rem;
+  height: 75vh;
+  margin-top: 5vh;
+  border-radius: 0.5rem;
+  background-color: white;
+}

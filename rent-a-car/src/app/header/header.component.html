@@ -1,17 +1,27 @@
 <div fxLayout="row" class="navigation-bar-container" fxLayoutAlign="space-between center">
   <span class="app-name" routerLink="/">RentACar</span>
   <div
+  fxLayout="row"
+  fxLayoutAlign="center center"
   fxLayoutGap="2rem">
     <span class="nav-item" routerLink="/home" routerLinkActive="active">Home</span>
-    <span class="nav-item" routerLink="/vehicle" routerLinkActive="active">Vehicless</span>
+    <span class="nav-item" routerLink="/vehicle" routerLinkActive="active">Vehicles</span>
     <span
     class="login nav-item"
-    [matMenuTriggerFor]="menu"
+    [matMenuTriggerFor]="menu2"
     routerLinkActive="active">Sign</span>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/reservation" >Reservations</button>
+    <mat-menu #menu2="matMenu">
       <button mat-menu-item routerLink="/auth/sign-in" >Sign in</button>
       <button mat-menu-item routerLink="/auth/sign-up" >Sign up</button>
+    </mat-menu>
+    <span
+    class="login nav-item"
+    [matMenuTriggerFor]="menu1"
+    routerLinkActive="active">Dobrodošao, IME</span>
+    <mat-menu #menu1="matMenu">
+      <button mat-menu-item routerLink="/vehicle/new" >Dodaj vozilo</button>
+      <button mat-menu-item routerLink="/reservation" >Rezervacije</button>
+      <button mat-menu-item routerLink="" >Odjava</button>
     </mat-menu>
   </div>
 </div>

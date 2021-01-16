@@ -1,16 +1,16 @@
-.background-container {
+.vehicle-detail-background {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 4rem);
 }
 
-.vehicle-image-container {
+.vehicle-detail-container {
   width: 50rem;
   height: 75vh;
   margin-top: 5vh;
   border-radius: 0.5rem;
   background-color: white;
 }
-.vehicle-container {
+.vehicle-image {
   position: relative;
   display: block;
   width: 100%;
@@ -37,7 +37,7 @@
   background-position: center;
 }
 .images-button > ::ng-deep .mat-button-wrapper {
-  width: 73vw;
+  width: 100vw;
   height: 100%;
   padding: 0;
   margin: 0;
