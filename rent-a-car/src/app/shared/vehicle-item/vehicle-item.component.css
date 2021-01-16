@@ -44,13 +44,17 @@
   width: 1rem;
   border-radius: 50%;
 }
-.vehicle-info > div:nth-child(6){
+.free-cancellation-wrapper{
   color: green;
 }
-.vehicle-info > div:nth-child(7){
+.rent-time-wrapper{
   font-weight: 400;
   font-style: italic;
 }
-div.vehicle-info > div:nth-child(4) > div{
+.offer-include-wrapper > div{
   flex-wrap: wrap;
+}
+.car-rental-wrapper > span:hover{
+  transition: .25s;
+  transform: scale(1.05);
 }

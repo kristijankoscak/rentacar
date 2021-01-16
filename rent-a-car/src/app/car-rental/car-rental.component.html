@@ -1,1 +1,98 @@
-<p>car-rental works!</p>
+<div
+class="background-wrapper"
+fxLayout=column>
+    <img 
+    src="https://www.sibenik.in/upload/novosti/2016/11/2016-11-08/67446/v25.jpg" 
+    alt="">
+    <div
+    fxLayout=column
+    fxLayoutGap=1rem
+    class="rental-car-info-wrapper">
+        <div
+        class="text-info-wrapper"
+        fxLayout=column
+        fxLayoutGap=1rem>
+            <div
+            fxLayout=row
+            fxLayoutAlign="center ">
+                <h1>Auto kuća Audi</h1>
+            </div>
+            <div
+            fxLayout=row
+            fxLayoutGap=1rem>
+                <span class="material-icons">
+                    person
+                </span>
+                <div
+                fxLayout=column>
+                    <span>Vlasnik</span>
+                    <span>Petar Pejić </span>
+                </div>
+            </div>
+            <div
+            fxLayout=row
+            fxLayoutGap=1rem>
+                <span class="material-icons">
+                map
+                </span>
+                <div
+                fxLayout=column>
+                    <span>City</span>
+                    <span>Vinkovci</span>
+                </div>
+            </div>
+            <div
+            fxLayout=row
+            fxLayoutGap=1rem>
+                <span class="material-icons">
+                    place
+                </span>
+                <div
+                fxLayout=column>
+                    <span>Address</span>
+                    <span>Sunčana 1</span>
+                </div>
+            </div>
+        </div>
+        <div
+        fxLayout=row
+        fxLayoutAlign="center "
+        fxLayoutGap=2rem
+        class="bg-primary contact-wrapper">
+            <div
+            fxLayout=column
+            fxLayoutAlign="center center">
+                <span class="material-icons">
+                    call
+                </span>
+                <span>
+                    0997474736
+                </span> 
+            </div>
+            <div
+            fxLayout=column
+            fxLayoutAlign="center center">
+                <span class="material-icons">
+                    email
+                </span>
+                <span>
+                    0997474736
+                </span> 
+            </div>
+        </div>
+    </div>
+    <h1
+    class="nasi-auti">
+        Naši auti
+    </h1>
+    <div
+    class="list-wrapper">
+        <div 
+        class="vehicles-container" >
+            <app-vehicle-item 
+            *ngFor="let vehicle of vehicles" 
+            [vehicle]="vehicle"></app-vehicle-item>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

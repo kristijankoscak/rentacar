@@ -1,7 +1,5 @@
 .background {
-  overflow: hidden;
   background: url('https://static.vecteezy.com/system/resources/previews/001/630/637/non_2x/city-street-flat-background-vector.jpg') no-repeat center;
   background-size: cover;
-  height: calc(100vh - 4rem);
-  background-size: cover;
+  min-height: calc(100vh - 4rem);
 }

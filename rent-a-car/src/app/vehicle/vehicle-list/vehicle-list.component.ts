@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
+import { VehicleService } from 'src/app/shared/vehicle.service';
 import { Vehicle } from '../vehicle.model';
 
 @Component({
@@ -8,18 +10,17 @@ import { Vehicle } from '../vehicle.model';
 })
 export class VehicleListComponent implements OnInit {
 
-
-  vehicles: Vehicle[] = [
+ vehicles: Vehicle[] = [
     {
-      id:1,
-      mark:'BMW',
+      id: 1,
+      mark: 'BMW',
       model: 'M3',
-      model_year:'2017',
+      model_year: '2017',
       manufacture_year: '2017',
       gears: 6,
       color: 'Black',
       gearbox: 'Manual',
-      status:'nesto',
+      status: 'nesto',
       power: 110,
       type: 'Limusine',
       price: 53,
@@ -33,15 +34,15 @@ export class VehicleListComponent implements OnInit {
       ]
     },
     {
-      id:1,
-      mark:'BMW',
+      id: 1,
+      mark: 'BMW',
       model: 'M4',
-      model_year:'2017',
+      model_year: '2017',
       manufacture_year: '2017',
       gears: 6,
       color: 'Gold',
       gearbox: 'Manual',
-      status:'nesto',
+      status: 'nesto',
       power: 110,
       price: 65,
       type: 'Coupe',
@@ -55,15 +56,15 @@ export class VehicleListComponent implements OnInit {
       ]
     },
     {
-      id:1,
-      mark:'BMW',
+      id: 1,
+      mark: 'BMW',
       model: 'X1',
-      model_year:'2015',
+      model_year: '2015',
       manufacture_year: '2017',
       gears: 6,
       color: 'Black',
       gearbox: 'Manual',
-      status:'nesto',
+      status: 'nesto',
       power: 150,
       price: 73,
       type: 'Jeep',
@@ -77,15 +78,15 @@ export class VehicleListComponent implements OnInit {
       ]
     },
     {
-      id:1,
-      mark:'BMW',
+      id: 1,
+      mark: 'BMW',
       model: 'M3',
-      model_year:'2015',
+      model_year: '2015',
       manufacture_year: '2016',
       gears: 6,
       color: 'Red',
       gearbox: 'Manual',
-      status:'nesto',
+      status: 'nesto',
       power: 100,
       price: 50,
       type: 'Limusine',
@@ -99,15 +100,15 @@ export class VehicleListComponent implements OnInit {
       ]
     },
     {
-      id:1,
-      mark:'BMW',
+      id: 1,
+      mark: 'BMW',
       model: 'M3',
-      model_year:'2017',
+      model_year: '2017',
       manufacture_year: '2017',
       gears: 6,
       color: 'Black',
       gearbox: 'Manual',
-      status:'nesto',
+      status: 'nesto',
       power: 110,
       price: 53,
       type: 'Limusine',
@@ -121,15 +122,15 @@ export class VehicleListComponent implements OnInit {
       ]
     },
     {
-      id:1,
-      mark:'BMW',
+      id: 1,
+      mark: 'BMW',
       model: 'M4',
-      model_year:'2019',
+      model_year: '2019',
       manufacture_year: '2019',
       gears: 6,
       color: 'Gray',
       gearbox: 'Manual',
-      status:'nesto',
+      status: 'nesto',
       power: 140,
       price: 89,
       type: 'Coupe',
@@ -143,15 +144,15 @@ export class VehicleListComponent implements OnInit {
       ]
     },
     {
-      id:1,
-      mark:'BMW',
+      id: 1,
+      mark: 'BMW',
       model: 'X1',
-      model_year:'2017',
+      model_year: '2017',
       manufacture_year: '2018',
       gears: 6,
       color: 'Blue',
       gearbox: 'Manual',
-      status:'nesto',
+      status: 'nesto',
       power: 150,
       price: 85,
       type: 'Jeep',
@@ -165,15 +166,15 @@ export class VehicleListComponent implements OnInit {
       ]
     },
     {
-      id:1,
-      mark:'BMW',
+      id: 1,
+      mark: 'BMW',
       model: 'M4',
-      model_year:'2017',
+      model_year: '2017',
       manufacture_year: '2017',
       gears: 6,
       color: 'Gold',
       gearbox: 'Manual',
-      status:'nesto',
+      status: 'nesto',
       power: 110,
       price: 65,
       type: 'Coupe',
@@ -185,12 +186,27 @@ export class VehicleListComponent implements OnInit {
         'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
         'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
       ]
-    },
+    }
   ];
-
-  constructor() { }
+  // vehicles: Vehicle[];
+  constructor(private vehicleService: VehicleService,
+              private dataStorageService: DataStorageService) {
+                this.getData();
+              }
 
   ngOnInit(): void {
-  }
 
+  }
+  getData(): void{
+    /* this.dataStorageService.fetchVehicles().subscribe(
+      resVehicles => {
+        this.vehicles = resVehicles;
+        console.log(this.vehicles)
+      this.vehicleService.setloader.next(false);
+      },
+      error => {
+       this.vehicleService.errorHappened.next(true);
+       this.vehicleService.setloader.next(false);
+      });*/
+  }
 }

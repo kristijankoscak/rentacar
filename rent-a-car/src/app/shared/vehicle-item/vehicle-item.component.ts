@@ -11,13 +11,19 @@ export class VehicleItemComponent implements OnInit {
 
   @Input() vehicle: Vehicle;
 
-  constructor(private router: Router, 
+  constructor(private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
   seeCarDetail(): void{
     this.router.navigate(['./{{vehicle.id}}'], {
+      relativeTo: this.route,
+      }
+    );
+  }
+  seeRentalCar(): void{
+    this.router.navigate(['../car-rental/1'], {
       relativeTo: this.route,
       }
     );
