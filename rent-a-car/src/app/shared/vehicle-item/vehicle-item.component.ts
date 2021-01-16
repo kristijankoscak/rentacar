@@ -11,7 +11,7 @@ export class VehicleItemComponent implements OnInit {
 
   @Input() vehicle: Vehicle;
 
-  constructor(private router: Router, 
+  constructor(private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
