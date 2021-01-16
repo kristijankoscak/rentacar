@@ -1,19 +1,19 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { AuthComponent } from "./auth/auth.component";
-import { SignInComponent } from "./auth/sign-in/sign-in.component";
-import { SignUpComponent } from "./auth/sign-up/sign-up.component";
-import { HomeComponent } from "./home/home.component";
-import { VehicleReserveComponent } from "./vehicle/vehicle-reserve/vehicle-reserve.component";
-import { VehicleDetailComponent } from "./vehicle/vehicle-detail/vehicle-detail.component";
-import { VehicleEditComponent } from "./vehicle/vehicle-edit/vehicle-edit.component";
-import { VehicleComponent } from "./vehicle/vehicle.component";
-import { ReservationComponent } from "./reservation/reservation.component";
-import { ReservationListComponent } from "./reservation/reservation-list/reservation-list.component";
-import { ReservationDetailComponent } from "./reservation/reservation-detail/reservation-detail.component";
-import { ReservationStatusComponent } from "./reservation/reservation-status/reservation-status.component";
-import { VehicleListComponent } from "./vehicle/vehicle-list/vehicle-list.component";
-import { CarRentalComponent } from "./car-rental/car-rental.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthComponent } from './auth/auth.component';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { HomeComponent } from './home/home.component';
+import { VehicleReserveComponent } from './vehicle/vehicle-reserve/vehicle-reserve.component';
+import { VehicleDetailComponent } from './vehicle/vehicle-detail/vehicle-detail.component';
+import { VehicleEditComponent } from './vehicle/vehicle-edit/vehicle-edit.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { ReservationComponent } from './reservation/reservation.component';
+import { ReservationListComponent } from './reservation/reservation-list/reservation-list.component';
+import { ReservationDetailComponent } from './reservation/reservation-detail/reservation-detail.component';
+import { ReservationStatusComponent } from './reservation/reservation-status/reservation-status.component';
+import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.component';
+import { CarRentalComponent } from './car-rental/car-rental.component';
 
 
 const appRoutes: Routes = [

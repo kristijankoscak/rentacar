@@ -186,7 +186,7 @@ export class VehicleListComponent implements OnInit {
         'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
         'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
       ]
-    } 
+    }
   ];
   // vehicles: Vehicle[];
   constructor(private vehicleService: VehicleService,
@@ -195,7 +195,7 @@ export class VehicleListComponent implements OnInit {
               }
 
   ngOnInit(): void {
-   
+
   }
   getData(): void{
     /* this.dataStorageService.fetchVehicles().subscribe(

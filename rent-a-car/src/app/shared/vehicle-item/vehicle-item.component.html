@@ -19,7 +19,8 @@ class="vehicle-container"
         <div fxLayout="row">
           <span>Gears: {{vehicle.gears}}</span>
         </div>
-        <div fxLayout="row">
+        <div fxLayout="row"
+        class="car-color-wrapper">
           <div
           class="color-box"
           [style.background-color]="vehicle.color"></div>
@@ -27,7 +28,8 @@ class="vehicle-container"
           fxFlexOffset=0.5rem>{{vehicle.color}}</span>
         </div>
         <div fxLayout="column"
-        fxLayoutAlign=" start">
+        fxLayoutAlign=" start"
+        class="offer-include-wrapper">
           <span>This offer include:</span>
           <div
           fxLayout=row>
@@ -43,13 +45,26 @@ class="vehicle-container"
             </div>
           </div>
         </div>
+        <div fxLayout="row"
+        class="car-rental-wrapper"
+        fxLayoutAlign=" center"
+        fxLayoutGap=0.5rem>
+          <span class="material-icons">
+            emoji_transportation
+          </span>
+          <span
+          (click)="seeRentalCar()">IME AUTOKUCE</span>
+        </div>
         <div fxLayout="row" fxLayoutAlign="end ">
           <span>{{vehicle.price}} per/day</span>
         </div>
-        <div fxLayout="row" fxLayoutAlign="end ">
+        <div fxLayout="row" 
+        class="free-cancellation-wrapper"
+        fxLayoutAlign="end ">
           <span>Free cancellation</span>
         </div>
-        <div fxLayout="row">
+        <div fxLayout="row"
+        class="rent-time-wrapper">
           <span>day, week or month rent</span>
         </div>
     </div>

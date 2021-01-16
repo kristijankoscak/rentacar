@@ -22,6 +22,12 @@ export class VehicleItemComponent implements OnInit {
       }
     );
   }
+  seeRentalCar(): void{
+    this.router.navigate(['../car-rental/1'], {
+      relativeTo: this.route,
+      }
+    );
+  }
 }
 
 
