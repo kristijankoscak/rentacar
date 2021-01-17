@@ -39,7 +39,6 @@ export class HomeComponent implements OnInit {
     );
   }
   getErrorMessage(): string {
-    console.log(this.end)
     if (this.end.hasError('required')) {
       return 'You must enter a value';
     }
@@ -60,8 +59,8 @@ export class HomeComponent implements OnInit {
         queryParams:
           {
             location: this.location.value,
-            room: this.start.value,
-            adults: this.end.value,
+            start_date: this.start.value,
+            end_date: this.end.value,
           }
         }
       );
