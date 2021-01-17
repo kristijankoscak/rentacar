@@ -90,7 +90,7 @@
     fxLayoutAlign="space-evenly"
     class="vehicle-actions-container"
   >
-    <button mat-flat-button class="edit" routerLink="edit">
+    <button mat-flat-button class="edit" (click)="navigateToEditScreen()">
       <span>Izmjeni</span>
       <mat-icon>edit</mat-icon>
     </button>
@@ -159,7 +159,7 @@
 
             <mat-form-field fxFlexOffset="1rem" (click)="picker.open()">
               <mat-label>Datum preuzimanja</mat-label>
-              <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="start_time" />
+              <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="start_time" (dateChange)="fetchStartDate($event.value)"/>
               <mat-error *ngIf="filterForm.controls.start_time.invalid">* Polje je obavezno!</mat-error>
               <mat-datepicker-toggle
                 matSuffix
@@ -169,7 +169,7 @@
             </mat-form-field>
             <mat-form-field fxFlexOffset="1rem" (click)="picker1.open()">
               <mat-label>Datum preuzimanja</mat-label>
-              <input matInput [min]="minDate" [matDatepicker]="picker1" formControlName="end_time"/>
+              <input matInput [min]="minDate2" [matDatepicker]="picker1" formControlName="end_time"/>
               <mat-error *ngIf="filterForm.controls.end_time.invalid">* Polje je obavezno!</mat-error>
               <mat-datepicker-toggle
                 matSuffix
@@ -178,7 +178,7 @@
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
           </form>
-          <button mat-flat-button class="continue-reservation-button" [disabled]="!formIsValid">Nastavi s rezervacijom</button>
+          <button mat-flat-button class="continue-reservation-button" [disabled]="!formIsValid" (click)="navigateTonConfirmScreen()">Nastavi s rezervacijom</button>
         </div>
       </div>
     </div>

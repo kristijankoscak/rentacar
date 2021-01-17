@@ -16,13 +16,14 @@
 }
 
 .reservation-info{
+  padding-right: 1rem;
   height:100%;
   width: 100%;
   margin-left: -3rem;
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
   /* background: linear-gradient(120deg, rgb(114, 148, 174) 25%, rgb(93, 140, 175) 25%); */
-  background: linear-gradient(110deg, rgb(114, 148, 174) 32%, rgba(0, 0, 0, 0) 32%), linear-gradient(110deg,rgb(93, 140, 175) 58%,  rgb(114, 148, 174) 58%);
+  background: linear-gradient(110deg, rgb(114, 148, 174) 32%, rgba(0, 0, 0, 0) 32%), linear-gradient(110deg,rgb(93, 140, 175) 60%,  rgb(114, 148, 174) 60%);
 }
 .reservation-info-header{
   width:4rem;

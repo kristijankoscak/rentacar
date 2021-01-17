@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Vehicle } from '../vehicle.model';
@@ -25,12 +25,17 @@ export class VehicleDetailComponent implements OnInit {
   filterForm: FormGroup;
   formIsValid: boolean = false;
   minDate: Date = new Date();
+  minDate2: Date;
   options: string[] = ['Zagreb', 'Split', 'Osijek','Rijeka'];
   filteredOptions: Observable<string[]>;
 
   warningWindowIsOpened: boolean = false;
 
-  constructor(private element: ElementRef,private activeRoute: ActivatedRoute) { }
+  constructor(
+    private element: ElementRef,
+    private activeRoute: ActivatedRoute,
+    private router:Router
+    ) { }
 
   ngOnInit(): void {
     this.fetchVehicle();
@@ -94,7 +99,7 @@ export class VehicleDetailComponent implements OnInit {
   }
   handleReservation(): void{
     this.fetchParams();
-    if(this.routeParams.startDate === undefined){
+    if(this.routeParams.location === undefined){
       this.initForm();
       this.validateForm();
       this.warningWindowIsOpened = true;
@@ -119,7 +124,6 @@ export class VehicleDetailComponent implements OnInit {
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
@@ -137,7 +141,21 @@ export class VehicleDetailComponent implements OnInit {
     this.warningWindowIsOpened = false;
   }
 
-  navigateTonConfirmScreen(): void{
+  fetchStartDate(date): void{
+    this.minDate2 = date;
+  }
 
+  navigateToEditScreen(): void{
+    this.router.navigate(['/vehicle/'+this.vehicle.id+'/edit']);
+  }
+  removeCurrentVehicle(): void{
+    //todo
+  }
+  navigateTonConfirmScreen(): void{
+    if(!this.routeParams.location){
+      this.routeParams = this.filterForm.value;
+      console.log(this.routeParams);
+    }
+    this.router.navigate(['reserve'],{relativeTo: this.activeRoute,queryParams:  this.routeParams});
   }
 }
