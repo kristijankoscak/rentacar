@@ -47,9 +47,9 @@ span.nav-item:hover{
   background-color: #7294ae;
   top:4rem;
 }
-::ng-deep .cdk-overlay-connected-position-bounding-box{
+/* ::ng-deep .cdk-overlay-connected-position-bounding-box{
   top:4rem !important;
-}
+} */
 ::ng-deep .mat-menu-panel{
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;

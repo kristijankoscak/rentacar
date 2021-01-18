@@ -46,6 +46,7 @@ import { VehicleDetailComponent } from './vehicle/vehicle-detail/vehicle-detail.
 import { CarRentalComponent } from './car-rental/car-rental.component';
 import { FooterComponent } from './footer/footer.component';
 import { VehicleEditComponent } from './vehicle/vehicle-edit/vehicle-edit.component';
+import { CompanyRegisterComponent } from './company-register/company-register.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { VehicleEditComponent } from './vehicle/vehicle-edit/vehicle-edit.compon
     VehicleDetailComponent,
     CarRentalComponent,
     FooterComponent,
-    VehicleEditComponent
+    VehicleEditComponent,
+    CompanyRegisterComponent
   ],
   imports: [
     BrowserModule,

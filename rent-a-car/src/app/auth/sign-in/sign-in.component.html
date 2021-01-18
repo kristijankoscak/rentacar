@@ -11,16 +11,23 @@ fxLayoutGap=1rem>
   <form 
   fxLayout=column
   fxLayoutGap=1rem
+  [formGroup]="signInForm"
   action="">
     <mat-form-field>
       <mat-label>Email</mat-label>
-      <input matInput>
+      <input 
+      formControlName="email"
+      matInput>
       <mat-icon matSuffix>email</mat-icon>
+      <mat-error *ngIf="this.signInForm.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input matInput>
+      <input 
+      formControlName="password"
+      matInput>
       <mat-icon matSuffix>lock</mat-icon>
+      <mat-error *ngIf="this.signInForm.controls.password.invalid">{{getPasswordErrorMessage()}}</mat-error>
     </mat-form-field>
     <button 
     class="btn-login bg-primary"

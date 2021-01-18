@@ -1,16 +1,15 @@
 .sign-up-form-wrapper{
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: calc(50% + 2rem);
     transform: translate(-50%,-50%);
-    width: 26rem;
     background-color: white;
 }
 .register-wrapper{
     position: absolute;
-    width: 28rem;
+    width: calc(100% + 3rem);
     padding: 0.5rem 0;
-    transform: translateX(-1rem);
+    transform: translateX(-1.5rem);
     margin-top: 1rem;
     background: linear-gradient(120deg, rgb(114, 148, 174) 25%, rgb(93, 140, 175) 25%);
 }
@@ -42,4 +41,11 @@
 }
 .material-icons{
     color: grey;
+}
+.first-last-name-wrapper > .mat-form-field{
+    width: 50%;
+}
+.click-here{
+    cursor: pointer;
+    border-bottom: rgb(255, 211, 130) 1px solid;
 }

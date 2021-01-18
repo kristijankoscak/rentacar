@@ -23,48 +23,6 @@ fxLayoutGap=1rem>
   class="registartion-form"
   fxLayout=column>
       <div
-      class="user-info"
-      fxLayout=column>
-        <div
-        fxLayout=row
-        fxLayoutGap=4%
-        class="first-last-name-wrapper">
-          <mat-form-field
-          fxFlex=48>
-            <mat-label>First Name</mat-label>
-            <input matInput>
-            <mat-icon matSuffix>person_outline</mat-icon>
-          </mat-form-field>
-          <mat-form-field
-          fxFlex=48>
-            <mat-label>Last Name</mat-label>
-            <input matInput>
-            <mat-icon matSuffix>person_outline</mat-icon>
-          </mat-form-field>
-        </div>
-        <mat-form-field>
-          <mat-label>Date Of Birth</mat-label>
-          <input matInput [matDatepicker]="picker1">
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput>
-          <mat-icon matSuffix>email</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput>
-          <mat-icon matSuffix>lock</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Confirm Password</mat-label>
-          <input matInput>
-          <mat-icon matSuffix>lock</mat-icon>
-        </mat-form-field>
-      </div>
-      <!-- <div
       class="company-info"
       fxLayout=column>
         <mat-form-field>
@@ -92,7 +50,7 @@ fxLayoutGap=1rem>
           <input matInput>
           <mat-icon matSuffix>email</mat-icon>
         </mat-form-field>
-      </div>-->
+      </div>
     <div
     fxLayoutAlign=end>
       <button 
@@ -111,17 +69,4 @@ fxLayoutGap=1rem>
   </div>
 </div>
 
-  <!--
-
-  Forma s podacima za:
-    Ime
-    Prezime
-    Datum rođenja
-    Email
-    Lozinku
-    (prema dokumentu zahtjevi na softver)
-
-    Možda: dodati jos jedno za ponovit lozinku ?
-
- -->
 
