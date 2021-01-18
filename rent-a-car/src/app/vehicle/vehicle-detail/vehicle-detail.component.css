@@ -32,7 +32,7 @@
   width: 100%;
   height: 100%;
   background-image: url("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/bedroom-ideas-rds-work-queens-road-08-1593114639.jpg");
-  display: inline-block;
+  display: flex;
   background-size: cover;
   background-position: center;
 }

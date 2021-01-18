@@ -3,7 +3,7 @@
   height: calc(100vh - 4rem);
 }
 .vehicle-edit-container {
-  width: 50rem;
+  width:60rem;
   height: 80vh;
   margin-top: 5vh;
   border-radius: 0.5rem;
@@ -44,7 +44,7 @@
   height:17rem;
 }
 .uploaded-images{
-  width: 40rem;
+  width: 50rem;
   height: 100%;
   border-radius: 2%;
   border-style: dashed;
@@ -72,7 +72,7 @@
   box-shadow: none;
 }
 .action-button{
-  color:white;
+  color:black;
   background-color:rgb(255, 211, 130);
 }
 .upload-image, .remove-images{

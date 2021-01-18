@@ -43,8 +43,11 @@
   place-content: center;
   background-position: center;
   border-radius: 0.3rem;
+  transition: 0.5s;
 }
-
+.vehicle-image:hover{
+  opacity:0.8;
+}
 .button-decline{
   background-color: red;
   opacity: 0.6;
@@ -71,4 +74,8 @@ textarea.mat-input-element{
 }
 ::ng-deep .mat-form-field-ripple{
   background-color:  #7294ae !important;
+}
+
+.text-through{
+  text-decoration: line-through;
 }

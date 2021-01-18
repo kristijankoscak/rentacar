@@ -17,7 +17,7 @@
         <mat-icon>assignment</mat-icon>
       </div>
       <div fxLayout="column" class="bg-white reservation-section rounded-borders" fxLayoutAlign="center center" fxFlex="100">
-        <span class="text-size-16 break-word">ID rezervacije: 252</span>
+        <span class="text-size-16 break-word">Iznajmljujuća kuća: CarRent</span>
         <span class="text-size-16 break-word">Datum preuzimanja: 16.5.2021.</span>
         <span class="text-size-16 break-word">Datum povrata: 20.5.2021.</span>
         <span class="text-size-16 break-word">Status rezervacije: Obrađuje se</span>
@@ -30,7 +30,7 @@
         <mat-icon>directions_car</mat-icon>
       </div>
       <div fxLayout="row" class="bg-white rounded-borders" fxFlex="99" fxLayoutAlign="space-evenly center">
-        <div class="vehicle-image" [ngStyle]="{'background-image': 'url(' + vehicle.coverImage + ')'}"></div>
+        <div class="vehicle-image" [ngStyle]="{'background-image': 'url(' + vehicle.coverImage + ')'}" routerLink="/vehicle/{{vehicle.id}}"></div>
         <div fxLayout="column">
           <span class="text-size-16 break-word">Marka: Hyundai</span>
           <span class="text-size-16 break-word">Model: i30</span>
@@ -41,7 +41,7 @@
           <span class="text-size-16 break-word">Broj brzina: 5</span>
           <span class="text-size-16 break-word">Snaga: 85kW</span>
           <span class="text-size-16 break-word">Boja: Bijela</span>
-          <span class="text-size-16 break-word">Cijena: 55€</span>
+          <span class="text-size-16 break-word">Cijena: <span class="text-through" *ngIf="vehicle.discount>0">({{vehicle.price}})</span> {{vehicle.price - vehicle.price*(vehicle.discount/100)}}€ </span>
         </div>
       </div>
   </div>

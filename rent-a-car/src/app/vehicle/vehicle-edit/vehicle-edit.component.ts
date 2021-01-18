@@ -94,7 +94,9 @@ export class VehicleEditComponent implements OnInit {
       power: new FormControl(null, [Validators.required]),
       type: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
-      fuel_type: new FormControl(null, [Validators.required])
+      fuel_type: new FormControl(null, [Validators.required]),
+      discount: new FormControl(null, [Validators.required]),
+      gate_number: new FormControl(null, [Validators.required])
     });
     this.validateForm();
   }
@@ -141,6 +143,8 @@ export class VehicleEditComponent implements OnInit {
       price: 86,
       status: "Available",
       type: "Suv",
+      gate_number: 5,
+      discount: 0
     }
     return tempVehicle;
   }
@@ -157,6 +161,8 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleForm.controls.type.setValue(this.vehicle.type);
     this.vehicleForm.controls.price.setValue(this.vehicle.price);
     this.vehicleForm.controls.fuel_type.setValue(this.vehicle.fuel_type);
+    this.vehicleForm.controls.gate_number.setValue(this.vehicle.gate_number);
+    this.vehicleForm.controls.discount.setValue(this.vehicle.discount);
     this.setImages();
   }
   setImages(): void {
@@ -237,7 +243,13 @@ export class VehicleEditComponent implements OnInit {
         ...vehicle,
         id: this.vehicle.id
       }
-      console.log('edit...');
+      if((this.vehicle.coverImage === vehicle.coverImage) || (this.vehicle.otherImages === vehicle.otherImages)){
+        vehicle = {
+          ...vehicle,
+          coverImage:null,
+          otherImages: null
+        }
+      }
       console.log(vehicle);
     }
 

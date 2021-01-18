@@ -100,6 +100,18 @@
             <mat-error *ngIf="vehicleForm.controls.fuel_type.invalid">* Field is required!</mat-error>
           </mat-form-field>
         </div>
+        <div fxLayout="column">
+          <mat-form-field>
+            <mat-label>Gate number:</mat-label>
+            <input type="number" matInput formControlName="gate_number" />
+            <mat-error *ngIf="vehicleForm.controls.power.invalid">* Field is required!</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Discount:</mat-label>
+            <input type="number" matInput formControlName="discount" />
+            <mat-error *ngIf="vehicleForm.controls.power.invalid">* Field is required!</mat-error>
+          </mat-form-field>
+        </div>
       </div>
       <div fxLayout="column" class="images-container" fxLayoutAlign="center center" fxLayoutGap="1rem">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem" class="uploaded-images">

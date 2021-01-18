@@ -15,7 +15,7 @@ export class ReservationDetailComponent implements OnInit {
   reservation: Reservation;
   name: string;
   surname: string;
-  vehicle: Vehicle;
+  vehicle;
 
   constructor(private route: ActivatedRoute,private reservationService: ReservationService) { }
 
@@ -32,28 +32,30 @@ export class ReservationDetailComponent implements OnInit {
     this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
   }
   fetchVehicle(): void{
-    this.vehicle = {
+    const tempVehicle = {
       id: 1,
-      mark:'Hyundai',
-      model: 'i30',
-      model_year:'2017',
-      manufacture_year: '2017',
-      gears: 6,
-      color: 'Black',
-      gearbox: 'Manual',
-      status: 'Dostupan',
-      power: 85,
-      price: 55,
-      type: 'Limusine',
-      coverImage: 'https://www.autoto.hr/EasyEdit/UserFiles/CatalogGallery/hyundai-i30-14i-benzin-rabljeno-vozilo-at145019/hyundai-i30-14i-benzin-rabljeno-vozilo-at145019-637402731521255325_370_209@2x.jpeg',
+      color: "Red",
+      coverImage: "https://www.autoto.hr/EasyEdit/UserFiles/CatalogGallery/fiat-punto-12-benzin-rabljeno-vozilo-at073219/fiat-punto-12-benzin-rabljeno-vozilo-at073219-637070059849833280_1600_900.jpeg",
+      fuel_type: "Diesel",
+      gearbox: "Automatic",
+      gears: 5,
+      manufacture_year: '2015',
+      mark: "BMW",
+      model: "X5",
+      model_year: '2015',
       otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    };
+        "https://www.autoto.hr/EasyEdit/UserFiles/CatalogGallery/fiat-punto-12-benzin-rabljeno-vozilo-at073219/fiat-punto-12-benzin-rabljeno-vozilo-at073219-637070060125927055_1600_900.jpeg",
+        "https://rabljena.autohrvatska.hr/EasyEdit/UserFiles/CatalogGallery/fiat-punto-evo-13-mjt/fiat-punto-evo-13-mjt-637430205650403697_1600_900.jpeg",
+        "https://i.ytimg.com/vi/fivkMD7_4Vg/maxresdefault.jpg"
+      ],
+      power: 125,
+      price: 86,
+      status: "Available",
+      type: "Suv",
+      gate_number: 5,
+      discount: 10
+    }
+    this.vehicle = tempVehicle;
   }
 
 }
