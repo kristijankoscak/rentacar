@@ -1,9 +1,10 @@
+import { Image } from "../shared/image.model";
+
 export class Vehicle{
-  id: number;
   mark:string;
   model: string;
-  model_year:string;
-  manufacture_year: string;
+  modelYear:string;
+  manufactureYear: string;
   gears: number;
   color:string;
   gearbox:string;
@@ -11,6 +12,8 @@ export class Vehicle{
   power: number;
   type: string;
   price: number;
-  coverImage: string;
-  otherImages: string[];
+  fuelType:string;
+  gateNumber: number;
+  discount:number;
+  images: Image[];
 }

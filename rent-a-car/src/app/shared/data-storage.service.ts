@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { User } from '../auth/user.model';
 import { Vehicle } from '../vehicle/vehicle.model';
 import { VehicleService } from './vehicle.service';
 
@@ -12,7 +11,6 @@ import { VehicleService } from './vehicle.service';
 export class DataStorageService {
 
   allVehicles: Vehicle[];
-  filteredVehicles : Vehicle[];
 
   // dohvacanje i filtriranje vozila
   // logirani korisnik?
@@ -26,7 +24,7 @@ export class DataStorageService {
     .pipe(
         tap( vehicles => {
           console.log(vehicles)
-            this.vehicleService.setVehicles(vehicles);
+            // this.allVehicles = vehicles
         })
     );
   }
