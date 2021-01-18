@@ -34,7 +34,7 @@ fxLayoutAlign="space-between">
     fxFlexOffset=1rem
     (click)="picker.open()">
       <mat-label>Datum preuzimanja</mat-label>
-      <input matInput [formControl]="start" [matDatepicker]="picker">
+      <input matInput [formControl]="start" [matDatepicker]="picker" [min]="todayDate">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="start.invalid">Please enter start date</mat-error>

@@ -23,9 +23,6 @@ button:focus {outline:0;}
   border-color: rgba(0, 0, 0, 0.5);
   padding: 0.1rem;
 }
-::ng-deep .mat-datepicker-popup{
-    margin-top: -4rem;
-}
 @media only screen and (max-width: 350px) {
   .form-wrapper > form{
     flex-direction: column!important;
