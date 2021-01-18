@@ -12,9 +12,9 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setValidators();
+    this.initForm();
   }
-  setValidators(): void{
+  initForm(): void{
     this.signInForm = new FormGroup({
       email : new FormControl('', [
         Validators.required,
