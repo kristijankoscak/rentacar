@@ -14,6 +14,7 @@ import { ReservationDetailComponent } from './reservation/reservation-detail/res
 import { ReservationStatusComponent } from './reservation/reservation-status/reservation-status.component';
 import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.component';
 import { CarRentalComponent } from './car-rental/car-rental.component';
+import { CompanyRegisterComponent } from './company-register/company-register.component';
 
 
 const appRoutes: Routes = [
@@ -53,6 +54,10 @@ const appRoutes: Routes = [
   {
     path: 'car-rental/:id',
     component: CarRentalComponent,
+  },
+  {
+    path: 'company-register',
+    component: CompanyRegisterComponent,
   }
 ];
 
