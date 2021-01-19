@@ -1,16 +1,16 @@
-<button 
-mat-raised-button 
+<button
+mat-raised-button
 class="vehicle-container"
 (click)="seeCarDetail()">
-  <div 
-  fxLayout="column" 
+  <div
+  fxLayout="column"
   fxLayoutAlign="none center">
     <div
     class="vehicle-image-wrapper">
-      <div class="vehicle-image" [ngStyle]="{'background-image': 'url(' + vehicle.coverImage + ')'}"></div>
+      <div class="vehicle-image" [ngStyle]="{'background-image': 'url(' + this.coverImage + ')'}"></div>
     </div>
-    <div 
-    fxLayout="column" 
+    <div
+    fxLayout="column"
     fxLayoutGap=0.5rem
     class="vehicle-info">
         <div fxLayout="row">
@@ -53,12 +53,12 @@ class="vehicle-container"
             emoji_transportation
           </span>
           <span
-          (click)="seeRentalCar()">IME AUTOKUCE</span>
+          (click)="seeRentalCar()">{{vehicle.carRental.name}}</span>
         </div>
         <div fxLayout="row" fxLayoutAlign="end ">
           <span>{{vehicle.price}} per/day</span>
         </div>
-        <div fxLayout="row" 
+        <div fxLayout="row"
         class="free-cancellation-wrapper"
         fxLayoutAlign="end ">
           <span>Free cancellation</span>

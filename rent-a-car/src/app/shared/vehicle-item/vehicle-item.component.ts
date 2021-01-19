@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Vehicle } from 'src/app/vehicle/vehicle.model';
+import { Image } from '../image.model';
 
 @Component({
   selector: 'app-vehicle-item',
@@ -10,22 +11,32 @@ import { Vehicle } from 'src/app/vehicle/vehicle.model';
 export class VehicleItemComponent implements OnInit {
 
   @Input() vehicle: Vehicle;
+  coverImage: string;
 
-  constructor(private router: Router,
-              private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    console.log(this.vehicle);
+    this.setCoverImage();
   }
-  seeCarDetail(): void{
-    this.router.navigate(['./{{vehicle.id}}'], {
+
+  setCoverImage(): void {
+    const tempImage = this.vehicle.images.find((image:Image) => {
+      return image.isCover === true
+    })
+    this.coverImage = tempImage.base64;
+  }
+
+  seeCarDetail(): void {
+    this.router.navigate(['./'+this.vehicle.id], {
       relativeTo: this.route,
-      }
+    }
     );
   }
-  seeRentalCar(): void{
-    this.router.navigate(['../car-rental/1'], {
+  seeRentalCar(): void {
+    this.router.navigate(['../car-rental/'+this.vehicle.carRental.id], {
       relativeTo: this.route,
-      }
+    }
     );
   }
 }

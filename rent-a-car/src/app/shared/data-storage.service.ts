@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Vehicle } from '../vehicle/vehicle.model';
 import { VehicleService } from './vehicle.service';
 
@@ -16,16 +17,27 @@ export class DataStorageService {
   // logirani korisnik?
 
   constructor(private vehicleService: VehicleService,
-              private http: HttpClient){}
+    private http: HttpClient) { }
+
+  private dataRefreshInterval = 5; // in minutes
 
   fetchVehicles(): Observable<Vehicle[]>{
     return this.http
-    .get<any[]>('https://sbdrustvo.com/vehicles')
+    .get<any>(
+      environment.apiUrl + '/vehicles'
+    )
     .pipe(
-        tap( vehicles => {
-          console.log(vehicles)
-            // this.allVehicles = vehicles
-        })
+      tap((vehicles: Vehicle[]) => {
+        console.log(vehicles);
+        this.vehicleService.setVehicles(vehicles);
+        this.setRefreshInterval();
+      })
     );
+  }
+
+  private setRefreshInterval(): void {
+    setTimeout(() => {
+      this.fetchVehicles().subscribe();
+    }, this.dataRefreshInterval * 60 * 1000);
   }
 }

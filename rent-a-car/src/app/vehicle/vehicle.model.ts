@@ -1,6 +1,8 @@
+import { CarRental } from "../car-rental/car-rental.model";
 import { Image } from "../shared/image.model";
 
 export class Vehicle{
+  id:number;
   mark:string;
   model: string;
   modelYear:string;
@@ -15,5 +17,8 @@ export class Vehicle{
   fuelType:string;
   gateNumber: number;
   discount:number;
+  createdAt: Date;
+  updatedAt: Date;
   images: Image[];
+  carRental: CarRental;
 }

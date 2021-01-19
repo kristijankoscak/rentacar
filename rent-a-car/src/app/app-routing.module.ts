@@ -15,6 +15,7 @@ import { ReservationStatusComponent } from './reservation/reservation-status/res
 import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.component';
 import { CarRentalComponent } from './car-rental/car-rental.component';
 import { CompanyRegisterComponent } from './company-register/company-register.component';
+import { VehicleResolverService } from './vehicle/vehicle-resolver.service';
 
 
 const appRoutes: Routes = [
@@ -27,11 +28,11 @@ const appRoutes: Routes = [
     path: 'vehicle',
     component: VehicleComponent,
     children: [
-      { path: '', component: VehicleListComponent },
+      { path: '', component: VehicleListComponent ,resolve:[VehicleResolverService]},
       { path: 'new', component: VehicleEditComponent },
-      { path: ':id', component: VehicleDetailComponent },
-      { path: ':id/edit', component: VehicleEditComponent },
-      { path: ':id/reserve', component: VehicleReserveComponent }
+      { path: ':id', component: VehicleDetailComponent, resolve:[VehicleResolverService]},
+      { path: ':id/edit', component: VehicleEditComponent ,resolve:[VehicleResolverService]},
+      { path: ':id/reserve', component: VehicleReserveComponent ,resolve:[VehicleResolverService]}
     ]
   },
   {

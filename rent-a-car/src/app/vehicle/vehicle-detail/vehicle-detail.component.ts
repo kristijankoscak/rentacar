@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Image } from 'src/app/shared/image.model';
+import { VehicleService } from 'src/app/shared/vehicle.service';
 import { Vehicle } from '../vehicle.model';
 
 @Component({
@@ -12,8 +14,11 @@ import { Vehicle } from '../vehicle.model';
 })
 export class VehicleDetailComponent implements OnInit {
 
+  subscription:Subscription;
+  spinnerIsClosed = false;
+
   vehicle: Vehicle;
-  vehicleImages: string[] = [];
+  vehicleImages: Image[];
 
   currentImage = 1;
   imageWidth: number;
@@ -32,39 +37,25 @@ export class VehicleDetailComponent implements OnInit {
   warningWindowIsOpened: boolean = false;
 
   constructor(
+    private vehicleService: VehicleService,
     private element: ElementRef,
     private activeRoute: ActivatedRoute,
     private router:Router
     ) { }
 
   ngOnInit(): void {
+
     this.fetchVehicle();
     this.initImagesData();
     this.initBorders();
   }
   fetchVehicle(): void{
-    this.vehicle = {
-      id: 1,
-      mark:'Hyundai',
-      model: 'i30',
-      model_year:'2017',
-      manufacture_year: '2017',
-      gears: 6,
-      color: 'White',
-      gearbox: 'Manual',
-      status: 'Dostupan',
-      power: 85,
-      price: 55,
-      type: 'Limusine',
-      coverImage: 'https://www.autoto.hr/EasyEdit/UserFiles/CatalogGallery/hyundai-i30-14i-benzin-rabljeno-vozilo-at145019/hyundai-i30-14i-benzin-rabljeno-vozilo-at145019-637402731521255325_370_209@2x.jpeg',
-      otherImages: [
-        'https://static.jutarnji.hr//images/live-multimedia/binary/2020/2/26/16/2021-Hyundai-i30-Family-2.jpg',
-        'https://carsguide-res.cloudinary.com/image/upload/f_auto,fl_lossy,q_auto,t_cg_hero_large/v1/editorial/story/hero_image/Hyundai%20i30%202019%20Europe%20front%203-4.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREk2A4-03Bsej0wrqvXaYdf0GK8ohxz1jPcA&usqp=CAU'
-      ]
-    };
-    this.vehicleImages.push(this.vehicle.coverImage);
-    this.vehicleImages = this.vehicleImages.concat(this.vehicle.otherImages);
+    const id = +this.activeRoute.snapshot.paramMap.get('id');
+    this.vehicleService.getVehicleByID(id);
+    this.subscription = this.vehicleService.vehiclePicked.subscribe(vehicle => {
+      this.vehicle = vehicle;
+      this.spinnerIsClosed = true;
+    });
   }
   initImagesData(): void {
     const image = this.element.nativeElement.querySelector('.slide-container');
@@ -157,5 +148,10 @@ export class VehicleDetailComponent implements OnInit {
       console.log(this.routeParams);
     }
     this.router.navigate(['reserve'],{relativeTo: this.activeRoute,queryParams:  this.routeParams});
+  }
+
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
