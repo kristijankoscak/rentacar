@@ -61,7 +61,7 @@ fxLayoutGap=1rem>
           <input matInput
           formControlName="phoneNumber">
           <mat-icon matSuffix>smartphone</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.phoneNumber.invalid">You must enter a value</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.phoneNumber.invalid">{{getPhoneNumberErrorMessage()}}</mat-error>
 
         </mat-form-field>
         <mat-form-field>
@@ -69,7 +69,7 @@ fxLayoutGap=1rem>
           <input matInput
           formControlName="email">
           <mat-icon matSuffix>email</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.email.invalid">You must enter a value</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
 
         </mat-form-field>
       </div>

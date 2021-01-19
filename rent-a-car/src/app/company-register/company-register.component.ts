@@ -40,6 +40,7 @@ export class CompanyRegisterComponent implements OnInit {
       ]),
       phoneNumber : new FormControl('', [
         Validators.required,
+        Validators.pattern('^[0-9]*$'),
       ]),
       email : new FormControl('', [
         Validators.required,
@@ -61,5 +62,23 @@ export class CompanyRegisterComponent implements OnInit {
       return 'Not valid city. Please choose one from list!';
     }
     return this.city.hasError('city') ? 'Not a valid enter' : '';
+  }
+  getEmailErrorMessage(): string {
+    if (this.companyForm.controls.email.hasError('required')) {
+      return 'You must enter a value';
+    }
+    if (this.companyForm.controls.email.hasError('email')) {
+      return 'Not a valid email';
+    }
+    return this.companyForm.controls.email.hasError('email') ? 'Not a valid enter' : '';
+  }
+  getPhoneNumberErrorMessage(): string {
+    if (this.companyForm.controls.phoneNumber.hasError('required')) {
+      return 'You must enter a value';
+    }
+    if (this.companyForm.controls.phoneNumber.hasError('pattern')) {
+      return 'Not a valid phone number';
+    }
+    return this.companyForm.controls.email.hasError('phoneNumber') ? 'Not a valid enter' : '';
   }
 }

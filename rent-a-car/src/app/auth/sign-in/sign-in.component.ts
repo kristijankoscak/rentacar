@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-in',
@@ -8,7 +9,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
-  constructor() {
+  constructor(
+    private http: HttpClient) {
   }
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class SignInComponent implements OnInit {
       ]),
       password : new FormControl('', [
         Validators.required,
-        Validators.minLength(8)
+        Validators.minLength(6)
       ])
     });
   }
@@ -43,5 +45,22 @@ export class SignInComponent implements OnInit {
       return 'Password must be longer';
     }
     return this.signInForm.controls.password.hasError('password') ? 'Not a valid enter' : '';
+  }
+  onSubmit(form: NgForm): void {
+    if (!form.valid) {
+      return;
+    }
+    this.http
+        .post(
+          'https://sbdrustvo.com/login',
+          {
+            email: form.value.email,
+            password: form.value.password
+          }
+        )
+        .subscribe(responseData => {
+            console.log(responseData);
+        });
+    //form.reset();
   }
 }

@@ -12,6 +12,7 @@ fxLayoutGap=1rem>
   fxLayout=column
   fxLayoutGap=1rem
   [formGroup]="signInForm"
+  (ngSubmit)="onSubmit(signInForm)"
   action="">
     <mat-form-field>
       <mat-label>Email</mat-label>
