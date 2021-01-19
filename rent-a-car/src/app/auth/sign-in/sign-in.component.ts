@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
@@ -9,6 +9,12 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 })
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
+  httpOptions = {
+    headers: new HttpHeaders({ 'Access-Control-Allow-Origin' : '*',
+                              'Access-Control-Allow-Methods' : 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                              'Access-Control-Allow-Headers' : 'Origin, Content-Type, X-Auth-Token',
+                              })
+  };
   constructor(
     private http: HttpClient) {
   }
@@ -46,17 +52,19 @@ export class SignInComponent implements OnInit {
     }
     return this.signInForm.controls.password.hasError('password') ? 'Not a valid enter' : '';
   }
-  onSubmit(form: NgForm): void {
+  onSubmit(form): void {
+    console.log(typeof form)
     if (!form.valid) {
       return;
     }
     this.http
-        .post(
-          'https://sbdrustvo.com/login',
+        .post<any>(
+          'https://sbdrustvo.com/login/',
           {
-            email: form.value.email,
-            password: form.value.password
-          }
+            email:"branimir@gmail.com",
+            password:"123456"
+          },
+          this.httpOptions
         )
         .subscribe(responseData => {
             console.log(responseData);
