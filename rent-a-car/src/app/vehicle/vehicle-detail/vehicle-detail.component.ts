@@ -14,8 +14,8 @@ import { Vehicle } from '../vehicle.model';
 })
 export class VehicleDetailComponent implements OnInit {
 
-  subscription:Subscription;
-  spinnerIsClosed = false;
+  subscription: Subscription;
+  spinnerIsClosed: boolean;
 
   vehicle: Vehicle;
   vehicleImages: Image[];
@@ -31,7 +31,7 @@ export class VehicleDetailComponent implements OnInit {
   formIsValid: boolean = false;
   minDate: Date = new Date();
   minDate2: Date;
-  options: string[] = ['Zagreb', 'Split', 'Osijek','Rijeka'];
+  options: string[] = ['Zagreb', 'Split', 'Osijek', 'Rijeka'];
   filteredOptions: Observable<string[]>;
 
   warningWindowIsOpened: boolean = false;
@@ -40,22 +40,34 @@ export class VehicleDetailComponent implements OnInit {
     private vehicleService: VehicleService,
     private element: ElementRef,
     private activeRoute: ActivatedRoute,
-    private router:Router
-    ) { }
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-
+    this.spinnerIsClosed = false;
     this.fetchVehicle();
+  }
+  fetchVehicle(): void {
+    const id = +this.activeRoute.snapshot.paramMap.get('id');
+    let tempVehicles = this.vehicleService.getVehicles();
+    if (tempVehicles.length === 0) {
+      this.subscription = this.vehicleService.vehiclesChanged.subscribe((vehicles) => {
+        this.vehicle = vehicles.find(vehicle => { return vehicle.id === id });
+        this.showVehicle();
+      })
+    }
+    else {
+      this.vehicleService.fetchVehicleByID(id);
+      this.subscription = this.vehicleService.vehicleIsPicked.subscribe(vehicle => {
+        this.vehicle = vehicle;
+        this.showVehicle();
+      })
+    }
+  }
+  showVehicle(): void{
+    this.spinnerIsClosed = true;
     this.initImagesData();
     this.initBorders();
-  }
-  fetchVehicle(): void{
-    const id = +this.activeRoute.snapshot.paramMap.get('id');
-    this.vehicleService.getVehicleByID(id);
-    this.subscription = this.vehicleService.vehiclePicked.subscribe(vehicle => {
-      this.vehicle = vehicle;
-      this.spinnerIsClosed = true;
-    });
   }
   initImagesData(): void {
     const image = this.element.nativeElement.querySelector('.slide-container');
@@ -88,18 +100,18 @@ export class VehicleDetailComponent implements OnInit {
       this.routeParams = params;
     });
   }
-  handleReservation(): void{
+  handleReservation(): void {
     this.fetchParams();
-    if(this.routeParams.location === undefined){
+    if (this.routeParams.location === undefined) {
       this.initForm();
       this.validateForm();
       this.warningWindowIsOpened = true;
     }
-    else{
+    else {
       this.navigateTonConfirmScreen();
     }
   }
-  initForm(): void{
+  initForm(): void {
     this.filterForm = new FormGroup({
       location: new FormControl(null, [Validators.required]),
       start_time: new FormControl(null, [Validators.required]),
@@ -107,7 +119,7 @@ export class VehicleDetailComponent implements OnInit {
     });
     this.filterPlaceOptions();
   }
-  filterPlaceOptions(): void{
+  filterPlaceOptions(): void {
     this.filteredOptions = this.filterForm.controls.location.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value))
@@ -118,40 +130,42 @@ export class VehicleDetailComponent implements OnInit {
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  validateForm(): void{
+  validateForm(): void {
     this.filterForm.valueChanges.subscribe(val => {
-      if (this.filterForm.status === 'VALID'){
+      if (this.filterForm.status === 'VALID') {
         this.formIsValid = true;
       }
-      if (this.filterForm.status === 'INVALID'){
+      if (this.filterForm.status === 'INVALID') {
         this.formIsValid = false;
       }
     });
   }
-  closeWarning(): void{
+  closeWarning(): void {
     this.warningWindowIsOpened = false;
   }
 
-  fetchStartDate(date): void{
+  fetchStartDate(date): void {
     this.minDate2 = date;
   }
 
-  navigateToEditScreen(): void{
-    this.router.navigate(['/vehicle/'+this.vehicle.id+'/edit']);
+  navigateToEditScreen(): void {
+    this.router.navigate(['/vehicle/' + this.vehicle.id + '/edit']);
   }
-  removeCurrentVehicle(): void{
+  removeCurrentVehicle(): void {
     //todo
   }
-  navigateTonConfirmScreen(): void{
-    if(!this.routeParams.location){
+  navigateTonConfirmScreen(): void {
+    if (!this.routeParams.location) {
       this.routeParams = this.filterForm.value;
       console.log(this.routeParams);
     }
-    this.router.navigate(['reserve'],{relativeTo: this.activeRoute,queryParams:  this.routeParams});
+    this.router.navigate(['reserve'], { relativeTo: this.activeRoute, queryParams: this.routeParams });
   }
 
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

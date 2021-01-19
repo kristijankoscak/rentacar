@@ -9,29 +9,27 @@ export class VehicleService {
 
 
   vehicles : Vehicle[] = [];
+  specificVehicle: Vehicle;
   vehiclesChanged = new Subject<Vehicle[]>();
-  vehiclePicked = new Subject<Vehicle>();
-  vehiclesLoaded = new Subject<boolean>();
+  vehicleIsPicked = new Subject<Vehicle>();
 
 
   constructor() { }
   setVehicles(vehicles: Vehicle[]): void {
-    //this.vehiclesLoaded.next(true);
-    console.log(this.vehicles);
     this.vehicles = vehicles;
     this.vehiclesChanged.next(this.vehicles.slice());
-
+    console.log(this.vehicles);
   }
   getVehicles(): Vehicle[]{
     return this.vehicles;
   }
-  getVehicleByID(id:number): void{
-    let vehicle:Vehicle;
-    const subscription = this.vehiclesChanged.subscribe(vehicleArray => {
-      this.vehicles = vehicleArray;
-      vehicle = this.vehicles.find(vehicle => {return vehicle.id === id});
-      this.vehiclePicked.next(vehicle);
-    })
-    // subscription.unsubscribe();
+
+  async fetchVehicleByID(id:number): Promise<void>{
+    await this.setVehicleByID(id);
+    console.log(this.specificVehicle)
+    this.vehicleIsPicked.next(this.specificVehicle);
+  }
+  setVehicleByID(id:number): void{
+    this.specificVehicle = this.vehicles.find((vehicle)=>{return vehicle.id === id});
   }
 }

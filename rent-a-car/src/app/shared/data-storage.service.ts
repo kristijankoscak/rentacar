@@ -28,7 +28,6 @@ export class DataStorageService {
     )
     .pipe(
       tap((vehicles: Vehicle[]) => {
-        console.log(vehicles);
         this.vehicleService.setVehicles(vehicles);
         this.setRefreshInterval();
       })

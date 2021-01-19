@@ -15,7 +15,6 @@ export class VehicleResolverService implements Resolve<Vehicle[]>{
   resolve(): Vehicle[]{
     const vehicles = this.vehicleService.getVehicles();
     if (vehicles.length === 0) {
-      console.log("vehicles.length === 0")
       this.dataStorageService.fetchVehicles().subscribe(
         vehiclesResponse => { },
         errorMessage => { }

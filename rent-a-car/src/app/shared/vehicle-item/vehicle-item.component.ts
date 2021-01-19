@@ -16,7 +16,6 @@ export class VehicleItemComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log(this.vehicle);
     this.setCoverImage();
   }
 

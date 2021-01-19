@@ -24,11 +24,11 @@ export class VehicleListComponent implements OnInit {
     this.subscription = this.vehicleService.vehiclesChanged.subscribe(
       ((vehicles: Vehicle[]) => {
         this.vehicles = vehicles;
-        console.log(this.vehicles);
+        console.log('1. ' + this.vehicles);
       })
     );
     this.vehicles = this.vehicleService.getVehicles();
-    console.log(this.vehicles);
+    console.log('2. ' + this.vehicles);
   }
 
   ngOnDestroy(): void {
