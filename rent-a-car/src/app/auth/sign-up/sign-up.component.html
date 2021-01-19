@@ -13,7 +13,7 @@ fxLayoutGap=1rem>
       fxFlexAlign=center
       class="register-title">REGISTRATION</h2>
       <p>
-        Enter your personal and company data
+        Enter your personal data
       </p>
     </div>
   </div>
@@ -21,6 +21,7 @@ fxLayoutGap=1rem>
   fxLayoutGap=1rem
   action=""
   class="registartion-form"
+  [formGroup]="signUpForm"
   fxLayout=column>
       <div
       class="user-info"
@@ -32,67 +33,57 @@ fxLayoutGap=1rem>
           <mat-form-field
           fxFlex=48>
             <mat-label>First Name</mat-label>
-            <input matInput>
+            <input matInput
+            formControlName="firstName">
             <mat-icon matSuffix>person_outline</mat-icon>
+            <mat-error *ngIf="this.signUpForm.controls.firstName.invalid">You must enter a value</mat-error>
           </mat-form-field>
           <mat-form-field
           fxFlex=48>
             <mat-label>Last Name</mat-label>
-            <input matInput>
+            <input matInput
+            formControlName="lastName">
             <mat-icon matSuffix>person_outline</mat-icon>
+            <mat-error *ngIf="this.signUpForm.controls.lastName.invalid">You must enter a value</mat-error>
+
           </mat-form-field>
         </div>
-        <mat-form-field>
+        <mat-form-field (click)="picker1.open()">
           <mat-label>Date Of Birth</mat-label>
-          <input matInput [matDatepicker]="picker1">
+          <input matInput 
+          formControlName="dateOfBirth"
+          [matDatepicker]="picker1" 
+          autocomplete="off">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
+          <mat-error *ngIf="this.signUpForm.controls.dateOfBirth.invalid">You must enter a value</mat-error>
+
         </mat-form-field>
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input matInput>
+          <input matInput  
+          formControlName="email"
+          autocomplete="off">
           <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="this.signUpForm.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
+
         </mat-form-field>
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input matInput>
+          <input matInput
+          formControlName="password">
           <mat-icon matSuffix>lock</mat-icon>
+          <mat-error *ngIf="this.signUpForm.controls.password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+
         </mat-form-field>
         <mat-form-field>
           <mat-label>Confirm Password</mat-label>
-          <input matInput>
+          <input matInput
+          formControlName="confPassword">
           <mat-icon matSuffix>lock</mat-icon>
+          <mat-error *ngIf="this.signUpForm.controls.confPassword.invalid">{{getConfPasswordErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
-      <!-- <div
-      class="company-info"
-      fxLayout=column>
-        <mat-form-field>
-          <mat-label>Company name</mat-label>
-          <input matInput>
-          <mat-icon matSuffix>emoji_transportation</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>City</mat-label>
-          <input matInput>
-          <mat-icon matSuffix>map</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput>
-          <mat-icon matSuffix>place</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Phone number</mat-label>
-          <input matInput>
-          <mat-icon matSuffix>smartphone</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput>
-          <mat-icon matSuffix>email</mat-icon>
-        </mat-form-field>
-      </div>-->
     <div
     fxLayoutAlign=end>
       <button 

@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Vehicle } from '../vehicle/vehicle.model';
 
 @Component({
@@ -185,9 +187,22 @@ export class CarRentalComponent implements OnInit {
       ]
     }
   ];
-  constructor() { }
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getParametersFromRoute();
   }
-
+  getParametersFromRoute(): void{
+    this.route.params.subscribe((params: Params) => {
+      this.http
+        .get(
+          'https://sbdrustvo.com/carrental/'+ params.id + '/',
+        )
+        .subscribe(responseData => {
+          console.log(responseData);
+        });
+      });
+  }
 }
