@@ -22,6 +22,7 @@ fxLayoutGap=1rem>
   action=""
   class="registartion-form"
   [formGroup]="signUpForm"
+  (ngSubmit)="onSubmit(signUpForm)"
   fxLayout=column>
       <div
       class="user-info"

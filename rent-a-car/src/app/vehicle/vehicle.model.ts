@@ -1,22 +1,22 @@
-import { CarRental } from "../car-rental/car-rental.model";
-import { Image } from "../shared/image.model";
+import { CarRental } from '../car-rental/car-rental.model';
+import { Image } from '../shared/image.model';
 
 export class Vehicle{
-  id:number;
-  mark:string;
+  id: number;
+  mark: string;
   model: string;
-  modelYear:string;
+  modelYear: string;
   manufactureYear: string;
   gears: number;
-  color:string;
-  gearbox:string;
+  color: string;
+  gearbox: string;
   status: string;
   power: number;
   type: string;
   price: number;
-  fuelType:string;
+  fuelType: string;
   gateNumber: number;
-  discount:number;
+  discount: number;
   createdAt: Date;
   updatedAt: Date;
   images: Image[];

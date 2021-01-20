@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -15,8 +16,9 @@ export class CompanyRegisterComponent implements OnInit {
   city = new FormControl('', [
     Validators.required,
     this.allowCity.bind(this)
-  ])
-  constructor() { }
+  ]);
+  constructor(
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     this.filteredOptions = this.city.valueChanges.pipe(
@@ -50,7 +52,7 @@ export class CompanyRegisterComponent implements OnInit {
   }
   allowCity(control: FormControl): {[s: string]: boolean} {
     if (!this.options.includes(control.value)) {
-      return {'allowCity': true};
+      return {allowCity: true};
     }
     return null;
   }
@@ -80,5 +82,26 @@ export class CompanyRegisterComponent implements OnInit {
       return 'Not a valid phone number';
     }
     return this.companyForm.controls.email.hasError('phoneNumber') ? 'Not a valid enter' : '';
+  }
+  onSubmit(form){
+    console.log(typeof form);
+    if (!form.valid) {
+      return;
+    }
+    this.http
+        .post<any>(
+          'https://sbdrustvo.com/carrental/',
+          {
+            name: 'pekijevaautokuca',
+            city: 'Osijek',
+            address: 'Retfala',
+            contactNumber: '54454455',
+            email: 'peky@autokuca.com',
+            image: 'afafafas'
+          }
+        )
+        .subscribe(responseData => {
+            console.log(responseData);
+        });
   }
 }

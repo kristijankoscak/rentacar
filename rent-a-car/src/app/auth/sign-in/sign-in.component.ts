@@ -9,12 +9,6 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 })
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
-  httpOptions = {
-    headers: new HttpHeaders({ 'Access-Control-Allow-Origin' : '*',
-                              'Access-Control-Allow-Methods' : 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                              'Access-Control-Allow-Headers' : 'Origin, Content-Type, X-Auth-Token',
-                              })
-  };
   constructor(
     private http: HttpClient) {
   }
@@ -59,12 +53,11 @@ export class SignInComponent implements OnInit {
     }
     this.http
         .post<any>(
-          'https://sbdrustvo.com/login/',
+          'https://sbdrustvo.com/login',
           {
             email:"branimir@gmail.com",
             password:"123456"
-          },
-          this.httpOptions
+          }
         )
         .subscribe(responseData => {
             console.log(responseData);

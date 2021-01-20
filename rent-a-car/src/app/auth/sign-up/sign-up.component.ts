@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
@@ -10,7 +11,8 @@ import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
 
-  constructor() { }
+  constructor(
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -68,5 +70,25 @@ export class SignUpComponent implements OnInit {
     }
     return this.signUpForm.controls.password.hasError('password') ? 'Not a valid enter' : '';
   }
-
+  onSubmit(form): void {
+    console.log(typeof form);
+    if (!form.valid) {
+      return;
+    }
+    this.http
+        .post<any>(
+          'https://sbdrustvo.com/register',
+          {
+            firstName: 'Branimir',
+            lastName: 'Butković',
+            birthday: '2020-12-12',
+            email: 'branimir222@gmail.com',
+            password: '123456'
+          }
+        )
+        .subscribe(responseData => {
+            console.log(responseData);
+        });
+    // form.reset();
+  }
 }

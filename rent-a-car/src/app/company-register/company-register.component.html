@@ -22,6 +22,7 @@ fxLayoutGap=1rem>
   action=""
   class="company-form"
   [formGroup]="companyForm"
+  (ngSubmit)="onSubmit(companyForm)"
   fxLayout=column>
       <div
       class="company-info"

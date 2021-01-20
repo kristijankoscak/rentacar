@@ -189,20 +189,22 @@ export class CarRentalComponent implements OnInit {
   ];
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private http: HttpClient) { }
+              private http: HttpClient) { 
+    this.http
+        .get(
+          'https://sbdrustvo.com/carrental/1',
+        )
+        .subscribe(responseData => {
+          console.log(responseData);
+        });
+  }
 
   ngOnInit(): void {
     this.getParametersFromRoute();
   }
   getParametersFromRoute(): void{
     this.route.params.subscribe((params: Params) => {
-      this.http
-        .get(
-          'https://sbdrustvo.com/carrental/'+ params.id + '/',
-        )
-        .subscribe(responseData => {
-          console.log(responseData);
-        });
+      
       });
   }
 }
