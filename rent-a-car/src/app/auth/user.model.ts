@@ -1,5 +1,11 @@
 export class User {
-  // TO DO
+  id:number;
+  email:string;
+  roles: string[];
+  birthday: Date;
+  firstName:string;
+  lastName:string;
+
 
   // constructor sa parametrima...
 

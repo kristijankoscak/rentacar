@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,7 +11,8 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
   constructor(
-    private http: HttpClient) {
+    private http: HttpClient,
+    private authService:AuthService) {
   }
 
   ngOnInit(): void {
@@ -55,13 +57,14 @@ export class SignInComponent implements OnInit {
         .post<any>(
           'https://sbdrustvo.com/login',
           {
-            email:"branimir@gmail.com",
-            password:"123456"
+            email: this.signInForm.controls.email.value,
+            password: this.signInForm.controls.password.value
           }
         )
         .subscribe(responseData => {
-            console.log(responseData);
+            this.authService.saveToken(responseData.token);
         });
-    //form.reset();
+
+
   }
 }
