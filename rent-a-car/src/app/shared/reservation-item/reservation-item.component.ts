@@ -11,26 +11,10 @@ import { Vehicle } from 'src/app/vehicle/vehicle.model';
 export class ReservationItemComponent implements OnInit {
 
   @Input() reservation: Reservation;
-  name: string = "Marko";
-  surname: string = "Markovic";
-  vehicle: Vehicle = {
-    id:1,
-    mark:'Hyundai',
-    model: 'i30',
-    model_year:'2017',
-    manufacture_year: '2017',
-    gears: 5,
-    color: 'Black',
-    gearbox: 'Manual',
-    status: 'Dostupan',
-    power: 85,
-    price: 55,
-    type: '',
-    coverImage: '',
-    otherImages: ['','']
-  };
+  name = 'Marko';
+  surname = 'Markovic';
 
-  constructor(private router:Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
@@ -38,6 +22,6 @@ export class ReservationItemComponent implements OnInit {
 
 
   navigateToDetailedReservation(): void{
-    this.router.navigate([this.reservation.id], {relativeTo:this.route})
+    this.router.navigate([this.reservation.id], {relativeTo: this.route});
   }
 }

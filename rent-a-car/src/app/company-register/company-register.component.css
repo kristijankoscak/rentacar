@@ -50,3 +50,11 @@
     cursor: pointer;
     border-bottom: rgb(255, 211, 130) 1px solid;
 }
+.image-wrapper{
+    flex-wrap: wrap;
+}
+.upload-image{
+    width: fit-content;
+    border: 1px solid rgb(114, 148, 174);
+    color: rgb(114, 148, 174);
+}

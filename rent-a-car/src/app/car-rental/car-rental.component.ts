@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { VehicleService } from '../shared/vehicle.service';
 import { Vehicle } from '../vehicle/vehicle.model';
+import { CarRental } from './car-rental.model';
 
 @Component({
   selector: 'app-car-rental',
@@ -9,202 +12,47 @@ import { Vehicle } from '../vehicle/vehicle.model';
   styleUrls: ['./car-rental.component.css']
 })
 export class CarRentalComponent implements OnInit {
-  vehicles: Vehicle[] = [
-    {
-      id: 1,
-      mark: 'BMW',
-      model: 'M3',
-      model_year: '2017',
-      manufacture_year: '2017',
-      gears: 6,
-      color: 'Black',
-      gearbox: 'Manual',
-      status: 'nesto',
-      power: 110,
-      type: 'Limusine',
-      price: 53,
-      coverImage: 'https://collectingcars.imgix.net/images/2020/09/cover-66.jpg',
-      otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    },
-    {
-      id: 1,
-      mark: 'BMW',
-      model: 'M4',
-      model_year: '2017',
-      manufacture_year: '2017',
-      gears: 6,
-      color: 'Gold',
-      gearbox: 'Manual',
-      status: 'nesto',
-      power: 110,
-      price: 65,
-      type: 'Coupe',
-      coverImage: 'https://www.bmw-m.com/content/dam/bmw/marketBMW_M/common/topics/magazine-article-pool/2019/m-portraits-7/bmw-m4-coupe-m-potraits-davs0-ai-03.jpg.asset.1560350141062.jpg',
-      otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    },
-    {
-      id: 1,
-      mark: 'BMW',
-      model: 'X1',
-      model_year: '2015',
-      manufacture_year: '2017',
-      gears: 6,
-      color: 'Black',
-      gearbox: 'Manual',
-      status: 'nesto',
-      power: 150,
-      price: 73,
-      type: 'Jeep',
-      coverImage: 'https://content.jdmagicbox.com/quickquotes/images_main/bmw-x1-m-sport-sdrive-20d-black-sapphire-102055210-zj0vx.png',
-      otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    },
-    {
-      id: 1,
-      mark: 'BMW',
-      model: 'M3',
-      model_year: '2015',
-      manufacture_year: '2016',
-      gears: 6,
-      color: 'Red',
-      gearbox: 'Manual',
-      status: 'nesto',
-      power: 100,
-      price: 50,
-      type: 'Limusine',
-      coverImage: 'https://www.bmw-m.com/content/dam/bmw/marketBMW_M/common/topics/magazine-article-pool/2019/m-portraits-7/bmw-m4-coupe-m-potraits-davs0-ai-03.jpg.asset.1560350141062.jpg',
-      otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    },
-    {
-      id: 1,
-      mark: 'BMW',
-      model: 'M3',
-      model_year: '2017',
-      manufacture_year: '2017',
-      gears: 6,
-      color: 'Black',
-      gearbox: 'Manual',
-      status: 'nesto',
-      power: 110,
-      price: 53,
-      type: 'Limusine',
-      coverImage: 'https://collectingcars.imgix.net/images/2020/09/cover-66.jpg',
-      otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    },
-    {
-      id: 1,
-      mark: 'BMW',
-      model: 'M4',
-      model_year: '2019',
-      manufacture_year: '2019',
-      gears: 6,
-      color: 'Gray',
-      gearbox: 'Manual',
-      status: 'nesto',
-      power: 140,
-      price: 89,
-      type: 'Coupe',
-      coverImage: 'https://www.bmw-m.com/content/dam/bmw/marketBMW_M/common/topics/magazine-article-pool/2019/m-portraits-7/bmw-m4-coupe-m-potraits-davs0-ai-03.jpg.asset.1560350141062.jpg',
-      otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    },
-    {
-      id: 1,
-      mark: 'BMW',
-      model: 'X1',
-      model_year: '2017',
-      manufacture_year: '2018',
-      gears: 6,
-      color: 'Blue',
-      gearbox: 'Manual',
-      status: 'nesto',
-      power: 150,
-      price: 85,
-      type: 'Jeep',
-      coverImage: 'https://content.jdmagicbox.com/quickquotes/images_main/bmw-x1-m-sport-sdrive-20d-black-sapphire-102055210-zj0vx.png',
-      otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    },
-    {
-      id: 1,
-      mark: 'BMW',
-      model: 'M4',
-      model_year: '2017',
-      manufacture_year: '2017',
-      gears: 6,
-      color: 'Gold',
-      gearbox: 'Manual',
-      status: 'nesto',
-      power: 110,
-      price: 65,
-      type: 'Coupe',
-      coverImage: 'https://www.bmw-m.com/content/dam/bmw/marketBMW_M/common/topics/magazine-article-pool/2019/m-portraits-7/bmw-m4-coupe-m-potraits-davs0-ai-03.jpg.asset.1560350141062.jpg',
-      otherImages: [
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg',
-        'https://autostart.24sata.hr/media/img/3a/5b/b8d27dcd43379946a255.jpeg'
-      ]
-    }
-  ];
+  vehicles: Vehicle[];
+  carRental: CarRental = {
+    id: 0,
+    name: '',
+    city: '',
+    address: '',
+    contactNumber: '',
+    email: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    image: ''
+  };
+  subscription: Subscription;
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private http: HttpClient) { 
-    this.http
-        .get(
-          'https://sbdrustvo.com/carrental/1',
-        )
-        .subscribe(responseData => {
-          console.log(responseData);
-        });
+              private http: HttpClient,
+              private vehicleService: VehicleService) {
   }
 
   ngOnInit(): void {
     this.getParametersFromRoute();
+    this.fetchVehicleByCarRental()
   }
   getParametersFromRoute(): void{
     this.route.params.subscribe((params: Params) => {
-      
+      this.http
+        .get<any>(
+          'https://sbdrustvo.com/carrental/' + params.id,
+        )
+        .subscribe(responseData => {
+          this.carRental = responseData[0];
+        });
       });
+  }
+  fetchVehicleByCarRental(): void {
+    this.subscription = this.vehicleService.vehiclesChanged.subscribe(
+      ((vehicles: Vehicle[]) => {
+        this.vehicles = vehicles;
+      })
+    );
+    this.vehicles = this.vehicleService.getVehicles();
+    console.log(this.vehicles)
   }
 }

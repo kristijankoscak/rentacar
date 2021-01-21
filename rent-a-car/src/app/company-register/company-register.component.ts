@@ -17,6 +17,8 @@ export class CompanyRegisterComponent implements OnInit {
     Validators.required,
     this.allowCity.bind(this)
   ]);
+  uploadedImage: string;
+  imgTitle ='Choose title company image'
   constructor(
     private http: HttpClient) { }
 
@@ -84,7 +86,7 @@ export class CompanyRegisterComponent implements OnInit {
     return this.companyForm.controls.email.hasError('phoneNumber') ? 'Not a valid enter' : '';
   }
   onSubmit(form){
-    console.log(typeof form);
+    console.log(form);
     if (!form.valid) {
       return;
     }
@@ -92,6 +94,7 @@ export class CompanyRegisterComponent implements OnInit {
         .post<any>(
           'https://sbdrustvo.com/carrental/',
           {
+            user: "1",
             name: 'pekijevaautokuca',
             city: 'Osijek',
             address: 'Retfala',
@@ -103,5 +106,18 @@ export class CompanyRegisterComponent implements OnInit {
         .subscribe(responseData => {
             console.log(responseData);
         });
+  }
+  handleImageSelect(event): void {
+    this.fetchBase64ImagePaths(event);
+  }
+  fetchBase64ImagePaths(event) {
+    console.log(this.uploadedImage);
+    console.log(event.target.files[0]);
+    this.imgTitle = event.target.files[0].name;
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (event: any) => {
+      this.uploadedImage = reader.result as string;
+    };
   }
 }
