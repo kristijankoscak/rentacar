@@ -1,6 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { errorMonitor } from 'events';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -9,11 +12,14 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
+
+  inputsAreInvalid: boolean = false;
   signInForm: FormGroup;
   constructor(
     private http: HttpClient,
-    private authService:AuthService) {
-  }
+    private authService:AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -55,16 +61,21 @@ export class SignInComponent implements OnInit {
     }
     this.http
         .post<any>(
-          'https://sbdrustvo.com/login',
+          environment.apiUrl +'/login',
           {
             email: this.signInForm.controls.email.value,
             password: this.signInForm.controls.password.value
           }
         )
-        .subscribe(responseData => {
+        .subscribe(
+          responseData => {
             this.authService.saveToken(responseData.token);
-        });
-
-
+          },
+          errorResponse => {
+            if(errorResponse.error){
+              this.inputsAreInvalid = true;
+            }
+          }
+        );
   }
 }

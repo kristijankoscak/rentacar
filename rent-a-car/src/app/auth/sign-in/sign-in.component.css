@@ -31,3 +31,7 @@ mat-icon{
 .forgotPassword{
     color: grey;
 }
+.invalid-credentials{
+  color:red;
+  font-size:0.8rem;
+}

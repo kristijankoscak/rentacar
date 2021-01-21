@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../auth/user.model';
+import { UserService } from '../auth/user.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +11,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+ loggedUser: User;
+ userType: string = 'none';
+
+  constructor(
+    private router:Router,
+    private authService: AuthService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.authService.loggedUser.subscribe(user => {
+      this.loggedUser = user;
+    })
+    this.loggedUser = this.userService.getUser();
+  }
+
+  logout(): void{
+    localStorage.removeItem('userToken');
+    window.location.reload();
   }
 
 }

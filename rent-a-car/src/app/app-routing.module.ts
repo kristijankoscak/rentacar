@@ -16,6 +16,7 @@ import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.compon
 import { CarRentalComponent } from './car-rental/car-rental.component';
 import { CompanyRegisterComponent } from './company-register/company-register.component';
 import { VehicleResolverService } from './vehicle/vehicle-resolver.service';
+import { AuthResolverService } from './auth/auth-resolver.service';
 
 
 const appRoutes: Routes = [
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    resolve: [AuthResolverService]
   },
   {
     path: 'vehicle',

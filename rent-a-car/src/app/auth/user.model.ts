@@ -5,9 +5,4 @@ export class User {
   birthday: Date;
   firstName:string;
   lastName:string;
-
-
-  // constructor sa parametrima...
-
-  // getter token() za dohvacanje tokena... (ako butko osposobi)
 }
