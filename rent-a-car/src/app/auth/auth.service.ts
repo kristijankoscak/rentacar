@@ -12,80 +12,50 @@ import { UserService } from './user.service';
 })
 export class AuthService {
 
+  dataRefreshInterval: number = 0.5;
   loggedUser = new Subject<User>();
 
   constructor(
     private router: Router,
     private http: HttpClient,
     private userService: UserService
-    ) { }
+  ) { }
 
-  saveToken(token: string): void{
+  saveToken(token: string): void {
     localStorage.setItem('userToken', token);
     this.fetchUserData().subscribe();
   }
-  fetchUserData(): Observable<User>{
+  fetchUserData(): Observable<User> {
     return this.http
-    .post<any>(
-      environment.apiUrl + '/auth',
-      {
-        token: localStorage.getItem('userToken')
-      }
-    )
-    .pipe(
-      tap(
-        (responseData: any) => {
-          let user: User = {
-            id:responseData[0].id,
-            email:responseData[0].email,
-            roles: responseData[0].roles,
-            birthday: responseData[0].birthday,
-            firstName:responseData[0].firstName,
-            lastName:responseData[0].lastName
-          };
-          this.loggedUser.next(user);
-          this.userService.saveUser(user);
-          this.navigateToHomeScreen();
-        },
-        errorResponse => {
-          localStorage.removeItem('userToken');
-          // this.navigateToLoginScreen();
+      .post<any>(
+        environment.apiUrl + '/auth',
+        {
+          token: localStorage.getItem('userToken')
         }
       )
-    );
+      .pipe(
+        tap(
+          (responseData: any) => {
+            let user: User = {
+              id: responseData[0].id,
+              email: responseData[0].email,
+              roles: responseData[0].roles,
+              birthday: responseData[0].birthday,
+              firstName: responseData[0].firstName,
+              lastName: responseData[0].lastName
+            };
+            this.navigateToHomeScreen();
+            this.loggedUser.next(user);
+            this.userService.saveUser(user);
+          },
+          errorResponse => {
+            localStorage.removeItem('userToken');
+          }
+        )
+      );
   }
-  // fetchUserData(): void {
-  //   this.http
-  //     .post<any>(
-  //       'https://sbdrustvo.com/auth',
-  //       {
-  //         token: localStorage.getItem('userToken')
-  //       }
-  //     )
-  //     .subscribe(
-  //       responseData => {
-  //         let user: User = {
-  //           id:responseData[0].id,
-  //           email:responseData[0].email,
-  //           roles: responseData[0].roles,
-  //           birthday: responseData[0].birthday,
-  //           firstName:responseData[0].firstName,
-  //           lastName:responseData[0].lastName
-  //         };
-  //         this.loggedUser.next(user);
-  //         this.navigateToHomeScreen();
-  //       },
-  //       errorResponse => {
-  //         localStorage.removeItem('userToken');
-  //         this.navigateToLoginScreen();
-  //       }
-  //     );
-  // }
-  navigateToHomeScreen(): void{
+  navigateToHomeScreen(): void {
     this.router.navigate(['/']);
-  }
-  navigateToLoginScreen(): void{
-    this.router.navigate(['/auth/sign-in']);
   }
 }
 

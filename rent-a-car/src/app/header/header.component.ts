@@ -11,7 +11,7 @@ import { UserService } from '../auth/user.service';
 })
 export class HeaderComponent implements OnInit {
 
- loggedUser: User;
+ loggedUser: User = null;
  userType: string = 'none';
 
   constructor(
@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.loggedUser)
     this.authService.loggedUser.subscribe(user => {
       this.loggedUser = user;
     })
@@ -29,7 +30,8 @@ export class HeaderComponent implements OnInit {
 
   logout(): void{
     localStorage.removeItem('userToken');
-    window.location.reload();
+    this.authService.loggedUser.next(null);
+    this.userService.saveUser(null);
   }
 
 }
