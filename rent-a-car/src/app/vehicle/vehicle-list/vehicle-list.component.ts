@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { VehicleService } from 'src/app/shared/vehicle.service';
@@ -14,21 +16,35 @@ export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[]
   subscription: Subscription;
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService,
+              private route: ActivatedRoute,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
     this.fetchVehicle();
+    this.getParametersFromURL();
   }
+  getParametersFromURL(): void{
+    this.route.queryParams.subscribe((params: Params) => {
+      console.log(params)
+      this.http
+        .get<any>(
+          'https://sbdrustvo.com/filter',
+          {
 
+          }
+        )
+        .subscribe(responseData => {
+        });
+      });
+  }
   fetchVehicle(): void {
     this.subscription = this.vehicleService.vehiclesChanged.subscribe(
       ((vehicles: Vehicle[]) => {
         this.vehicles = vehicles;
-        console.log('1. ' + this.vehicles);
       })
     );
     this.vehicles = this.vehicleService.getVehicles();
-    console.log('2. ' + this.vehicles);
   }
 
   ngOnDestroy(): void {

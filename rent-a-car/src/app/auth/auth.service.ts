@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from './user.model';
@@ -14,7 +14,7 @@ export class AuthService {
 
   dataRefreshInterval: number = 0.5;
   loggedUser = new Subject<User>();
-
+  succLogin = new BehaviorSubject(false);
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -58,10 +58,6 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 }
-
-
-
-
 
 /*
   Rukovanje podacima o korisniku i poduzimanje

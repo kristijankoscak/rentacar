@@ -18,7 +18,7 @@ export class CompanyRegisterComponent implements OnInit {
     this.allowCity.bind(this)
   ]);
   uploadedImage: string;
-  imgTitle ='Choose title company image'
+  imgTitle = 'Choosen image';
   constructor(
     private http: HttpClient) { }
 
@@ -90,7 +90,7 @@ export class CompanyRegisterComponent implements OnInit {
     if (!form.valid) {
       return;
     }
-    this.http
+    /* this.http
         .post<any>(
           'https://sbdrustvo.com/carrental/',
           {
@@ -105,7 +105,7 @@ export class CompanyRegisterComponent implements OnInit {
         )
         .subscribe(responseData => {
             console.log(responseData);
-        });
+        }); */
   }
   handleImageSelect(event): void {
     this.fetchBase64ImagePaths(event);

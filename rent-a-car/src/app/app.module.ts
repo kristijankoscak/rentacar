@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -47,6 +46,8 @@ import { CarRentalComponent } from './car-rental/car-rental.component';
 import { FooterComponent } from './footer/footer.component';
 import { VehicleEditComponent } from './vehicle/vehicle-edit/vehicle-edit.component';
 import { CompanyRegisterComponent } from './company-register/company-register.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SnackBarSuccSignUpComponent } from './auth/snack-bar-succ-sign-up/snack-bar-succ-sign-up.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { CompanyRegisterComponent } from './company-register/company-register.co
     CarRentalComponent,
     FooterComponent,
     VehicleEditComponent,
-    CompanyRegisterComponent
+    CompanyRegisterComponent,
+    SnackBarSuccSignUpComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +100,8 @@ import { CompanyRegisterComponent } from './company-register/company-register.co
     FlexLayoutModule,
     MatToolbarModule,
     NoopAnimationsModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

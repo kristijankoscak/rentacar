@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,8 +13,10 @@ import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
 
-  constructor(
-    private http: HttpClient) { }
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private http: HttpClient,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -34,11 +38,11 @@ export class SignUpComponent implements OnInit {
       ]),
       password : new FormControl('', [
         Validators.required,
-        Validators.minLength(8)
+        Validators.minLength(6)
       ]),
       confPassword : new FormControl('', [
         Validators.required,
-        Validators.minLength(8)
+        Validators.minLength(6)
       ])
     });
   }
@@ -71,7 +75,6 @@ export class SignUpComponent implements OnInit {
     return this.signUpForm.controls.password.hasError('password') ? 'Not a valid enter' : '';
   }
   onSubmit(form): void {
-    console.log(typeof form);
     if (!form.valid) {
       return;
     }
@@ -79,16 +82,23 @@ export class SignUpComponent implements OnInit {
         .post<any>(
           'https://sbdrustvo.com/register',
           {
-            firstName: 'Branimir',
-            lastName: 'Butković',
-            birthday: '2020-12-12',
-            email: 'branimir222@gmail.com',
-            password: '123456'
+            firstName: form.value.firstName,
+            lastName: form.value.lastName,
+            birthday: form.value.dateOfBirth,
+            email: form.value.email,
+            password: form.value.password
           }
         )
         .subscribe(responseData => {
-            console.log(responseData);
+            if(responseData === 'success'){
+              this.router.navigate(['../sign-in'],
+                {
+                  relativeTo: this.route,
+                }
+              );
+              this.authService.succLogin.next(true);
+              form.reset();
+            }
         });
-    // form.reset();
   }
 }

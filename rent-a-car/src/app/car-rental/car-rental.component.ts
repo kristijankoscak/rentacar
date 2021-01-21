@@ -43,6 +43,7 @@ export class CarRentalComponent implements OnInit {
         )
         .subscribe(responseData => {
           this.carRental = responseData[0];
+          console.log(this.carRental)
         });
       });
   }
