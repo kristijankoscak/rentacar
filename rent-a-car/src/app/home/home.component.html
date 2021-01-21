@@ -43,14 +43,14 @@ fxLayoutAlign="space-between">
     <mat-form-field
     fxFlexOffset=1rem
     (click)="picker1.open()">
-      <mat-label>Datum preuzimanja</mat-label>
+      <mat-label>Datum povrata</mat-label>
       <input matInput [formControl]="end" [matDatepicker]="picker1" [min]="start.value" >
       <mat-datepicker-toggle matSuffix ></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
       <mat-error *ngIf="end.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
   </form>
-  <button 
+  <button
   mat-stroked-button
   (click)="openVehicleList()">
     Filter</button>
