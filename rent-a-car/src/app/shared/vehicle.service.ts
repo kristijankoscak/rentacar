@@ -23,6 +23,9 @@ export class VehicleService {
   getVehicles(): Vehicle[]{
     return this.vehicles;
   }
+  getVehiclesByCarRental(carRentalName: string): Vehicle[]{
+    return this.vehicles.filter(vehicle => vehicle.carRental.name === carRentalName);
+  }
 
   async fetchVehicleByID(id:number): Promise<void>{
     await this.setVehicleByID(id);

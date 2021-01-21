@@ -71,8 +71,26 @@ fxLayoutGap=1rem>
           formControlName="email">
           <mat-icon matSuffix>email</mat-icon>
           <mat-error *ngIf="this.companyForm.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
-
         </mat-form-field>
+      </div>
+      <div
+      fxLayout=row
+      fxLayoutAlign=" center"
+      class="image-wrapper">
+        <button 
+        class="action-button upload-image" 
+        type="button"
+        mat-flat-button 
+        (click)="imageUploader.click()">Upload company image</button>
+        <input 
+        required 
+        #imageUploader
+        hidden
+        type="file"  
+        (change)="handleImageSelect($event)" />
+        <span>
+          {{imgTitle}}
+        </span>
       </div>
     <div
     fxLayoutAlign=end>

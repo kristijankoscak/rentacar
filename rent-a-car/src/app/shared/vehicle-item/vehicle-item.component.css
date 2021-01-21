@@ -12,6 +12,11 @@
 .vehicle-container > ::ng-deep .mat-button-wrapper > div{
   height: 100%;
 }
+.vehicle-image-wrapper > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .mat-raised-button{
     min-width: 100%;
     line-height: normal;

@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Vehicle } from 'src/app/vehicle/vehicle.model';
 import { Image } from '../image.model';
-
 @Component({
   selector: 'app-vehicle-item',
   templateUrl: './vehicle-item.component.html',
@@ -24,6 +23,7 @@ export class VehicleItemComponent implements OnInit {
       return image.isCover === true
     })
     this.coverImage = tempImage.base64;
+
   }
 
   seeCarDetail(): void {
@@ -35,7 +35,7 @@ export class VehicleItemComponent implements OnInit {
   seeRentalCar(): void {
     this.router.navigate(['../car-rental/'+this.vehicle.carRental.id], {
       relativeTo: this.route,
-    }
+      }
     );
   }
 }
