@@ -27,9 +27,7 @@ export class VehicleItemComponent implements OnInit {
   }
 
   seeCarDetail(): void {
-    this.router.navigate(['./'+this.vehicle.id], {
-      relativeTo: this.route,
-    }
+    this.router.navigate(['/vehicle/'+this.vehicle.id]
     );
   }
   seeRentalCar(): void {
