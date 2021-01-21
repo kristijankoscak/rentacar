@@ -44,7 +44,7 @@ export class AuthService {
               firstName: responseData[0].firstName,
               lastName: responseData[0].lastName
             };
-            this.navigateToHomeScreen();
+            // this.navigateToHomeScreen();
             this.loggedUser.next(user);
             this.userService.saveUser(user);
           },
