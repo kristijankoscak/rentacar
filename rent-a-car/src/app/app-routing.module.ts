@@ -30,11 +30,11 @@ const appRoutes: Routes = [
     path: 'vehicle',
     component: VehicleComponent,
     children: [
-      { path: '', component: VehicleListComponent ,resolve:[VehicleResolverService]},
+      { path: '', component: VehicleListComponent , resolve: [VehicleResolverService]},
       { path: 'new', component: VehicleEditComponent },
-      { path: ':id', component: VehicleDetailComponent, resolve:[VehicleResolverService]},
-      { path: ':id/edit', component: VehicleEditComponent ,resolve:[VehicleResolverService]},
-      { path: ':id/reserve', component: VehicleReserveComponent ,resolve:[VehicleResolverService]}
+      { path: ':id', component: VehicleDetailComponent, resolve: [VehicleResolverService]},
+      { path: ':id/edit', component: VehicleEditComponent , resolve: [VehicleResolverService]},
+      { path: ':id/reserve', component: VehicleReserveComponent , resolve: [VehicleResolverService]}
     ]
   },
   {
@@ -57,6 +57,7 @@ const appRoutes: Routes = [
   {
     path: 'car-rental/:id',
     component: CarRentalComponent,
+    resolve: [VehicleResolverService]
   },
   {
     path: 'company-register',

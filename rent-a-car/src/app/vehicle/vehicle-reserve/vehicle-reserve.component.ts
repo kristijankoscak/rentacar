@@ -1,4 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { VehicleService } from 'src/app/shared/vehicle.service';
+import { Vehicle } from '../vehicle.model';
 
 @Component({
   selector: 'app-vehicle-reserve',
@@ -6,7 +10,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-reserve.component.css']
 })
 export class VehicleReserveComponent implements OnInit {
-  backgroundColor='rgb(255, 211, 130)'
+  backgroundColor = 'rgb(255, 211, 130)';
+  vehicle: Vehicle;
   times: string[] = [
     'I dont know',
     '08:00-09:00',
@@ -22,9 +27,19 @@ export class VehicleReserveComponent implements OnInit {
     '18:00-19:00',
     '19:00-20:00',
   ];
-  constructor() { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private vehicleService: VehicleService) { }
 
   ngOnInit(): void {
+    this.getParametersFromURL()
   }
-
+  getParametersFromURL(): void{
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.vehicle = this.vehicleService.getVehicle(+params.id);
+        console.log(this.vehicle)
+      }
+    )
+  }
 }

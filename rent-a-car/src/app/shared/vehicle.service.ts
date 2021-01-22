@@ -35,4 +35,7 @@ export class VehicleService {
   setVehicleByID(id:number): void{
     this.specificVehicle = this.vehicles.find((vehicle)=>{return vehicle.id === id});
   }
+  getVehicle(id: number): Vehicle{
+    return this.vehicles.find(vehicle => vehicle.id === id);
+  }
 }
