@@ -5,8 +5,8 @@ export class Vehicle{
   id: number;
   mark: string;
   model: string;
-  modelYear: string;
-  manufactureYear: string;
+  modelYear: any;
+  manufactureYear: any;
   gears: number;
   color: string;
   gearbox: string;

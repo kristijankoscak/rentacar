@@ -31,9 +31,8 @@ export class VehicleItemComponent implements OnInit {
     );
   }
   seeRentalCar(): void {
-    this.router.navigate(['../car-rental/'+this.vehicle.carRental.id], {
-      relativeTo: this.route,
-      }
+    console.log("seecarrental")
+    this.router.navigate(['/car-rental/'+this.vehicle.carRental.id]
     );
   }
 }

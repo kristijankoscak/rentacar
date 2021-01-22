@@ -63,8 +63,8 @@
     padding-bottom: unset!important;
 }
 
-.check-in-wrapper,
-.check-out-wrapper,
+.start-date-wrapper,
+.end-date-wrapper,
 .for-wrapper,
 .taxes-wrapper,
 .final-price-wrapper,
@@ -76,8 +76,8 @@
 .sum-price{
     font-weight: bold;
 }
-.check-in-wrapper,
-.check-out-wrapper,
+.start-date-wrapper,
+.end-date-wrapper,
 .for-wrapper{
     line-height: 3em;  
     background: linear-gradient(to right, rgb(255, 255, 255) 90%, rgb(177, 191, 231) 90%);
@@ -86,8 +86,8 @@
     transition:all 1s ease;
     background-repeat: no-repeat;
 }
-.check-in-wrapper:hover,
-.check-out-wrapper:hover,
+.start-date-wrapper:hover,
+.end-date-wrapper:hover,
 .for-wrapper:hover{
      background-position: right;
      background-size: 100% 100%;

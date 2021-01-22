@@ -2,7 +2,7 @@
 class="background-wrapper"
 fxLayout=column>
     <img 
-    src="https://www.sibenik.in/upload/novosti/2016/11/2016-11-08/67446/v25.jpg" 
+    [src]="rentalImage"
     alt="">
     <div
     fxLayout=column
@@ -26,7 +26,7 @@ fxLayout=column>
                 <div
                 fxLayout=column>
                     <span>Vlasnik</span>
-                    <span>Petar Pejić </span>
+                    <span>{{carRental.owner.firstName}} {{carRental.owner.lastName}}</span>
                 </div>
             </div>
             <div

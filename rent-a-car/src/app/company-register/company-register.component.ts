@@ -1,8 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { User } from '../auth/user.model';
+import { UserService } from '../auth/user.service';
 
 @Component({
   selector: 'app-company-register',
@@ -13,14 +17,13 @@ export class CompanyRegisterComponent implements OnInit {
   companyForm: FormGroup;
   options: string[] = ['Zagreb', 'Split', 'Osijek', 'Rijeka'];
   filteredOptions: Observable<string[]>;
-  city = new FormControl('', [
-    Validators.required,
-    this.allowCity.bind(this)
-  ]);
-  uploadedImage: string;
-  imgTitle ='Choose title company image'
-  constructor(
-    private http: HttpClient) { }
+  city: FormControl = new FormControl();
+  uploadedImage = '';
+  imgTitle = 'Choose image';
+  loggedUser: User;
+  constructor(private userService: UserService,
+              private http: HttpClient,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.filteredOptions = this.city.valueChanges.pipe(
@@ -28,6 +31,30 @@ export class CompanyRegisterComponent implements OnInit {
       map(value => this._filter(value))
     );
     this.initForm();
+    this.getUserInfo();
+  }
+  getUserInfo(){
+      this.loggedUser = this.userService.getUser();
+      if (this.loggedUser === undefined){
+        this.http
+      .post<any>(
+        environment.apiUrl + '/auth',
+        {
+          token: localStorage.getItem('userToken')
+        }
+      )
+      .pipe(
+        tap(
+          (responseData: any) => {
+            this.loggedUser = responseData;
+            this.userService.saveUser(this.loggedUser);
+          },
+          errorResponse => {
+            localStorage.removeItem('userToken');
+          }
+        )
+      );
+      }
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -38,6 +65,10 @@ export class CompanyRegisterComponent implements OnInit {
     this.companyForm = new FormGroup({
       companyName : new FormControl('', [
         Validators.required
+      ]),
+      city : new FormControl('', [
+        Validators.required,
+        this.allowCity.bind(this)
       ]),
       address : new FormControl('', [
         Validators.required
@@ -94,25 +125,25 @@ export class CompanyRegisterComponent implements OnInit {
         .post<any>(
           'https://sbdrustvo.com/carrental/',
           {
-            user: "1",
-            name: 'pekijevaautokuca',
-            city: 'Osijek',
-            address: 'Retfala',
-            contactNumber: '54454455',
-            email: 'peky@autokuca.com',
-            image: 'afafafas'
+            user: this.loggedUser.id,
+            name: form.value.companyName,
+            city: form.value.city,
+            address: form.value.address,
+            contactNumber: form.value.phoneNumber,
+            email: form.value.email,
+            image: this.uploadedImage
           }
         )
         .subscribe(responseData => {
-            console.log(responseData);
+            if (responseData === 'success'){
+              this.router.navigate(['/home']);
+            }
         });
   }
   handleImageSelect(event): void {
     this.fetchBase64ImagePaths(event);
   }
   fetchBase64ImagePaths(event) {
-    console.log(this.uploadedImage);
-    console.log(event.target.files[0]);
     this.imgTitle = event.target.files[0].name;
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);

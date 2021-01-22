@@ -72,6 +72,7 @@ fxLayoutGap=1rem>
         <mat-form-field>
           <mat-label>Password</mat-label>
           <input matInput
+          type="password"
           formControlName="password">
           <mat-icon matSuffix>lock</mat-icon>
           <mat-error *ngIf="this.signUpForm.controls.password.invalid">{{getPasswordErrorMessage()}}</mat-error>
@@ -80,6 +81,7 @@ fxLayoutGap=1rem>
         <mat-form-field>
           <mat-label>Confirm Password</mat-label>
           <input matInput
+          type="password"
           formControlName="confPassword">
           <mat-icon matSuffix>lock</mat-icon>
           <mat-error *ngIf="this.signUpForm.controls.confPassword.invalid">{{getConfPasswordErrorMessage()}}</mat-error>

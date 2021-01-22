@@ -6,13 +6,10 @@ import { Vehicle } from '../vehicle/vehicle.model';
   providedIn: 'root'
 })
 export class VehicleService {
-
-
   vehicles : Vehicle[] = [];
   specificVehicle: Vehicle;
   vehiclesChanged = new Subject<Vehicle[]>();
   vehicleIsPicked = new Subject<Vehicle>();
-
 
   constructor() { }
   setVehicles(vehicles: Vehicle[]): void {
@@ -34,5 +31,8 @@ export class VehicleService {
   }
   setVehicleByID(id:number): void{
     this.specificVehicle = this.vehicles.find((vehicle)=>{return vehicle.id === id});
+  }
+  getVehicle(id: number): Vehicle{
+    return this.vehicles.find(vehicle => vehicle.id === id);
   }
 }

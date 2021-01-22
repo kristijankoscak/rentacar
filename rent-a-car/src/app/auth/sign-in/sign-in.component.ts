@@ -1,10 +1,12 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { errorMonitor } from 'events';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
+import { SnackBarSuccSignUpComponent } from '../snack-bar-succ-sign-up/snack-bar-succ-sign-up.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -13,15 +15,27 @@ import { AuthService } from '../auth.service';
 })
 export class SignInComponent implements OnInit {
 
-  inputsAreInvalid: boolean = false;
+  inputsAreInvalid = false;
   signInForm: FormGroup;
+  durationInSeconds = 3;
   constructor(
     private http: HttpClient,
-    private authService:AuthService,
-    private router: Router
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar
     ) { }
 
   ngOnInit(): void {
+    this.authService.succLogin.subscribe(
+      value => {
+        if(value === true){
+          this.snackBar.openFromComponent(SnackBarSuccSignUpComponent, {
+            duration: this.durationInSeconds * 1000,
+          });
+          this.authService.succLogin.next(false);
+        }
+      }
+    )
     this.initForm();
   }
   initForm(): void{
@@ -55,13 +69,13 @@ export class SignInComponent implements OnInit {
     return this.signInForm.controls.password.hasError('password') ? 'Not a valid enter' : '';
   }
   onSubmit(form): void {
-    console.log(typeof form)
+    console.log(typeof form);
     if (!form.valid) {
       return;
     }
     this.http
         .post<any>(
-          environment.apiUrl +'/login',
+          environment.apiUrl + '/login',
           {
             email: this.signInForm.controls.email.value,
             password: this.signInForm.controls.password.value
@@ -70,9 +84,10 @@ export class SignInComponent implements OnInit {
         .subscribe(
           responseData => {
             this.authService.saveToken(responseData.token);
+            this.router.navigate(['/home'])
           },
           errorResponse => {
-            if(errorResponse.error){
+            if (errorResponse.error){
               this.inputsAreInvalid = true;
             }
           }

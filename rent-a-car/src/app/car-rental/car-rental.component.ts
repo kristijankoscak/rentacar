@@ -13,11 +13,14 @@ import { CarRental } from './car-rental.model';
 })
 export class CarRentalComponent implements OnInit {
   vehicles: Vehicle[];
+  defaultImage = 'https://www.mexperience.com/wp-content/uploads/Car-Rental-Sign-NBS-750x375.jpg';
+  rentalImage: string;
   carRental: CarRental = {
     id: 0,
     name: '',
     city: '',
     address: '',
+    owner: '',
     contactNumber: '',
     email: '',
     createdAt: new Date(),
@@ -43,6 +46,12 @@ export class CarRentalComponent implements OnInit {
         )
         .subscribe(responseData => {
           this.carRental = responseData[0];
+          if(this.carRental.image === ''){
+            this.rentalImage = this.defaultImage;
+          }
+          else{
+            this.rentalImage = this.carRental.image;
+          }
         });
       });
   }
@@ -53,6 +62,5 @@ export class CarRentalComponent implements OnInit {
       })
     );
     this.vehicles = this.vehicleService.getVehicles();
-    console.log(this.vehicles)
   }
 }
