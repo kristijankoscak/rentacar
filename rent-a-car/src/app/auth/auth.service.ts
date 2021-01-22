@@ -14,7 +14,6 @@ export class AuthService {
 
   dataRefreshInterval: number = 0.5;
   loggedUser = new Subject<User>();
-  succLogin = new BehaviorSubject(false);
   constructor(
     private router: Router,
     private http: HttpClient,
