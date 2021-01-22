@@ -13,7 +13,7 @@ import { UserService } from './user.service';
 export class AuthService {
 
   dataRefreshInterval: number = 0.5;
-  loggedUser = new Subject<User>();
+  // loggedUser = new Subject<User>();
 
   constructor(
     private router: Router,
@@ -45,7 +45,7 @@ export class AuthService {
               lastName: responseData[0].lastName
             };
             // this.navigateToHomeScreen();
-            this.loggedUser.next(user);
+            // this.loggedUser.next(user);
             this.userService.saveUser(user);
           },
           errorResponse => {

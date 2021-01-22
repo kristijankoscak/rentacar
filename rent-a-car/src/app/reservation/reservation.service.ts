@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Reservation } from './reservation.model';
 
 @Injectable({
@@ -14,38 +15,32 @@ export class ReservationService {
   */
 
   // for example only, there will be route for fetching reservation by ID !!!
-  allReservations: Reservation[] = [
-    { id: 57, user_id: 12, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 },
-    { id: 5, user_id: 25, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 },
-    { id: 9, user_id: 17, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 },
-    { id: 21, user_id: 1, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 1 },
-    { id: 13, user_id: 27, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 1 },
-    { id: 15, user_id: 25, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 2 },
-    { id: 19, user_id: 54, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 2 },
-    { id: 28, user_id: 34, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 2 }
-  ];
+  // { id: 57, user_id: 12, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 },
 
-  userReservations: Reservation[] = [
-    { id: 57, user_id: 12, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 }
-  ];
-
-  waitingReservations: Reservation[] = [
-    { id: 57, user_id: 12, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 },
-    { id: 5, user_id: 25, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 },
-    { id: 9, user_id: 17, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 }
-  ];
-  acceptedReservations: Reservation[] = [
-    { id: 21, user_id: 1, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 1 },
-    { id: 13, user_id: 27, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 1 }
-  ];
-  rejectedReservations: Reservation[] = [
-    { id: 15, user_id: 25, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 2 },
-    { id: 19, user_id: 54, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 2 },
-    { id: 28, user_id: 34, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 2 }
-  ];
+  allReservations: Reservation[] = [];
+  allReservationsChanged = new Subject<Reservation[]>();
+  userReservations: Reservation[] = [];
+  userReservationsChanged = new Subject<Reservation[]>();
+  waitingReservations: Reservation[] = [];
+  acceptedReservations: Reservation[] = [];
+  rejectedReservations: Reservation[] = [];
 
   constructor() { }
 
+  saveAllReservations(reservations: Reservation[]): void{
+    this.allReservations = reservations;
+    this.allReservationsChanged.next(reservations);
+    // this.allReservations = reservations;
+  }
+  saveUserReservations(reservations: Reservation[]): void {
+    this.userReservations = reservations;
+    this.userReservationsChanged.next(reservations);
+    console.log(reservations);
+  }
+
+  fetchAllReservations(): Reservation[] {
+    return this.allReservations;
+  }
 
   fetchUserReservations(): Reservation[] {
     return this.userReservations;
