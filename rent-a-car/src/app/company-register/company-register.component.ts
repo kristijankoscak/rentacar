@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { User } from '../auth/user.model';
+import { UserService } from '../auth/user.service';
 
 @Component({
   selector: 'app-company-register',
@@ -19,8 +21,9 @@ export class CompanyRegisterComponent implements OnInit {
   ]);
   uploadedImage: string;
   imgTitle = 'Choosen image';
-  constructor(
-    private http: HttpClient) { }
+  loggedUser: User;
+  constructor(private userService: UserService,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
     this.filteredOptions = this.city.valueChanges.pipe(
@@ -28,6 +31,10 @@ export class CompanyRegisterComponent implements OnInit {
       map(value => this._filter(value))
     );
     this.initForm();
+    this.getUserInfo()
+  }
+  getUserInfo(){
+      this.loggedUser = userService.get
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -90,7 +97,7 @@ export class CompanyRegisterComponent implements OnInit {
     if (!form.valid) {
       return;
     }
-    /* this.http
+    this.http
         .post<any>(
           'https://sbdrustvo.com/carrental/',
           {
@@ -105,7 +112,7 @@ export class CompanyRegisterComponent implements OnInit {
         )
         .subscribe(responseData => {
             console.log(responseData);
-        }); */
+        }); 
   }
   handleImageSelect(event): void {
     this.fetchBase64ImagePaths(event);
