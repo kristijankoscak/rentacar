@@ -14,6 +14,7 @@ export class AuthService {
 
   dataRefreshInterval: number = 0.5;
   loggedUser = new Subject<User>();
+  
   constructor(
     private router: Router,
     private http: HttpClient,
