@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from './user.model';
@@ -13,8 +13,8 @@ import { UserService } from './user.service';
 export class AuthService {
 
   dataRefreshInterval: number = 0.5;
-  loggedUser = new Subject<User>();
-  
+  // loggedUser = new Subject<User>();
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -44,8 +44,8 @@ export class AuthService {
               firstName: responseData[0].firstName,
               lastName: responseData[0].lastName
             };
-            this.navigateToHomeScreen();
-            this.loggedUser.next(user);
+            // this.navigateToHomeScreen();
+            // this.loggedUser.next(user);
             this.userService.saveUser(user);
           },
           errorResponse => {
@@ -58,6 +58,10 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 }
+
+
+
+
 
 /*
   Rukovanje podacima o korisniku i poduzimanje
