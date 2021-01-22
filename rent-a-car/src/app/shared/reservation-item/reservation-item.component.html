@@ -7,20 +7,20 @@
     <div class="reservation-info-header"></div>
     <mat-icon class="ml-1">person</mat-icon>
     <div fxLayout="column" class="ml-1 reservation-info-section">
-      <span class="text-size-14">Ime: {{name}}</span>
-      <span class="text-size-14">Prezime: {{surname}}</span>
+      <span class="text-size-14">Ime: {{reservation.user.firstName}}</span>
+      <span class="text-size-14">Prezime: {{reservation.user.lastName}}</span>
     </div>
     <mat-icon class="ml-1"> directions_car</mat-icon>
     <div class="ml-1 vehicle-info reservation-info-section" fxLayoutGap="0.3rem">
-      <span class="text-size-14">Vlasnik: CarRent</span>
-      <span class="text-size-14">Marka: Hyundai</span>
-      <span class="text-size-14">Cijena: 50€</span>
-      <span class="text-size-14">Model: i30</span>
+      <span class="text-size-14">Vlasnik: {{reservation.vehicle.carRental.name}}</span>
+      <span class="text-size-14">Marka: {{ reservation.vehicle.mark }}</span>
+      <span class="text-size-14">Cijena: {{ reservation.vehicle.price }}€</span>
+      <span class="text-size-14">Model: {{ reservation.vehicle.model }}</span>
     </div>
     <mat-icon class="ml-1">date_range</mat-icon>
     <div fxLayout="column" class="ml-1 reservation-info-section">
-      <span class="text-size-14">Preuzimanje: 22.5.2021.</span>
-      <span class="text-size-14">Povrat: 24.5.2021.</span>
+      <span class="text-size-14">Preuzimanje: {{getDate(reservation.startTime)}}</span>
+      <span class="text-size-14">Povrat: {{getDate(reservation.endTime)}}</span>
     </div>
     <mat-icon class="ml-1">info</mat-icon>
     <div class="ml-1 " fxLayoutGap="0.3rem">

@@ -25,12 +25,12 @@ export class UserService {
   getUser(): User{
     return this.user;
   }
-  getUserType(): string{
+  getUserType(): string[]{
     if(this.user === undefined){
       return null;
     }
     else{
-      return this.user.roles[0];
+      return this.user.roles;
     }
   }
 

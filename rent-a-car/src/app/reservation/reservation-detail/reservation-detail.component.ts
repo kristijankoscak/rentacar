@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SubscribableOrPromise, Subscription } from 'rxjs';
+import { User } from 'src/app/auth/user.model';
+import { UserService } from 'src/app/auth/user.service';
 import { Vehicle } from 'src/app/vehicle/vehicle.model';
 import { Reservation } from '../reservation.model';
 import { ReservationService } from '../reservation.service';
@@ -12,50 +15,62 @@ import { ReservationService } from '../reservation.service';
 export class ReservationDetailComponent implements OnInit {
 
   reservationID:number;
-  reservation: Reservation;
-  name: string;
-  surname: string;
-  vehicle;
+  reservation: any;
+  loggedUser: User;
+  reservationSubscription: Subscription;
 
-  constructor(private route: ActivatedRoute,private reservationService: ReservationService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private reservationService: ReservationService,
+    private userService: UserService
+    ) { }
 
   ngOnInit(): void {
     this.fetchReservationID();
     this.fetchReservation();
-    this.fetchVehicle();
+    // this.fetchReservation();
+    // this.fetchVehicle();
   }
 
   fetchReservationID(): void{
     this.reservationID = +this.route.snapshot.paramMap.get('id');
   }
   fetchReservation(): void{
+    this.reservationSubscription = this.reservationService.allReservationsChanged.subscribe((reservations) => {
+      this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
+      this.loggedUser = this.userService.getUser();
+      console.log(this.reservation)
+    })
     this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
+    this.loggedUser = this.userService.getUser();
   }
   fetchVehicle(): void{
-    const tempVehicle = {
-      id: 1,
-      color: "Red",
-      coverImage: "https://www.autoto.hr/EasyEdit/UserFiles/CatalogGallery/fiat-punto-12-benzin-rabljeno-vozilo-at073219/fiat-punto-12-benzin-rabljeno-vozilo-at073219-637070059849833280_1600_900.jpeg",
-      fuel_type: "Diesel",
-      gearbox: "Automatic",
-      gears: 5,
-      manufacture_year: '2015',
-      mark: "BMW",
-      model: "X5",
-      model_year: '2015',
-      otherImages: [
-        "https://www.autoto.hr/EasyEdit/UserFiles/CatalogGallery/fiat-punto-12-benzin-rabljeno-vozilo-at073219/fiat-punto-12-benzin-rabljeno-vozilo-at073219-637070060125927055_1600_900.jpeg",
-        "https://rabljena.autohrvatska.hr/EasyEdit/UserFiles/CatalogGallery/fiat-punto-evo-13-mjt/fiat-punto-evo-13-mjt-637430205650403697_1600_900.jpeg",
-        "https://i.ytimg.com/vi/fivkMD7_4Vg/maxresdefault.jpg"
-      ],
-      power: 125,
-      price: 86,
-      status: "Available",
-      type: "Suv",
-      gate_number: 5,
-      discount: 10
-    }
-    this.vehicle = tempVehicle;
+
+    // this.vehicle = tempVehicle;
+  }
+  getDate(date:any): string{
+    let formatedDate = '';
+    let tempDate = new Date(date.date);
+    formatedDate += tempDate.getDate() + "."
+    formatedDate += tempDate.getMonth() + "."
+    formatedDate += tempDate.getFullYear() + "."
+    return formatedDate;
+  }
+  getYear(date:any){
+    let formatedDate = '';
+    let tempDate = new Date(date.date);
+    formatedDate += tempDate.getFullYear() + "."
+    return formatedDate;
+  }
+  getNewPrice(): number{
+    return this.reservation.vehicle.price - this.reservation.vehicle.price*(this.reservation.vehicle.discount/100)
   }
 
+  cancelMyReservation(): void{
+    this.reservationService.cancelUserReservation(this.reservation);
+  }
+
+  ngOnDestroy(): void {
+    this.reservationSubscription.unsubscribe();
+  }
 }

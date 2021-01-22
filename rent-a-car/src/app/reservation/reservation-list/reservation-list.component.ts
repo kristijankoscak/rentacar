@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Reservation } from '../reservation.model';
@@ -13,8 +14,9 @@ import { ReservationService } from '../reservation.service';
 })
 export class ReservationListComponent implements OnInit {
 
-  subscription: Subscription;
-  userType: string = '';
+  userSubscription: Subscription;
+  userType: string[] = undefined;
+  loggedUserID: number = undefined;
   reservationsLoading: boolean = true;
   userReservations: Reservation[];
   waitingReservations: Reservation[];
@@ -33,38 +35,46 @@ export class ReservationListComponent implements OnInit {
     this.fetchUserType();
   }
   fetchUserType(): void{
-      this.subscription = this.userService.userChanged.subscribe(user=>{
+      this.userSubscription = this.userService.userChanged.subscribe(user=>{
         if(user){
-          this.userType = user.roles[0];
-          this.fetchReservations();
+          this.userType = user.roles;
+          this.fetchReservationsByUserType();
+          this.loggedUserID = user.id;
+          console.log('after ' + this.userType)
         }
       })
       this.userType = this.userService.getUserType();
-      this.fetchReservations();
-
+      this.loggedUserID = this.userService.getUser().id;
+      this.fetchReservationsByUserType();
+      console.log('before ' + this.userType)
   }
 
-  fetchReservations(): void{
-    this.dataStorageService.fetchAllReservations().subscribe();
-    // if(this.userType === 'ROLE_USER'){
-    //   this.dataStorageService.fetchUserReservations().subscribe();
-    // }
-    // else if(this.userType === 'ROLE_ADMIN'){
-    //   this.dataStorageService.fetchAllReservations().subscribe();
-    // }
+  fetchReservationsByUserType(): void{
+    if(this.userType && this.userType.includes('ROLE_USER')){
+      console.log('user...');
+      this.reservationService.fetchUserReservationsFromApi().subscribe(
+        response => {
+          this.userReservations = this.reservationService.fetchUserReservations();
+          this.reservationsLoading = false;
+        },
+        errorResponse => {}
+      );
+    }
+    if(this.userType && this.userType.includes('ROLE_ADMIN')){
+      console.log('vlasnik...');
+      if(this.reservationService.fetchAllReservationsFromService().length > 0){
+        this.reservationService.fetchAllReservationsFromApi().subscribe(
+          response => { this.reservationsLoading = false },
+          errorResponse => {}
+        );
+      }
+      this.reservationService.filterReservations(this.loggedUserID)
+    }
   }
 
-  // fetchReservations(): void{
-  //   this.userReservations = this.reservationService.fetchUserReservations();
-  //   this.waitingReservations = this.reservationService.fetchWaitingReservations();
-  //   this.acceptedReservations = this.reservationService.fetchAcceptedReservations();
-  //   this.rejectedReservations = this.reservationService.fetchRejectedReservations();
-  // }
-
-
-  // ngOnDestroy(): void {
-  //   //Called once, before the instance is destroyed.
-  //   //Add 'implements OnDestroy' to the class.
-  //   this.subscription.unsubscribe();
-  // }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.userSubscription.unsubscribe();
+  }
 }
