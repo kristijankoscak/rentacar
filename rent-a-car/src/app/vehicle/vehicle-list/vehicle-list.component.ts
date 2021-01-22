@@ -21,22 +21,30 @@ export class VehicleListComponent implements OnInit {
               private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.fetchVehicle();
     this.getParametersFromURL();
   }
   getParametersFromURL(): void{
     this.route.queryParams.subscribe((params: Params) => {
-      console.log(params)
-      this.http
-        .get<any>(
-          'https://sbdrustvo.com/filter',
-          {
-
-          }
-        )
-        .subscribe(responseData => {
-        });
-      });
+      if(/* params.location.length > 0 && params.start_date.length > 0 && params.end_date.length > 0 */
+        params.location !== undefined && params.start_date !== undefined && params.end_date !== undefined){
+        this.http
+            .post<Vehicle[]>(
+            'https://sbdrustvo.com/vehicles/filter',
+            {
+              location: params.location,
+              startTime: params.start_date,
+              endTime: params.end_date
+            })
+            .subscribe(responseData => {
+              this.vehicles = responseData;
+              console.log(this.vehicles)
+            });
+      }
+      else{
+        console.log("asd")
+        this.fetchVehicle();
+      }
+    });
   }
   fetchVehicle(): void {
     this.subscription = this.vehicleService.vehiclesChanged.subscribe(
@@ -48,6 +56,6 @@ export class VehicleListComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    //this.subscription.unsubscribe();
   }
 }

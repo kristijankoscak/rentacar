@@ -14,44 +14,48 @@ class="form-wrapper"
 fxLayout="column"
 fxLayoutAlign="space-between">
   <form
-  fxLayout=row>
-    <mat-form-field class="example-full-width">
-      <input type="text"
-            placeholder="Location"
-            aria-label="Number"
-            matInput
-            [formControl]="location"
-            [matAutocomplete]="auto">
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-      <mat-error *ngIf="location.invalid">Please enter location</mat-error>
-    </mat-form-field>
-
-    <mat-form-field
-    fxFlexOffset=1rem
-    (click)="picker.open()">
-      <mat-label>Start date</mat-label>
-      <input matInput [formControl]="start" [matDatepicker]="picker" [min]="todayDate">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="start.invalid">Please enter start date</mat-error>
-    </mat-form-field>
-
-    <mat-form-field
-    fxFlexOffset=1rem
-    (click)="picker1.open()">
-      <mat-label>End date</mat-label>
-      <input matInput [formControl]="end" [matDatepicker]="picker1" [min]="start.value" >
-      <mat-datepicker-toggle matSuffix ></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-      <mat-error *ngIf="end.invalid">{{getErrorMessage()}}</mat-error>
-    </mat-form-field>
-  </form>
-  <button
-  mat-stroked-button
-  (click)="openVehicleList()">
+  action=""
+  [formGroup]="filterForm"
+  (ngSubmit)="onSubmit(filterForm)"
+  fxLayout=column>
+    <div
+    fxLayout=row>
+      <mat-form-field class="example-full-width">
+        <input type="text"
+              placeholder="Location"
+              aria-label="Number"
+              matInput
+              formControlName="location"
+              [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="location.invalid">{{getLocationError()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field
+      fxFlexOffset=1rem
+      (click)="picker.open()">
+        <mat-label>Start date</mat-label>
+        <input matInput formControlName="start" [matDatepicker]="picker" [min]="todayDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="this.filterForm.controls.start.invalid">{{getStartDateErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field
+      fxFlexOffset=1rem
+      (click)="picker1.open()">
+        <mat-label>End date</mat-label>
+        <input matInput formControlName="end" [matDatepicker]="picker1" [min]="this.filterForm.controls.start.value" >
+        <mat-datepicker-toggle matSuffix ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error *ngIf="this.filterForm.controls.end.invalid">{{getEndDateErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+    <button
+  mat-stroked-button>
     Filter</button>
+  </form>
+  
 </div>

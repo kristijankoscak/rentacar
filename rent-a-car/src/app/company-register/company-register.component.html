@@ -39,7 +39,7 @@ fxLayoutGap=1rem>
           <input type="text"
             placeholder="City"
             matInput
-            [formControl]="city"
+            formControlName="city"
             [matAutocomplete]="auto">
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -55,7 +55,6 @@ fxLayoutGap=1rem>
           formControlName="address">
           <mat-icon matSuffix>place</mat-icon>
           <mat-error *ngIf="this.companyForm.controls.address.invalid">You must enter a value</mat-error>
-
         </mat-form-field>
         <mat-form-field>
           <mat-label>Phone number</mat-label>

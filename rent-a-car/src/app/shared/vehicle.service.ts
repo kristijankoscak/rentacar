@@ -6,13 +6,10 @@ import { Vehicle } from '../vehicle/vehicle.model';
   providedIn: 'root'
 })
 export class VehicleService {
-
-
   vehicles : Vehicle[] = [];
   specificVehicle: Vehicle;
   vehiclesChanged = new Subject<Vehicle[]>();
   vehicleIsPicked = new Subject<Vehicle>();
-
 
   constructor() { }
   setVehicles(vehicles: Vehicle[]): void {
