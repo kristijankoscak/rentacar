@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { Subscription } from 'rxjs';
 import { User } from '../auth/user.model';
 import { UserService } from '../auth/user.service';
 
@@ -11,27 +11,30 @@ import { UserService } from '../auth/user.service';
 })
 export class HeaderComponent implements OnInit {
 
- loggedUser: User = null;
+ loggedUser: User;
  userType: string = 'none';
+ subscription: Subscription;
 
   constructor(
     private router:Router,
-    private authService: AuthService,
     private userService: UserService
   ) { }
 
   ngOnInit(): void {
-    console.log(this.loggedUser)
-    this.authService.loggedUser.subscribe(user => {
+    this.subscription = this.userService.userChanged.subscribe(user => {
       this.loggedUser = user;
     })
     this.loggedUser = this.userService.getUser();
   }
 
   logout(): void{
+    this.router.navigate(['/home']);
     localStorage.removeItem('userToken');
-    this.authService.loggedUser.next(null);
-    this.userService.saveUser(null);
+    this.userService.saveUser(undefined);
+  }
+
+  ngOnDestroy(): void{
+    this.subscription.unsubscribe();
   }
 
 }

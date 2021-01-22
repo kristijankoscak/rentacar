@@ -29,6 +29,7 @@ const appRoutes: Routes = [
   {
     path: 'vehicle',
     component: VehicleComponent,
+    resolve: [AuthResolverService],
     children: [
       { path: '', component: VehicleListComponent , resolve: [VehicleResolverService]},
       { path: 'new', component: VehicleEditComponent },
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
   {
     path: 'reservation',
     component: ReservationComponent,
+    resolve: [AuthResolverService],
     children: [
       { path: '', component: ReservationListComponent },
       { path: ':id', component: ReservationDetailComponent },

@@ -9,15 +9,29 @@ import { User } from './user.model';
 })
 export class UserService {
 
-  loggedUser: User;
+  user: User = undefined;
+  userChanged = new Subject<User>();
   constructor() { }
 
 
   saveUser(user: User): void{
-    this.loggedUser = user;
+    this.user = user;
+    console.log(this.user)
+    this.userChanged.next(user);
+  }
+  removeUser(): void{
+    this.user = undefined;
   }
   getUser(): User{
-    return this.loggedUser;
+    return this.user;
+  }
+  getUserType(): string{
+    if(this.user === undefined){
+      return null;
+    }
+    else{
+      return this.user.roles[0];
+    }
   }
 
 }
