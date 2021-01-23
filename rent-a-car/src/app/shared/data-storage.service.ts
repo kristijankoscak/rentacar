@@ -111,7 +111,17 @@ export class DataStorageService {
   //     })
   //   );
   // }
-
+  fetchVehiclesByCarRentalId(id: string): Observable<Vehicle[]>{
+    return this.http
+            .get<Vehicle[]>(
+              'https://sbdrustvo.com/vehicles/filter/' + id)
+            .pipe(
+              tap((vehicles: Vehicle[]) => {
+                console.log("usao")
+                //this.vehicleService.setFilteredVehicles(vehicles);
+              })
+            );
+  }
 
 
 

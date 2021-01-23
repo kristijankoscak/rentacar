@@ -6,7 +6,7 @@ import { Vehicle } from '../vehicle/vehicle.model';
   providedIn: 'root'
 })
 export class VehicleService {
-  vehicles : Vehicle[] = [];
+  vehicles: Vehicle[] = [];
   filteredVehicles: Vehicle[]=[];
   specificVehicle: Vehicle;
   vehiclesChanged = new Subject<Vehicle[]>();
@@ -43,5 +43,9 @@ export class VehicleService {
   }
   getVehicle(id: number): Vehicle{
     return this.vehicles.find(vehicle => vehicle.id === id);
+  }
+  getVehiclesByRentalId(id: number): Vehicle[]{
+    const rentalVehicles = this.vehicles.filter(vehicle => vehicle.carRental.id === id);
+    return rentalVehicles;
   }
 }
