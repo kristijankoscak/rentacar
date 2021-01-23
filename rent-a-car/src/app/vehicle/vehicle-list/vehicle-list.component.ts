@@ -18,35 +18,32 @@ export class VehicleListComponent implements OnInit {
 
   constructor(private vehicleService: VehicleService,
               private route: ActivatedRoute,
-              private http: HttpClient) { }
+              private http: HttpClient,
+              private dataStorageService: DataStorageService) { }
 
   ngOnInit(): void {
     this.getParametersFromURL();
   }
   getParametersFromURL(): void{
     this.route.queryParams.subscribe((params: Params) => {
-      if(/* params.location.length > 0 && params.start_date.length > 0 && params.end_date.length > 0 */
-        params.location !== undefined && params.start_date !== undefined && params.end_date !== undefined){
-        this.http
-            .post<Vehicle[]>(
-            'https://sbdrustvo.com/vehicles/filter',
-            {
-              location: params.location,
-              startTime: params.start_date,
-              endTime: params.end_date
-            })
-            .subscribe(responseData => {
-              this.vehicles = responseData;
-              console.log(this.vehicles)
-            });
+      if(params.location !== undefined && params.start_date !== undefined && params.end_date !== undefined){
+        this.fetchVehicleByParameters();
       }
       else{
-        console.log("asd")
-        this.fetchVehicle();
+        this.fetchAllVehicles();
       }
     });
   }
-  fetchVehicle(): void {
+
+  fetchVehicleByParameters(): void{
+    this.subscription = this.vehicleService.vehiclesChanged.subscribe(
+      ((vehicles: Vehicle[]) => {
+        this.vehicles = vehicles;
+      })
+    );
+    this.vehicles = this.vehicleService.getFilteredVehicles();
+  }
+  fetchAllVehicles(): void {
     this.subscription = this.vehicleService.vehiclesChanged.subscribe(
       ((vehicles: Vehicle[]) => {
         this.vehicles = vehicles;
@@ -56,6 +53,6 @@ export class VehicleListComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    //this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

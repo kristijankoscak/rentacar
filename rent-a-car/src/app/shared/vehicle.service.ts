@@ -7,6 +7,7 @@ import { Vehicle } from '../vehicle/vehicle.model';
 })
 export class VehicleService {
   vehicles : Vehicle[] = [];
+  filteredVehicles: Vehicle[]=[];
   specificVehicle: Vehicle;
   vehiclesChanged = new Subject<Vehicle[]>();
   vehicleIsPicked = new Subject<Vehicle>();
@@ -17,8 +18,16 @@ export class VehicleService {
     this.vehiclesChanged.next(this.vehicles.slice());
     console.log(this.vehicles);
   }
+  setFilteredVehicles(vehicles: Vehicle[]): void {
+    this.filteredVehicles = vehicles;
+    this.vehiclesChanged.next(this.filteredVehicles.slice());
+    console.log(this.filteredVehicles);
+  }
   getVehicles(): Vehicle[]{
     return this.vehicles;
+  }
+  getFilteredVehicles(): Vehicle[]{
+    return this.filteredVehicles;
   }
   getVehiclesByCarRental(carRentalName: string): Vehicle[]{
     return this.vehicles.filter(vehicle => vehicle.carRental.name === carRentalName);
