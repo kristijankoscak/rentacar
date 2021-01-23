@@ -27,13 +27,13 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>Model year:</mat-label>
-            <input type="number" matInput formControlName="model_year" />
-            <mat-error *ngIf="vehicleForm.controls.model_year.invalid">* Field is required!</mat-error>
+            <input type="number" matInput formControlName="modelYear" />
+            <mat-error *ngIf="vehicleForm.controls.modelYear.invalid">* Field is required!</mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Manufacture year:</mat-label>
-            <input type="number" matInput formControlName="manufacture_year" />
-            <mat-error *ngIf="vehicleForm.controls.manufacture_year.invalid">* Field is required!</mat-error>
+            <input type="number" matInput formControlName="manufactureYear" />
+            <mat-error *ngIf="vehicleForm.controls.manufactureYear.invalid">* Field is required!</mat-error>
           </mat-form-field>
         </div>
         <div fxLayout="column">
@@ -92,18 +92,18 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>Fuel type:</mat-label>
-            <mat-select formControlName="fuel_type">
+            <mat-select formControlName="fuelType">
               <mat-option *ngFor="let fuel of fuelTypes" [value]="fuel.value">
                 {{ fuel.value }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="vehicleForm.controls.fuel_type.invalid">* Field is required!</mat-error>
+            <mat-error *ngIf="vehicleForm.controls.fuelType.invalid">* Field is required!</mat-error>
           </mat-form-field>
         </div>
         <div fxLayout="column">
           <mat-form-field>
             <mat-label>Gate number:</mat-label>
-            <input type="number" matInput formControlName="gate_number" />
+            <input type="number" matInput formControlName="gateNumber" />
             <mat-error *ngIf="vehicleForm.controls.power.invalid">* Field is required!</mat-error>
           </mat-form-field>
           <mat-form-field>
@@ -127,7 +127,7 @@
             </button>
           </div>
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem" [hidden]="!imagesAreUploaded && screenType === 'edit'">
-            <img *ngFor="let imagePath of uploadedImages; let i = index" src="{{ imagePath }}" class="uploaded-image"
+            <img *ngFor="let imagePath of uploadedImages; let i = index" src="{{ imagePath.base64 }}" class="uploaded-image"
             (click)="pickCoverImage(i)"/>
           </div>
         </div>
@@ -138,11 +138,11 @@
           <span *ngIf="uploadedImages.length > 0">Chose cover image by clicking on it.</span>
           <input required #imagesUploader hidden type="file" multiple (change)="handleImageSelect($event)" />
           <button class="action-button add-vehicle" type="submit" mat-flat-button *ngIf="screenType === 'add'"
-            [disabled]="!formIsValid || this.coverImage === ''">
+            [disabled]="!formIsValid || !this.coverIsPicked">
             <mat-icon>add</mat-icon>
           </button>
           <button class="action-button add-vehicle" type="submit" mat-flat-button *ngIf="screenType === 'edit'"
-            [disabled]="!formIsValid || this.coverImage === ''">
+            [disabled]="!formIsValid || !this.coverIsPicked">
             <mat-icon>edit</mat-icon>
           </button>
         </div>

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
-import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Reservation } from '../reservation.model';
 import { ReservationService } from '../reservation.service';
 
@@ -16,8 +14,7 @@ export class ReservationListComponent implements OnInit {
 
   userSubscription: Subscription;
   reservationsSubscription: Subscription;
-  userType: string[] = undefined;
-  loggedUserID: number = undefined;
+  loggedUser: User = undefined;
   reservationsLoading: boolean = true;
   userReservations: Reservation[];
   waitingReservations: Reservation[];
@@ -26,9 +23,7 @@ export class ReservationListComponent implements OnInit {
 
 
   constructor(
-    private authService: AuthService,
     private userService: UserService,
-    private dataStorageService: DataStorageService,
     private reservationService: ReservationService
     ) {}
 
@@ -38,18 +33,16 @@ export class ReservationListComponent implements OnInit {
   fetchUserType(): void{
       this.userSubscription = this.userService.userChanged.subscribe(user=>{
         if(user){
-          this.userType = user.roles;
-          this.loggedUserID = user.id;
+          this.loggedUser = user;
           this.fetchReservationsByUserType();
         }
       })
-      this.userType = this.userService.getUserType();
-      this.loggedUserID = this.userService.getUser().id;
+      this.loggedUser = this.userService.getUser();
       this.fetchReservationsByUserType();
   }
+
   fetchReservationsByUserType(): void{
-    if(this.userType && this.userType.includes('ROLE_USER')){
-      console.log('user...');
+    if(this.loggedUser && this.loggedUser.roles.includes('ROLE_USER')){;
       this.reservationService.fetchUserReservationsFromApi().subscribe(
         response => {
           this.userReservations = this.reservationService.fetchUserReservations();
@@ -62,21 +55,18 @@ export class ReservationListComponent implements OnInit {
          }
       );
     }
-    if(this.userType && this.userType.includes('ROLE_ADMIN')){
-      console.log('vlasnik...');
+    if(this.loggedUser && this.loggedUser.roles.includes('ROLE_ADMIN')){
       if(this.reservationService.fetchAllReservations().length === 0){
-        console.log('uso')
-        this.reservationService.fetchAllReservationsFromApi().subscribe(
-          response => {
-            this.reservationsLoading = false
-            this.reservationService.filterReservations(this.loggedUserID);
-            this.fetchRentalCarReservations();
-           },
-          errorResponse => {}
-        );
+        this.reservationsSubscription = this.reservationService.allReservationsChanged.subscribe(reservations => {
+          this.reservationsLoading = false
+          this.reservationService.filterReservations(this.loggedUser.id);
+          this.fetchRentalCarReservations();
+        })
       }
-      this.reservationService.filterReservations(this.loggedUserID);
-      this.fetchRentalCarReservations();
+      else{
+        this.reservationService.filterReservations(this.loggedUser.id);
+        this.fetchRentalCarReservations();
+      }
     }
   }
   fetchRentalCarReservations(): void{

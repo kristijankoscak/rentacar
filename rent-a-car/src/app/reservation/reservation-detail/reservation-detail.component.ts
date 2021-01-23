@@ -32,7 +32,6 @@ export class ReservationDetailComponent implements OnInit {
   ngOnInit(): void {
     this.fetchReservationID();
     this.fetchReservation();
-    // this.fetchReservation();
     this.fetchVehicle();
   }
 
@@ -43,11 +42,10 @@ export class ReservationDetailComponent implements OnInit {
     this.reservationSubscription = this.reservationService.allReservationsChanged.subscribe((reservations) => {
       this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
       this.loggedUser = this.userService.getUser();
-      console.log('promjena')
     })
-    console.log('postoji...')
     this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
     this.loggedUser = this.userService.getUser();
+    this.shortMessage = this.reservation.info;
   }
   fetchVehicle(): void{
     this.vehicle = this.vehicleService.getVehicle(this.reservation.vehicle.id);
@@ -56,7 +54,7 @@ export class ReservationDetailComponent implements OnInit {
     let formatedDate = '';
     let tempDate = new Date(date.date);
     formatedDate += tempDate.getDate() + "."
-    formatedDate += tempDate.getMonth() + "."
+    formatedDate += (tempDate.getMonth()+1) + "."
     formatedDate += tempDate.getFullYear() + "."
     return formatedDate;
   }
@@ -74,12 +72,12 @@ export class ReservationDetailComponent implements OnInit {
     this.reservationService.cancelUserReservation(this.reservation);
   }
   approveReservation(): void{
-    const status = "accepted";
-    this.reservationService.updateReservation(this.reservationID,status,this.shortMessage).subscribe();
+    const status = "Accepted";
+    this.reservationService.updateReservation(this.loggedUser.id,this.reservationID,status,this.shortMessage);
   }
   rejectReservation(): void{
-    const status = "rejected";
-    this.reservationService.updateReservation(this.reservationID,status,this.shortMessage).subscribe();
+    const status = "Rejected";
+    this.reservationService.updateReservation(this.loggedUser.id,this.reservationID,status,this.shortMessage);
   }
 
   ngOnDestroy(): void {

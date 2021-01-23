@@ -56,13 +56,13 @@ export class ReservationService {
   filterReservations(userID: number): void{
     this.resetReservations();
     this.allReservations.forEach(reservation => {
-      if(reservation.status === 'waiting' && userID === reservation.vehicle.carRental.owner.id){
+      if(reservation.status === 'Waiting' && userID === reservation.vehicle.carRental.owner.id){
         this.waitingReservations.push(reservation);
       }
-      else if(reservation.status === 'accepted'  && userID === reservation.vehicle.carRental.owner.id){
+      else if(reservation.status === 'Accepted'  && userID === reservation.vehicle.carRental.owner.id){
         this.acceptedReservations.push(reservation);
       }
-      else if(reservation.status === 'rejected'  && userID === reservation.vehicle.carRental.owner.id){
+      else if(reservation.status === 'Rejected'  && userID === reservation.vehicle.carRental.owner.id){
         this.rejectedReservations.push(reservation);
       }
     })
@@ -113,19 +113,33 @@ export class ReservationService {
       })
     );
   }
-  updateReservation(id:number,status:string,message:string): Observable<string>{
+  updateReservation(loggedUserID:number ,id:number,status:string,message:string): void{
+    this.updateReservationLocal(loggedUserID,id,status,message);
+    this.updateReservationInDataBase(id,status,message).subscribe();
+  }
+
+  updateReservationLocal(loggedUserID:number,id:number,status:string,message:string): void{
+    this.allReservations.find(reservation => {
+      if(reservation.id === id){
+        reservation.info = message;
+        reservation.status = status;
+      }
+    })
+    this.filterReservations(loggedUserID);
+  }
+  updateReservationInDataBase(id:number,status:string,message:string): Observable<string>{
     return this.http
-    .patch<string>(
-      environment.apiUrl + '/reservations/'+id,
+    .put<string>(
+      environment.apiUrl + '/reservations/update/'+id,
       {
         status: status,
-        message: message
+        info: message
       }
     )
     .pipe(
       tap(
         (response: string) => {
-          console.log(response);
+          this.router.navigate(['/reservation']);
         },
         (errorResponse: string)=> {
           console.log(errorResponse)
@@ -135,12 +149,11 @@ export class ReservationService {
   }
   cancelUserReservation(reservation: Reservation): void{
     this.removeReservationFromLocal(reservation);
-    // this.removeReservationInDataBase(reservation).subscribe();
+    this.removeReservationInDataBase(reservation).subscribe();
   }
   removeReservationFromLocal(reservation: Reservation): void{
     this.allReservations = this.allReservations.filter(res => res !== reservation);
     this.allReservationsChanged.next(this.allReservations);
-    this.removeReservationInDataBase(reservation).subscribe();
   }
   removeReservationInDataBase(reservation: Reservation): Observable<string>{
     console.log('uso ,id: '+reservation.id)

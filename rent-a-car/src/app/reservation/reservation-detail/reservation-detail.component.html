@@ -24,7 +24,7 @@
         <span class="text-size-16 break-word">Collection date: {{getDate(reservation.startTime)}}</span>
         <span class="text-size-16 break-word">Return date: {{getDate(reservation.endTime)}}</span>
         <span class="text-size-16 break-word">Rezervations status: {{reservation.status}}</span>
-        <span class="text-size-16 break-word" *ngIf="reservation.status !== 'waiting'">Notice: {{ reservation.status}}</span>
+        <span class="text-size-16 break-word" *ngIf="reservation.status !== 'waiting'">Notice: {{ reservation.info}}</span>
       </div>
     </div>
   </div>
@@ -53,19 +53,19 @@
       <mat-icon>security</mat-icon>
     </div>
     <div fxLayout="row" class="bg-white rounded-borders" fxFlex="100" fxLayoutAlign="center center" fxLayoutGap="8rem">
-      <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.user.id">
-        <span class="text-size-16 break-word">Korisničke opcije:</span>
+      <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.user.id && reservation.status === 'Waiting'">
+        <span class="text-size-16 break-word">User options:</span>
         <button mat-raised-button class="button-decline" (click)="cancelMyReservation()">Cancel</button>
       </div>
       <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.vehicle.carRental.owner.id">
-        <span class="text-size-16 break-word">Djelatnikove opcije:</span>
+        <span class="text-size-16 break-word">Worker options:</span>
         <button mat-raised-button class="button-approve" (click)="approveReservation()">Accept</button>
         <button mat-raised-button class="button-decline" (click)="rejectReservation()">Reject</button>
       </div>
       <div fxLayout="column" class="color-white" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.vehicle.carRental.owner.id">
-        <span class="text-size-16 break-word">Kratka napomena:</span>
+        <span class="text-size-16 break-word">Short message:</span>
         <mat-form-field class="example-full-width" hei>
-          <mat-label>Ostavite komentar...</mat-label>
+          <mat-label>Leave message...</mat-label>
           <textarea matInput placeholder="..." [(ngModel)]="shortMessage"></textarea>
         </mat-form-field>
       </div>

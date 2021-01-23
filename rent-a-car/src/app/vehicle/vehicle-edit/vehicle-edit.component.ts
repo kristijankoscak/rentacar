@@ -1,8 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { ViewChild } from '@angular/core';
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Image } from 'src/app/shared/image.model';
+import { VehicleService } from 'src/app/shared/vehicle.service';
+import { environment } from 'src/environments/environment';
 import { Vehicle } from '../vehicle.model';
 
 @Component({
@@ -13,20 +18,21 @@ import { Vehicle } from '../vehicle.model';
 export class VehicleEditComponent implements OnInit {
 
   constructor(
+    private http: HttpClient,
     private element: ElementRef,
     private renderer: Renderer2,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private vehicleService: VehicleService
   ) { }
 
   imagesAreUploaded: boolean = false;
+  coverIsPicked: boolean = false;
   screenType: string;
   vehicleID: number;
   vehicle: any;
   formIsValid: boolean = false;
   vehicleForm: FormGroup;
-  uploadedImages: string[] = [];
-  coverImage: string = '';
-  otherImages: string[] = [];
+  uploadedImages: Image[] = [];
   @ViewChild('imagesUploader') imagesUploader;
 
   marks = [
@@ -38,7 +44,9 @@ export class VehicleEditComponent implements OnInit {
     { value: 'Volvo' },
     { value: 'Volkswagen' },
     { value: 'Fiat' },
-    { value: 'Renault' }
+    { value: 'Renault' },
+    { value: 'Ford' },
+    { value: 'Toyota' }
   ];
   colors = [
     { value: 'Red' },
@@ -85,8 +93,8 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleForm = new FormGroup({
       mark: new FormControl(null, [Validators.required]),
       model: new FormControl(null, [Validators.required]),
-      model_year: new FormControl(null, [Validators.required]),
-      manufacture_year: new FormControl(null, [Validators.required]),
+      modelYear: new FormControl(null, [Validators.required]),
+      manufactureYear: new FormControl(null, [Validators.required]),
       gears: new FormControl(null, [Validators.required]),
       color: new FormControl(null, [Validators.required]),
       gearbox: new FormControl(null, [Validators.required]),
@@ -94,9 +102,9 @@ export class VehicleEditComponent implements OnInit {
       power: new FormControl(null, [Validators.required]),
       type: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
-      fuel_type: new FormControl(null, [Validators.required]),
+      fuelType: new FormControl(null, [Validators.required]),
       discount: new FormControl(null, [Validators.required]),
-      gate_number: new FormControl(null, [Validators.required])
+      gateNumber: new FormControl(null, [Validators.required])
     });
     this.validateForm();
   }
@@ -115,7 +123,7 @@ export class VehicleEditComponent implements OnInit {
     if (id) {
       this.vehicleID = id;
       this.screenType = 'edit';
-      //this.vehicle = this.fetchVehicleByID();
+      this.vehicle = this.vehicleService.getVehicle(this.vehicleID)
       this.fillInputs();
     }
     else {
@@ -123,44 +131,65 @@ export class VehicleEditComponent implements OnInit {
     }
   }
   // fetchVehicleByID(): Vehicle {
-    
+
   //   return tempVehicle;
   // }
   fillInputs(): void {
     this.vehicleForm.controls.mark.setValue(this.vehicle.mark);
     this.vehicleForm.controls.model.setValue(this.vehicle.model);
-    this.vehicleForm.controls.model_year.setValue(this.vehicle.model_year);
-    this.vehicleForm.controls.manufacture_year.setValue(this.vehicle.manufacture_year);
+    this.vehicleForm.controls.modelYear.setValue(this.getYear(this.vehicle.modelYear));
+    this.vehicleForm.controls.manufactureYear.setValue(this.getYear(this.vehicle.manufactureYear));
     this.vehicleForm.controls.gears.setValue(this.vehicle.gears);
-    this.vehicleForm.controls.color.setValue(this.vehicle.color);
+    this.vehicleForm.controls.color.setValue(this.handleColorsSelect(this.vehicle.color));
     this.vehicleForm.controls.gearbox.setValue(this.vehicle.gearbox);
     this.vehicleForm.controls.status.setValue(this.vehicle.status);
     this.vehicleForm.controls.power.setValue(this.vehicle.power);
-    this.vehicleForm.controls.type.setValue(this.vehicle.type);
+    this.vehicleForm.controls.type.setValue(this.handleTypeSelect(this.vehicle.type));
     this.vehicleForm.controls.price.setValue(this.vehicle.price);
-    this.vehicleForm.controls.fuel_type.setValue(this.vehicle.fuel_type);
-    this.vehicleForm.controls.gate_number.setValue(this.vehicle.gate_number);
+    this.vehicleForm.controls.fuelType.setValue(this.vehicle.fuelType);
+    this.vehicleForm.controls.gateNumber.setValue(this.vehicle.gateNumber);
     this.vehicleForm.controls.discount.setValue(this.vehicle.discount);
     this.setImages();
   }
-  setImages(): void {
-    this.coverImage = this.vehicle.coverImage;
-    this.otherImages = this.vehicle.otherImages;
-    this.uploadedImages.push(this.coverImage);
-    this.uploadedImages = this.uploadedImages.concat(this.otherImages);
-    this.setCover();
+  getYear(date:any): number{
+    let tempDate = new Date(date.date);
+   let year = +tempDate.getFullYear();
+    return year;
   }
-  setCover(): void {
-    setTimeout(() => {
-      this.uploadedImages.forEach((image, index) => {
-        if (image === this.coverImage) {
-          this.addBackgroundToCoverImage(index);
-        }
-      })
-    }, 1000);
+  setImages(): void {
+    this.filterImages(this.vehicle.images);
+  }
+  filterImages(images: Image[]): void {
+    let coverIndex = 0;
+    images.forEach((image,index) =>{
+      if(image.isCover){
+        coverIndex = index;
+      }
+      this.uploadedImages.push(image);
+    })
+    this.imagesAreUploaded = true;
+    this.coverIsPicked = true;
     setTimeout(()=>{
-      this.imagesAreUploaded = true;
-    },1000);
+      this.pickCoverImage(coverIndex);
+    },500);
+  }
+  handleColorsSelect(value: string): string{
+    let tempColor:string = '';
+    this.colors.forEach((color) => {
+      if(color.value.toUpperCase() === value.toUpperCase()){
+        tempColor = color.value;
+      }
+    })
+    return tempColor;
+  }
+  handleTypeSelect(value: string): string{
+    let tempType:string = '';
+    this.types.forEach((type) => {
+      if(type.value.toUpperCase() === value.toUpperCase()){
+        tempType = type.value;
+      }
+    })
+    return tempType;
   }
 
   handleImageSelect(event): void {
@@ -171,14 +200,15 @@ export class VehicleEditComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event: any) => {
-        this.uploadedImages.push(reader.result as string);
+        this.uploadedImages.push({isCover: false, base64: reader.result as string});
       }
     })
   }
   pickCoverImage(index): void {
     this.removeBackgroundFromImages();
-    this.coverImage = this.uploadedImages[index];
-    this.otherImages = this.fetchOtherImages(index);
+    this.coverIsPicked = true;
+    this.uploadedImages.forEach(image => image.isCover = false);
+    this.uploadedImages[index].isCover = true;
     this.addBackgroundToCoverImage(index);
   }
   removeBackgroundFromImages(): void {
@@ -191,28 +221,29 @@ export class VehicleEditComponent implements OnInit {
     let element = this.element.nativeElement.querySelectorAll('.uploaded-image')[index];
     this.renderer.addClass(element, 'cover-image');
   }
-  fetchOtherImages(coverIndex): string[] {
-    let tempImages: string[] = [];
-    this.uploadedImages.forEach((imagePath, index) => {
-      if (index != coverIndex) {
-        tempImages.push(imagePath);
-      }
-    })
-    return tempImages;
-  }
+  // fetchOtherImages(coverIndex): string[] {
+  //   let tempImages: string[] = [];
+  //   this.uploadedImages.forEach((imagePath, index) => {
+  //     if (index != coverIndex) {
+  //       tempImages.push(imagePath);
+  //     }
+  //   })
+  //   return tempImages;
+  // }
   removeImages(): void {
     this.imagesUploader.nativeElement.value = '';
     this.uploadedImages = [];
-    this.coverImage = '';
-    this.otherImages = [];
+    this.coverIsPicked = false;
   }
   addNewVehicle(): void {
     let vehicle = {
-      ...this.vehicleForm.value,
-      coverImage: this.coverImage,
-      otherImages: this.otherImages
+      ...this.vehicleForm.value
     };
     if (this.screenType === 'add') {
+      vehicle = {
+        ...vehicle,
+        images: this.uploadedImages
+      }
       console.log('add...');
       console.log(vehicle);
     }
@@ -221,15 +252,40 @@ export class VehicleEditComponent implements OnInit {
         ...vehicle,
         id: this.vehicle.id
       }
-      if((this.vehicle.coverImage === vehicle.coverImage) || (this.vehicle.otherImages === vehicle.otherImages)){
+      if((this.vehicle.images === this.uploadedImages)){
+        console.log('iste')
+      }
+      else{
+        // this.
         vehicle = {
           ...vehicle,
-          coverImage:null,
-          otherImages: null
+          images: this.uploadedImages
         }
+        console.log(vehicle);
+
+        this.updateVehicle(vehicle).subscribe();
       }
-      console.log(vehicle);
+      // console.log(this.uploadedImages)
+      // console.log(this.vehicle.images);
     }
 
+  }
+
+  updateVehicle(vehicle:any): Observable<any>{
+    return this.http
+    .put<string>(
+      environment.apiUrl + '/vehicles/'+this.vehicle.id,
+      vehicle
+    )
+    .pipe(
+      tap(
+        (response: string) => {
+          console.log(response);
+        },
+        (errorResponse: string)=> {
+          console.log(errorResponse)
+        }
+      )
+    );
   }
 }

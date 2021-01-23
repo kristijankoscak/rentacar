@@ -24,9 +24,12 @@ export class ReservationItemComponent implements OnInit {
     let formatedDate = '';
     let tempDate = new Date(date.date);
     formatedDate += tempDate.getDate() + "."
-    formatedDate += tempDate.getMonth() + "."
+    formatedDate += (tempDate.getMonth()+1) + "."
     formatedDate += tempDate.getFullYear() + "."
     return formatedDate;
+  }
+  fetchNewPrice(): number{
+    return this.reservation.vehicle.price - this.reservation.vehicle.price*(this.reservation.vehicle.discount/100);
   }
 
   navigateToDetailedReservation(): void{
