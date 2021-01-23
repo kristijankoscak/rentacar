@@ -12,7 +12,7 @@ export class ReservationResolverService implements Resolve<Reservation[]>{
   ) { }
 
   resolve(): Reservation[]{
-    const reservations = this.reservationService.fetchAllReservationsFromService();
+    const reservations = this.reservationService.fetchAllReservations();
     if (reservations.length === 0) {
       this.reservationService.fetchAllReservationsFromApi().subscribe(
         userData => { },

@@ -1,5 +1,5 @@
 .reservation-list-container{
-  width: 60rem;
+  width: 62rem;
   height: 80vh;
   margin-top: 5vh;
   background-color: white;
@@ -31,4 +31,11 @@
 
 ::ng-deep .mat-ink-bar{
   background-color: #7294ae !important;
+}
+mat-tab-group > ::ng-deep .mat-tab-header{
+  height:3rem;
+}
+mat-tab-group > ::ng-deep .mat-tab-body-wrapper{
+  overflow-y:scroll;
+  height: calc(80vh - 5rem);
 }

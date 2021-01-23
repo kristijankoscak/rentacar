@@ -33,7 +33,7 @@
         <mat-icon>directions_car</mat-icon>
       </div>
       <div fxLayout="row" class="bg-white rounded-borders" fxFlex="99" fxLayoutAlign="space-evenly center">
-        <!-- <div class="vehicle-image" [ngStyle]="{'background-image': 'url(' + vehicle.coverImage + ')'}" routerLink="/vehicle/{{vehicle.id}}"></div>-->
+        <img class="vehicle-image" [src]="vehicle.images[0].base64" routerLink="/vehicle/{{vehicle.id}}">
         <div fxLayout="column">
           <span class="text-size-16 break-word">Mark: {{reservation.vehicle.mark}}</span>
           <span class="text-size-16 break-word">Model: {{reservation.vehicle.model}}</span>
@@ -55,18 +55,18 @@
     <div fxLayout="row" class="bg-white rounded-borders" fxFlex="100" fxLayoutAlign="center center" fxLayoutGap="8rem">
       <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.user.id">
         <span class="text-size-16 break-word">Korisničke opcije:</span>
-        <button mat-raised-button class="button-decline" (click)="cancelMyReservation()">Poništi</button>
+        <button mat-raised-button class="button-decline" (click)="cancelMyReservation()">Cancel</button>
       </div>
-      <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.user.id">
+      <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.vehicle.carRental.owner.id">
         <span class="text-size-16 break-word">Djelatnikove opcije:</span>
-        <button mat-raised-button class="button-approve">Prihvati</button>
-        <button mat-raised-button class="button-decline">Odbij</button>
+        <button mat-raised-button class="button-approve" (click)="approveReservation()">Accept</button>
+        <button mat-raised-button class="button-decline" (click)="rejectReservation()">Reject</button>
       </div>
       <div fxLayout="column" class="color-white" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.vehicle.carRental.owner.id">
         <span class="text-size-16 break-word">Kratka napomena:</span>
         <mat-form-field class="example-full-width" hei>
           <mat-label>Ostavite komentar...</mat-label>
-          <textarea matInput placeholder="..."></textarea>
+          <textarea matInput placeholder="..." [(ngModel)]="shortMessage"></textarea>
         </mat-form-field>
       </div>
     </div>

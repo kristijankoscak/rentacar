@@ -12,13 +12,9 @@ import { Reservation } from './reservation.model';
 })
 export class ReservationService {
 
-  // for example only, there will be route for fetching reservation by ID !!!
-  // { id: 57, user_id: 12, vehicle_id: 225, start_time: new Date(2021, 3, 15), end_time: new Date(2021, 3, 18), is_approved: 0 },
-
   allReservations: Reservation[] = [];
   allReservationsChanged = new Subject<Reservation[]>();
   userReservations: Reservation[] = [];
-  userReservationsChanged = new Subject<Reservation[]>();
   waitingReservations: Reservation[] = [];
   acceptedReservations: Reservation[] = [];
   rejectedReservations: Reservation[] = [];
@@ -32,45 +28,51 @@ export class ReservationService {
   saveAllReservations(reservations: Reservation[]): void{
     this.allReservations = reservations;
     this.allReservationsChanged.next(reservations);
-    this.filterReservations();
+    console.log(this.allReservations);
   }
   saveUserReservations(reservations: Reservation[]): void {
     this.userReservations = reservations;
-    this.userReservationsChanged.next(reservations);
   }
 
-  fetchAllReservationsFromService(): Reservation[] {
+  fetchAllReservations(): Reservation[] {
     return this.allReservations;
   }
   fetchUserReservations(): Reservation[] {
     return this.userReservations;
   }
-  // fetchWaitingReservations(): Reservation[] {
-  //   return this.waitingReservations;
-  // }
-  // fetchAcceptedReservations(): Reservation[] {
-  //   return this.acceptedReservations;
-  // }
-  // fetchRejectedReservations(): Reservation[] {
-  //   return this.rejectedReservations;
-  // }
+  fetchWaitingReservations(): Reservation[] {
+    return this.waitingReservations;
+  }
+  fetchAcceptedReservations(): Reservation[] {
+    return this.acceptedReservations;
+  }
+  fetchRejectedReservations(): Reservation[] {
+    return this.rejectedReservations;
+  }
   fetchReservationByID(id:number): Reservation {
     return this.allReservations.find( reservation => {return reservation.id === id});
   }
 
   filterReservations(userID: number): void{
+    this.resetReservations();
     this.allReservations.forEach(reservation => {
       if(reservation.status === 'waiting' && userID === reservation.vehicle.carRental.owner.id){
         this.waitingReservations.push(reservation);
       }
-      else if(reservation.status === 'accepted'){
+      else if(reservation.status === 'accepted'  && userID === reservation.vehicle.carRental.owner.id){
         this.acceptedReservations.push(reservation);
       }
-      else if(reservation.status === 'rejected'){
+      else if(reservation.status === 'rejected'  && userID === reservation.vehicle.carRental.owner.id){
         this.rejectedReservations.push(reservation);
       }
     })
   }
+  resetReservations(): void{
+    this.acceptedReservations = [];
+    this.waitingReservations = [];
+    this.rejectedReservations = [];
+  }
+
   fetchAllReservationsFromApi(): Observable<Reservation []>{
     console.log('dohvaćam sve rezervacije api...')
     return this.http
@@ -79,10 +81,9 @@ export class ReservationService {
     )
     .pipe(
       map(reservations => {
-        console.log(reservations)
         return reservations.map(reservation => {
           return {
-            id: reservation.id,
+            ...reservation,
             user: {
               id: reservation.user.id,
               email: reservation.user.email,
@@ -90,14 +91,7 @@ export class ReservationService {
               birthday: reservation.user.birthday,
               firstName: reservation.user.firstName,
               lastName: reservation.user.lastName
-            },
-            vehicle: reservation.vehicle,
-            startTime: reservation.startTime,
-            endTime: reservation.endTime,
-            status: reservation.status,
-            paymentMethod: reservation.paymentMethod,
-            paymentAmount: reservation.paymentAmount,
-            info: reservation.info
+            }
           }
         })
       }),
@@ -119,15 +113,14 @@ export class ReservationService {
       })
     );
   }
-
-  cancelUserReservation(reservation: Reservation): void{
-    this.removeReservationInDataBase(reservation);
-  }
-  removeReservationInDataBase(reservation: Reservation): Observable<string>{
-    console.log('uso ,id: '+reservation.id)
+  updateReservation(id:number,status:string,message:string): Observable<string>{
     return this.http
-    .delete<string>(
-      environment.apiUrl + '/reservations/5'
+    .patch<string>(
+      environment.apiUrl + '/reservations/'+id,
+      {
+        status: status,
+        message: message
+      }
     )
     .pipe(
       tap(
@@ -137,6 +130,28 @@ export class ReservationService {
         (errorResponse: string)=> {
           console.log(errorResponse)
         }
+      )
+    );
+  }
+  cancelUserReservation(reservation: Reservation): void{
+    this.removeReservationFromLocal(reservation);
+    // this.removeReservationInDataBase(reservation).subscribe();
+  }
+  removeReservationFromLocal(reservation: Reservation): void{
+    this.allReservations = this.allReservations.filter(res => res !== reservation);
+    this.allReservationsChanged.next(this.allReservations);
+    this.removeReservationInDataBase(reservation).subscribe();
+  }
+  removeReservationInDataBase(reservation: Reservation): Observable<string>{
+    console.log('uso ,id: '+reservation.id)
+    return this.http
+    .delete<string>(
+      environment.apiUrl + '/reservations/'+reservation.id
+    )
+    .pipe(
+      tap(
+        (response: string) => { this.router.navigate(['/reservation']); },
+        (errorResponse: string)=> { }
       )
     );
   }

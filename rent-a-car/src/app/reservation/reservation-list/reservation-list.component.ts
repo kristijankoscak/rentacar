@@ -15,6 +15,7 @@ import { ReservationService } from '../reservation.service';
 export class ReservationListComponent implements OnInit {
 
   userSubscription: Subscription;
+  reservationsSubscription: Subscription;
   userType: string[] = undefined;
   loggedUserID: number = undefined;
   reservationsLoading: boolean = true;
@@ -38,17 +39,14 @@ export class ReservationListComponent implements OnInit {
       this.userSubscription = this.userService.userChanged.subscribe(user=>{
         if(user){
           this.userType = user.roles;
-          this.fetchReservationsByUserType();
           this.loggedUserID = user.id;
-          console.log('after ' + this.userType)
+          this.fetchReservationsByUserType();
         }
       })
       this.userType = this.userService.getUserType();
       this.loggedUserID = this.userService.getUser().id;
       this.fetchReservationsByUserType();
-      console.log('before ' + this.userType)
   }
-
   fetchReservationsByUserType(): void{
     if(this.userType && this.userType.includes('ROLE_USER')){
       console.log('user...');
@@ -57,24 +55,37 @@ export class ReservationListComponent implements OnInit {
           this.userReservations = this.reservationService.fetchUserReservations();
           this.reservationsLoading = false;
         },
-        errorResponse => {}
+        errorResponse => {
+          if(errorResponse.error === 'no reservations'){
+            this.reservationsLoading = false;
+          }
+         }
       );
     }
     if(this.userType && this.userType.includes('ROLE_ADMIN')){
       console.log('vlasnik...');
-      if(this.reservationService.fetchAllReservationsFromService().length > 0){
+      if(this.reservationService.fetchAllReservations().length === 0){
+        console.log('uso')
         this.reservationService.fetchAllReservationsFromApi().subscribe(
-          response => { this.reservationsLoading = false },
+          response => {
+            this.reservationsLoading = false
+            this.reservationService.filterReservations(this.loggedUserID);
+            this.fetchRentalCarReservations();
+           },
           errorResponse => {}
         );
       }
-      this.reservationService.filterReservations(this.loggedUserID)
+      this.reservationService.filterReservations(this.loggedUserID);
+      this.fetchRentalCarReservations();
     }
+  }
+  fetchRentalCarReservations(): void{
+    this.acceptedReservations = this.reservationService.fetchAcceptedReservations();
+    this.waitingReservations = this.reservationService.fetchWaitingReservations();
+    this.rejectedReservations = this.reservationService.fetchRejectedReservations();
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.userSubscription.unsubscribe();
   }
 }

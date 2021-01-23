@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SubscribableOrPromise, Subscription } from 'rxjs';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
+import { VehicleService } from 'src/app/shared/vehicle.service';
 import { Vehicle } from 'src/app/vehicle/vehicle.model';
 import { Reservation } from '../reservation.model';
 import { ReservationService } from '../reservation.service';
@@ -15,21 +16,24 @@ import { ReservationService } from '../reservation.service';
 export class ReservationDetailComponent implements OnInit {
 
   reservationID:number;
-  reservation: any;
+  reservation: Reservation;
   loggedUser: User;
   reservationSubscription: Subscription;
+  vehicle: Vehicle;
+  shortMessage: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private reservationService: ReservationService,
-    private userService: UserService
+    private userService: UserService,
+    private vehicleService: VehicleService
     ) { }
 
   ngOnInit(): void {
     this.fetchReservationID();
     this.fetchReservation();
     // this.fetchReservation();
-    // this.fetchVehicle();
+    this.fetchVehicle();
   }
 
   fetchReservationID(): void{
@@ -39,14 +43,14 @@ export class ReservationDetailComponent implements OnInit {
     this.reservationSubscription = this.reservationService.allReservationsChanged.subscribe((reservations) => {
       this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
       this.loggedUser = this.userService.getUser();
-      console.log(this.reservation)
+      console.log('promjena')
     })
+    console.log('postoji...')
     this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
     this.loggedUser = this.userService.getUser();
   }
   fetchVehicle(): void{
-
-    // this.vehicle = tempVehicle;
+    this.vehicle = this.vehicleService.getVehicle(this.reservation.vehicle.id);
   }
   getDate(date:any): string{
     let formatedDate = '';
@@ -68,6 +72,14 @@ export class ReservationDetailComponent implements OnInit {
 
   cancelMyReservation(): void{
     this.reservationService.cancelUserReservation(this.reservation);
+  }
+  approveReservation(): void{
+    const status = "accepted";
+    this.reservationService.updateReservation(this.reservationID,status,this.shortMessage).subscribe();
+  }
+  rejectReservation(): void{
+    const status = "rejected";
+    this.reservationService.updateReservation(this.reservationID,status,this.shortMessage).subscribe();
   }
 
   ngOnDestroy(): void {
