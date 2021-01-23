@@ -139,4 +139,8 @@ export class VehicleService {
       })
     );
   }
+  getVehiclesByRentalId(id: number): Vehicle[]{
+    const rentalVehicles = this.vehicles.filter(vehicle => vehicle.carRental.id === id);
+    return rentalVehicles;
+  }
 }

@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { report } from 'process';
 import { Subscription } from 'rxjs';
+import { DataStorageService } from '../shared/data-storage.service';
 import { VehicleService } from '../shared/vehicle.service';
 import { Vehicle } from '../vehicle/vehicle.model';
 import { CarRental } from './car-rental.model';
@@ -28,18 +30,22 @@ export class CarRentalComponent implements OnInit {
     image: ''
   };
   subscription: Subscription;
+  id: number;
   constructor(private router: Router,
               private route: ActivatedRoute,
               private http: HttpClient,
-              private vehicleService: VehicleService) {
+              private vehicleService: VehicleService,
+              private dataStorageService: DataStorageService) {
   }
 
   ngOnInit(): void {
     this.getParametersFromRoute();
-    this.fetchVehicleByCarRental()
+    this.fetchVehicleByCarRental();
   }
   getParametersFromRoute(): void{
     this.route.params.subscribe((params: Params) => {
+      this.id = params.id;
+      console.log(typeof this.id)
       this.http
         .get<any>(
           'https://sbdrustvo.com/carrental/' + params.id,
@@ -56,11 +62,9 @@ export class CarRentalComponent implements OnInit {
       });
   }
   fetchVehicleByCarRental(): void {
-    this.subscription = this.vehicleService.vehiclesChanged.subscribe(
-      ((vehicles: Vehicle[]) => {
-        this.vehicles = vehicles;
-      })
-    );
-    this.vehicles = this.vehicleService.getVehicles();
+    this.dataStorageService.fetchVehiclesByCarRentalId(this.id.toString())
+        .subscribe( response => {
+          this.vehicles = response;
+        })
   }
 }
