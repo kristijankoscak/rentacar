@@ -77,7 +77,6 @@ export class HomeComponent implements OnInit {
     return this.filterForm.controls.end.hasError('end') ? 'Not a valid enter' : '';
   }
   onSubmit(form){
-    console.log(form)
     if (!form.valid) {
       return;
     }

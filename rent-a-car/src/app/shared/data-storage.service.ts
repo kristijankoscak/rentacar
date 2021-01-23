@@ -42,7 +42,21 @@ export class DataStorageService {
       })
     );
   }
-
+  fetchVehiclesByParameters(p_location, p_startTime, p_endTime): Observable<Vehicle[]>{
+    return this.http
+            .post<Vehicle[]>(
+              'https://sbdrustvo.com/vehicles/filter',
+            {
+              location: p_location,
+              startTime: p_startTime,
+              endTime: p_endTime
+            })
+            .pipe(
+              tap((vehicles: Vehicle[]) => {
+                this.vehicleService.setFilteredVehicles(vehicles);
+              })
+            );
+  }
   // fetchAllReservations(): Observable<Reservation []>{
   //   console.log('dohvaćam sve rezervacije api...')
   //   return this.http
