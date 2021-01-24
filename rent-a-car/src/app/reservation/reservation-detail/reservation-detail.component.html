@@ -59,8 +59,8 @@
       </div>
       <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.vehicle.carRental.owner.id">
         <span class="text-size-16 break-word">Worker options:</span>
-        <button mat-raised-button class="button-approve" (click)="approveReservation()">Accept</button>
-        <button mat-raised-button class="button-decline" (click)="rejectReservation()">Reject</button>
+        <button mat-raised-button class="button-approve" (click)="updateReservation('Accepted')">Accept</button>
+        <button mat-raised-button class="button-decline" (click)="updateReservation('Rejected')">Reject</button>
       </div>
       <div fxLayout="column" class="color-white" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.vehicle.carRental.owner.id">
         <span class="text-size-16 break-word">Short message:</span>

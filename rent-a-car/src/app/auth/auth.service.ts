@@ -50,7 +50,11 @@ export class AuthService {
             this.userService.saveUser(user);
           },
           errorResponse => {
-            localStorage.removeItem('userToken');
+            if(errorResponse.status === 500){
+              console.log(errorResponse)
+              localStorage.removeItem('userToken');
+              this.navigateToHomeScreen();
+            }
           }
         )
       );
