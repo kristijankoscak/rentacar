@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Reservation } from '../reservation.model';
 import { ReservationService } from '../reservation.service';
 
@@ -24,6 +25,7 @@ export class ReservationListComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private dataStorageService: DataStorageService,
     private reservationService: ReservationService
     ) {}
 
@@ -43,7 +45,7 @@ export class ReservationListComponent implements OnInit {
 
   fetchReservationsByUserType(): void{
     if(this.loggedUser && this.loggedUser.roles.includes('ROLE_USER')){;
-      this.reservationService.fetchUserReservationsFromApi().subscribe(
+      this.dataStorageService.fetchUserReservationsFromApi().subscribe(
         response => {
           this.userReservations = this.reservationService.fetchUserReservations();
           this.reservationsLoading = false;

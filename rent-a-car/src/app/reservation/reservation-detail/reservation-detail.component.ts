@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SubscribableOrPromise, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { VehicleService } from 'src/app/shared/vehicle.service';
 import { Vehicle } from 'src/app/vehicle/vehicle.model';
 import { Reservation } from '../reservation.model';
@@ -24,7 +25,9 @@ export class ReservationDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private reservationService: ReservationService,
+    private dataStorageService: DataStorageService,
     private userService: UserService,
     private vehicleService: VehicleService
     ) { }
@@ -70,14 +73,17 @@ export class ReservationDetailComponent implements OnInit {
 
   cancelMyReservation(): void{
     this.reservationService.cancelUserReservation(this.reservation);
+    this.dataStorageService.removeReservationInDataBase(this.reservationID).subscribe(
+      response => {this.router.navigate(['/reservation']);},
+      error => {}
+    );
   }
-  approveReservation(): void{
-    const status = "Accepted";
+  updateReservation(status: string): void{
     this.reservationService.updateReservation(this.loggedUser.id,this.reservationID,status,this.shortMessage);
-  }
-  rejectReservation(): void{
-    const status = "Rejected";
-    this.reservationService.updateReservation(this.loggedUser.id,this.reservationID,status,this.shortMessage);
+    this.dataStorageService.updateReservationInDataBase(this.reservationID,status,this.shortMessage).subscribe(
+      response => { this.router.navigate(['/reservation']); },
+      error => {}
+    );
   }
 
   ngOnDestroy(): void {
