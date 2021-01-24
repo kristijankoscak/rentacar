@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/internal/operators/tap';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { VehicleService } from 'src/app/shared/vehicle.service';
 import { environment } from 'src/environments/environment';
 import { Vehicle } from '../vehicle.model';
@@ -39,11 +40,14 @@ export class VehicleReserveComponent implements OnInit {
   numberOfDays=0;
   loggedUser: User;
   userBirthday:Date=new Date()
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private vehicleService: VehicleService,
-              private http: HttpClient,
-              private userService: UserService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private vehicleService: VehicleService,
+    private http: HttpClient,
+    private userService: UserService,
+    private dataStorageService: DataStorageService
+    ) { }
 
   ngOnInit(): void {
     this.getParametersFromURL();
@@ -103,7 +107,7 @@ export class VehicleReserveComponent implements OnInit {
 
   sendReservation(): void{
     let reservation = this.fetchReservationData();
-    this.saveReservationInBase(this.vehicle.id,reservation).subscribe(
+    this.dataStorageService.addReservation(this.vehicle.id,reservation).subscribe(
       response => {this.router.navigate(['/home'])},
       errorResponse => {}
     );
@@ -121,17 +125,5 @@ export class VehicleReserveComponent implements OnInit {
 
     }
     return reservation;
-  }
-  saveReservationInBase(vehicleID: number,reservation: any): Observable<any>{
-    return this.http
-    .post<any>(
-      environment.apiUrl + '/reservations/'+vehicleID,
-      reservation
-    )
-    .pipe(
-      tap(response => {
-        console.log('sending reservation...' + response);
-      })
-    );
   }
 }

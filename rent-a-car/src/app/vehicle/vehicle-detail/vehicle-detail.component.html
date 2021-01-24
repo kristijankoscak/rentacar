@@ -92,22 +92,22 @@
 
             <mat-form-field fxFlexOffset="1rem" (click)="picker.open()">
               <mat-label>Datum preuzimanja</mat-label>
-              <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="start_time"
+              <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="start_date"
                 (dateChange)="fetchStartDate($event.value)" />
-              <mat-error *ngIf="filterForm.controls.start_time.invalid">* Polje je obavezno!</mat-error>
+              <mat-error *ngIf="filterForm.controls.start_date.invalid">* Polje je obavezno!</mat-error>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <mat-form-field fxFlexOffset="1rem" (click)="picker1.open()">
               <mat-label>Datum preuzimanja</mat-label>
-              <input matInput [min]="minDate2" [matDatepicker]="picker1" formControlName="end_time" />
-              <mat-error *ngIf="filterForm.controls.end_time.invalid">* Polje je obavezno!</mat-error>
+              <input matInput [min]="minDate2" [matDatepicker]="picker1" formControlName="end_date" />
+              <mat-error *ngIf="filterForm.controls.end_date.invalid">* Polje je obavezno!</mat-error>
               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
           </form>
           <button mat-flat-button class="continue-reservation-button" [disabled]="!formIsValid"
-            (click)="navigateTonConfirmScreen()">Nastavi s rezervacijom</button>
+            (click)="navigateTonConfirmScreen()">Continue with registration</button>
         </div>
       </div>
     </div>

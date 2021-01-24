@@ -48,14 +48,14 @@
         </div>
       </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="start" class="actions-container">
+  <div fxLayout="row" fxLayoutAlign="start" class="actions-container" *ngIf="!(loggedUser.id === reservation.user.id && reservation.status !== 'Waiting')">
     <div fxLayout="row" class="badge">
       <mat-icon>security</mat-icon>
     </div>
     <div fxLayout="row" class="bg-white rounded-borders" fxFlex="100" fxLayoutAlign="center center" fxLayoutGap="8rem">
       <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.user.id && reservation.status === 'Waiting'">
         <span class="text-size-16 break-word">User options:</span>
-        <button mat-raised-button class="button-decline" (click)="cancelMyReservation()">Cancel</button>
+        <button mat-raised-button class="button-decline" (click)="cancelReservation()">Cancel</button>
       </div>
       <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="loggedUser.id === reservation.vehicle.carRental.owner.id">
         <span class="text-size-16 break-word">Worker options:</span>

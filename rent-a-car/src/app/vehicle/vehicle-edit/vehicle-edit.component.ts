@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/auth/user.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Image } from 'src/app/shared/image.model';
 import { VehicleService } from 'src/app/shared/vehicle.service';
 
@@ -19,6 +20,7 @@ export class VehicleEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private vehicleService: VehicleService,
+    private dataStorageService: DataStorageService,
     private userService: UserService
   ) { }
 
@@ -32,6 +34,8 @@ export class VehicleEditComponent implements OnInit {
   uploadedImages: Image[] = [];
   vehicleIsAdded: boolean = true;
   @ViewChild('imagesUploader') imagesUploader;
+
+  formatedVehicle: any;
 
   marks = [
     { value: 'BMW' },
@@ -236,47 +240,60 @@ export class VehicleEditComponent implements OnInit {
     });
     return same;
   }
-  addNewVehicle(): void {
-    let vehicle = {
+  addVehicle(): void {
+    this.formatVehicleData();
+    if (this.screenType === 'add') {
+      this.handleAddingVehicle();
+    }
+    else {
+      this.handleUpdatingVehicle();
+    }
+
+  }
+  handleAddingVehicle(): void{
+    this.addImagesToFormatedVehicle();
+    this.dataStorageService.addVehicle(this.formatedVehicle).subscribe(
+      response=>{
+        this.vehicleIsAdded = false;
+        this.dataStorageService.fetchVehicles().subscribe(
+          response=>{
+            this.vehicleIsAdded = true;
+            this.router.navigate(['/vehicle']);
+          },
+          errorResponse => {}
+        );
+      },
+      errorResponse => {}
+    );
+  }
+  handleUpdatingVehicle(): void{
+    this.formatedVehicle = {
+      ...this.formatedVehicle,
+      carRental: this.vehicle.carRental,
+      id: this.vehicle.id
+    }
+    let same = this.compareImages(this.vehicle.images,this.uploadedImages);
+    if(!same){
+      this.formatedVehicle = {
+        ...this.formatedVehicle,
+        images: this.uploadedImages
+      }
+    }
+    this.vehicleService.handleUpdating(this.formatedVehicle);
+    this.dataStorageService.updateVehicle(this.formatedVehicle).subscribe();
+  }
+  formatVehicleData(): void{
+    this.formatedVehicle = {
       ...this.vehicleForm.value,
       manufactureYear: new Date(this.vehicleForm.controls.manufactureYear.value,1,1),
       modelYear: new Date(this.vehicleForm.controls.modelYear.value,1,1),
       user_id: this.userService.getUser().id
     };
-    if (this.screenType === 'add') {
-      vehicle = {
-        ...vehicle,
-        images: this.uploadedImages
-      }
-      this.vehicleService.addNewVehicle(vehicle).subscribe(
-        response=>{
-          this.vehicleIsAdded = false;
-          this.vehicleService.fetchVehicles().subscribe(
-            response=>{
-              this.vehicleIsAdded = true;
-              this.router.navigate(['/vehicle']);
-            },
-            errorResponse => {}
-          );
-        },
-        errorResponse => {}
-      );
+  }
+  addImagesToFormatedVehicle(): void{
+    this.formatedVehicle = {
+      ...this.formatedVehicle,
+      images: this.uploadedImages
     }
-    else {
-      vehicle = {
-        ...vehicle,
-        carRental: this.vehicle.carRental,
-        id: this.vehicle.id
-      }
-      let same = this.compareImages(this.vehicle.images,this.uploadedImages);
-      if(!same){
-        vehicle = {
-          ...vehicle,
-          images: this.uploadedImages
-        }
-      }
-      this.vehicleService.updateVehicle(vehicle);
-    }
-
   }
 }

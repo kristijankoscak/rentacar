@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Image } from 'src/app/shared/image.model';
 import { VehicleService } from 'src/app/shared/vehicle.service';
 import { Vehicle } from '../vehicle.model';
@@ -39,12 +40,16 @@ export class VehicleDetailComponent implements OnInit {
 
   warningWindowIsOpened: boolean = false;
 
+  startTime: string;
+  endTime: string;
+
   constructor(
     private userService: UserService,
     private vehicleService: VehicleService,
     private element: ElementRef,
     private activeRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dataStorageService: DataStorageService
   ) { }
 
   ngOnInit(): void {
@@ -126,8 +131,8 @@ export class VehicleDetailComponent implements OnInit {
   initForm(): void {
     this.filterForm = new FormGroup({
       location: new FormControl(null, [Validators.required]),
-      start_time: new FormControl(null, [Validators.required]),
-      end_time: new FormControl(null, [Validators.required])
+      start_date: new FormControl(null, [Validators.required]),
+      end_date: new FormControl(null, [Validators.required])
     });
     this.filterForm.controls.location.setValue(this.vehicle.carRental.city);
     this.filterForm.controls.location.disable();
@@ -165,19 +170,47 @@ export class VehicleDetailComponent implements OnInit {
   navigateToEditScreen(): void {
     this.router.navigate(['/vehicle/' + this.vehicle.id + '/edit']);
   }
+  formatDates(startDate, endDate): void{
+    let start_date = new Date(startDate)
+    let end_date = new Date(endDate)
+    this.startTime = start_date.getFullYear() + '-' + (start_date.getMonth() + 1) + '-' + start_date.getDate();
+    this.endTime = end_date.getFullYear() + '-' + (end_date.getMonth() + 1) + '-' + end_date.getDate();
+  }
   navigateTonConfirmScreen(): void {
     if (!this.routeParams.location) {
-      this.routeParams = this.filterForm.value;
+      this.formatDates(this.filterForm.controls.start_date.value,this.filterForm.controls.end_date.value)
+      this.routeParams = {
+        location: this.vehicle.carRental.city,
+        start_date: this.startTime,
+        end_date: this.endTime
+      };
     }
-    this.router.navigate(['reserve'], { relativeTo: this.activeRoute, queryParams: this.routeParams });
+    this.dataStorageService.fetchVehiclesByParameters(this.routeParams.location, this.routeParams.start_date,this.routeParams.end_date).subscribe(
+      (response:Vehicle[]) => {
+        if(response.includes(this.vehicle)){
+           this.router.navigate(['/home']);
+        }
+        else{
+           this.router.navigate(['reserve'], { relativeTo: this.activeRoute, queryParams: this.routeParams });
+        }
+      }
+    );
+
   }
   deleteCurrentVehicle(): void{
     this.vehicleService.deleteVehicle(this.vehicle.id);
+    this.dataStorageService.deleteVehicle(this.vehicle.id).subscribe();
     this.router.navigate(['/vehicle']);
   }
   getYear(date:any): number{
-    let tempDate = new Date(date.date);
-   let year = +tempDate.getFullYear();
+    let tempDate;
+    if(date.date){
+      tempDate = new Date(date.date);
+    }
+    else{
+      tempDate = new Date(date);
+    }
+    let year = +tempDate.getFullYear();
     return year;
   }
   fetchCurrentLink(): string{

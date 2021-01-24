@@ -45,7 +45,7 @@ export class ReservationListComponent implements OnInit {
 
   fetchReservationsByUserType(): void{
     if(this.loggedUser && this.loggedUser.roles.includes('ROLE_USER')){;
-      this.dataStorageService.fetchUserReservationsFromApi().subscribe(
+      this.dataStorageService.fetchUserReservations().subscribe(
         response => {
           this.userReservations = this.reservationService.fetchUserReservations();
           this.reservationsLoading = false;

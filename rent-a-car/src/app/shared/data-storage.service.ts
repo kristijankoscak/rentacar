@@ -38,7 +38,6 @@ export class DataStorageService {
     .pipe(
       tap((vehicles: Vehicle[]) => {
         this.vehicleService.setVehicles(vehicles);
-        this.setRefreshInterval();
       })
     );
   }
@@ -68,13 +67,7 @@ export class DataStorageService {
             );
   }
 
-  private setRefreshInterval(): void {
-    setTimeout(() => {
-      this.fetchVehicles().subscribe();
-    }, this.dataRefreshInterval * 60 * 1000);
-  }
-
-  fetchAllReservationsFromApi(): Observable<Reservation []>{
+  fetchAllReservations(): Observable<Reservation []>{
     console.log('dohvaćam sve rezervacije api...')
     return this.http
     .get<any>(
@@ -101,7 +94,7 @@ export class DataStorageService {
       })
     );
   }
-  fetchUserReservationsFromApi(): Observable<Reservation []>{
+  fetchUserReservations(): Observable<Reservation []>{
     console.log('dohvaćam korisnicke rezervacije api...')
     return this.http
     .get<any>(
@@ -114,7 +107,19 @@ export class DataStorageService {
       })
     );
   }
-  updateReservationInDataBase(id:number,status:string,message:string): Observable<string>{
+  addReservation(vehicleID: number,reservation: any): Observable<any>{
+    return this.http
+    .post<any>(
+      environment.apiUrl + '/reservations/'+vehicleID,
+      reservation
+    )
+    .pipe(
+      tap(response => {
+        console.log('sending reservation... ' + response);
+      })
+    );
+  }
+  updateReservation(id:number,status:string,message:string): Observable<string>{
     return this.http
     .put<string>(
       environment.apiUrl + '/reservations/update/'+id,
@@ -132,7 +137,7 @@ export class DataStorageService {
       )
     );
   }
-  removeReservationInDataBase(reservationID: number): Observable<string>{
+  removeReservation(reservationID: number): Observable<string>{
     console.log('uso ,id: '+reservationID)
     return this.http
     .delete<string>(
@@ -144,5 +149,62 @@ export class DataStorageService {
         (errorResponse: string)=> { }
       )
     );
+  }
+  addVehicle(vehicle:any): Observable<any>{
+    return this.http
+    .post<any>(
+      environment.apiUrl + '/vehicles/',
+      vehicle
+    )
+    .pipe(
+      tap(
+        (response: string) => {
+          console.log(response);
+        },
+        (errorResponse: string)=> {
+          console.log(errorResponse)
+        }
+      )
+    );
+  }
+  updateVehicle(vehicle:any): Observable<any>{
+    return this.http
+    .put<string>(
+      environment.apiUrl + '/vehicles/'+vehicle.id,
+      vehicle
+    )
+    .pipe(
+      tap(
+        (response: string) => {
+          console.log(response);
+        },
+        (errorResponse: string)=> {
+          console.log(errorResponse)
+        }
+      )
+    );
+  }
+  deleteVehicle(id:number): Observable<any>{
+    return this.http
+    .delete<any>(
+      environment.apiUrl + '/vehicles/'+id
+    )
+    .pipe(
+      tap(
+        (response: string) => {
+          console.log(response);
+        },
+        (errorResponse: string)=> {
+          console.log(errorResponse)
+        }
+      )
+    );
+  }
+
+
+  setVehicleRefreshInterval(): void {
+    setTimeout(() => {
+      this.fetchVehicles().subscribe();
+    }, this.dataRefreshInterval * 60 * 1000);
   }
 }

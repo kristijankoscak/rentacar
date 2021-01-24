@@ -19,6 +19,7 @@ export class VehicleResolverService implements Resolve<Vehicle[]>{
     if (Object.keys(route.queryParams).length === 0) {
       const vehicles = this.vehicleService.getVehicles();
       if(vehicles.length === 0){
+        this.dataStorageService.setVehicleRefreshInterval();
         return this.dataStorageService.fetchVehicles().pipe(
           catchError((error) => {
             return EMPTY;

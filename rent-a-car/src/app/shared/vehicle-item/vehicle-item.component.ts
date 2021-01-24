@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Vehicle } from 'src/app/vehicle/vehicle.model';
 import { Image } from '../image.model';
 @Component({
@@ -11,11 +11,13 @@ export class VehicleItemComponent implements OnInit {
 
   @Input() vehicle: Vehicle;
   coverImage: string;
+  params: Params;
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.setCoverImage();
+    this.fetchRouteParams();
   }
 
   setCoverImage(): void {
@@ -23,12 +25,15 @@ export class VehicleItemComponent implements OnInit {
       return image.isCover === true
     })
     this.coverImage = tempImage.base64;
-
+  }
+  fetchRouteParams(): void{
+    this.route.queryParams.subscribe((params: Params) => {
+      this.params = params;
+    });
   }
 
   seeCarDetail(): void {
-    this.router.navigate(['/vehicle/'+this.vehicle.id]
-    );
+    this.router.navigate(['/vehicle/'+this.vehicle.id], {relativeTo: this.route,queryParams: this.params});
   }
   seeRentalCar(): void {
     console.log("seecarrental")

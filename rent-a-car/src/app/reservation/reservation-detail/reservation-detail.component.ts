@@ -71,16 +71,16 @@ export class ReservationDetailComponent implements OnInit {
     return this.reservation.vehicle.price - this.reservation.vehicle.price*(this.reservation.vehicle.discount/100)
   }
 
-  cancelMyReservation(): void{
-    this.reservationService.cancelUserReservation(this.reservation);
-    this.dataStorageService.removeReservationInDataBase(this.reservationID).subscribe(
+  cancelReservation(): void{
+    this.reservationService.removeReservation(this.reservation);
+    this.dataStorageService.removeReservation(this.reservationID).subscribe(
       response => {this.router.navigate(['/reservation']);},
       error => {}
     );
   }
   updateReservation(status: string): void{
     this.reservationService.updateReservation(this.loggedUser.id,this.reservationID,status,this.shortMessage);
-    this.dataStorageService.updateReservationInDataBase(this.reservationID,status,this.shortMessage).subscribe(
+    this.dataStorageService.updateReservation(this.reservationID,status,this.shortMessage).subscribe(
       response => { this.router.navigate(['/reservation']); },
       error => {}
     );

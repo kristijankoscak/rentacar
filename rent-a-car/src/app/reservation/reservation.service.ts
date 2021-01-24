@@ -45,18 +45,11 @@ export class ReservationService {
   fetchReservationByID(id:number): Reservation {
     return this.allReservations.find( reservation => {return reservation.id === id});
   }
-  cancelUserReservation(reservation: Reservation): void{
-    this.removeReservationFromLocal(reservation);
-  }
-  removeReservationFromLocal(reservation: Reservation): void{
+  removeReservation(reservation: Reservation): void{
     this.allReservations = this.allReservations.filter(res => res !== reservation);
     this.allReservationsChanged.next(this.allReservations);
   }
   updateReservation(loggedUserID:number ,id:number,status:string,message:string): void{
-    this.updateReservationLocal(loggedUserID,id,status,message);
-  }
-
-  updateReservationLocal(loggedUserID:number,id:number,status:string,message:string): void{
     this.allReservations.find(reservation => {
       if(reservation.id === id){
         reservation.info = message;
