@@ -1,6 +1,7 @@
 import { HttpClient, HttpDownloadProgressEvent } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/internal/operators/tap';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
@@ -15,27 +16,7 @@ import { Vehicle } from '../vehicle.model';
 })
 export class VehicleReserveComponent implements OnInit {
   backgroundColor = 'rgb(255, 211, 130)';
-  vehicle: Vehicle = {
-    id: 0,
-    mark: 'string',
-    model: 'string',
-    modelYear: new Date(),
-    manufactureYear: new Date(),
-    gears: 0,
-    color: 'string',
-    gearbox: 'string',
-    status: 'string',
-    power: 0,
-    type: 'string',
-    price: 0,
-    fuelType: 'string',
-    gateNumber: 0,
-    discount: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    images: null,
-    carRental: null,
-  };
+  vehicle: Vehicle = undefined;
   times: string[] = [
     'I dont know',
     '08:00-09:00',
@@ -92,7 +73,7 @@ export class VehicleReserveComponent implements OnInit {
   }
   getNumberOfDays(){
     var diff = Math.abs(this.endDate.getTime() - this.startDate.getTime());
-    this.numberOfDays = Math.ceil(diff / (1000 * 3600 * 24)); 
+    this.numberOfDays = Math.ceil(diff / (1000 * 3600 * 24));
   }
   getUserInfo(){
     this.loggedUser = this.userService.getUser()
@@ -118,5 +99,39 @@ export class VehicleReserveComponent implements OnInit {
         )
       );
     }
+  }
+
+  sendReservation(): void{
+    let reservation = this.fetchReservationData();
+    this.saveReservationInBase(this.vehicle.id,reservation).subscribe(
+      response => {this.router.navigate(['/home'])},
+      errorResponse => {}
+    );
+  }
+
+  fetchReservationData(): any{
+    let reservation = {
+      user_id: this.loggedUser.id,
+      startTime: this.startDate,
+      endTime: this.endDate,
+      paymentMethod: 'Cash',   // ovo dvoje promjenit..
+      paymentAmount: 250,      //
+      carRental: this.vehicle.carRental.id,
+      info: ''
+
+    }
+    return reservation;
+  }
+  saveReservationInBase(vehicleID: number,reservation: any): Observable<any>{
+    return this.http
+    .post<any>(
+      environment.apiUrl + '/reservations/'+vehicleID,
+      reservation
+    )
+    .pipe(
+      tap(response => {
+        console.log('sending reservation...' + response);
+      })
+    );
   }
 }

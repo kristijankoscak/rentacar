@@ -129,6 +129,8 @@ export class VehicleDetailComponent implements OnInit {
       start_time: new FormControl(null, [Validators.required]),
       end_time: new FormControl(null, [Validators.required])
     });
+    this.filterForm.controls.location.setValue(this.vehicle.carRental.city);
+    this.filterForm.controls.location.disable();
     this.filterPlaceOptions();
   }
   filterPlaceOptions(): void {
