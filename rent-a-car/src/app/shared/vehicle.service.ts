@@ -14,6 +14,7 @@ export class VehicleService {
   filteredVehicles: Vehicle[]=[];
   specificVehicle: Vehicle;
   vehiclesChanged = new Subject<Vehicle[]>();
+  filteredVehiclesChanged = new Subject<Vehicle[]>();
 
   constructor(
     private http: HttpClient,
@@ -26,7 +27,7 @@ export class VehicleService {
   }
   setFilteredVehicles(vehicles: Vehicle[]): void {
     this.filteredVehicles = vehicles;
-    this.vehiclesChanged.next(this.filteredVehicles.slice());
+    this.filteredVehiclesChanged.next(this.filteredVehicles.slice());
     console.log(this.filteredVehicles);
   }
   getVehicles(): Vehicle[]{

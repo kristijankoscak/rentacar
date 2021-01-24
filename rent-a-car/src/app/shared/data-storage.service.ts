@@ -117,13 +117,10 @@ export class DataStorageService {
               'https://sbdrustvo.com/vehicles/filter/' + id)
             .pipe(
               tap((vehicles: Vehicle[]) => {
-                console.log("usao")
-                //this.vehicleService.setFilteredVehicles(vehicles);
+                this.vehicleService.setFilteredVehicles(vehicles);
               })
             );
   }
-
-
 
   private setRefreshInterval(): void {
     setTimeout(() => {
