@@ -53,6 +53,9 @@ export class DataStorageService {
             .pipe(
               tap((vehicles: Vehicle[]) => {
                 this.vehicleService.setFilteredVehicles(vehicles);
+              },
+              (errorResponse: any)=> {
+                this.vehicleService.errorHappened.next(true);
               })
             );
   }

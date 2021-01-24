@@ -16,7 +16,7 @@ export class VehicleService {
   specificVehicle: Vehicle;
   vehiclesChanged = new Subject<Vehicle[]>();
   filteredVehiclesChanged = new Subject<Vehicle[]>();
-
+  errorHappened = new Subject<boolean>();
   constructor(
     private http: HttpClient,
     private router:Router

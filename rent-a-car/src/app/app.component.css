@@ -3,3 +3,8 @@
   background-size: cover;
   min-height: calc(100vh - 4rem);
 }
+.screen-center{
+  width : 100%;
+  height: calc(100vh - 60px);
+  position: absolute;
+}

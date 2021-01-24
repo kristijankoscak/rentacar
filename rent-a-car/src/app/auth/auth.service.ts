@@ -53,7 +53,6 @@ export class AuthService {
             if(errorResponse.status === 500){
               console.log(errorResponse)
               localStorage.removeItem('userToken');
-              this.navigateToHomeScreen();
             }
           }
         )

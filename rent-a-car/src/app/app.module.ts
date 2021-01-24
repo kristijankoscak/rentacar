@@ -49,6 +49,7 @@ import { CompanyRegisterComponent } from './company-register/company-register.co
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackBarSuccSignUpComponent } from './auth/snack-bar-succ-sign-up/snack-bar-succ-sign-up.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { ErrorAlertComponent } from './shared/error-alert/error-alert.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     FooterComponent,
     VehicleEditComponent,
     CompanyRegisterComponent,
-    SnackBarSuccSignUpComponent
+    SnackBarSuccSignUpComponent,
+    ErrorAlertComponent
   ],
   imports: [
     BrowserModule,

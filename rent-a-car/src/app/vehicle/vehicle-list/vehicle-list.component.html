@@ -1,6 +1,13 @@
 <div
 class="list-wrapper">
+  <div
+  *ngIf="error">
+    <div>
+      <p>There is no vehicles for you </p>
+    </div>
+  </div>
   <div 
+  *ngIf="!error"
   class="vehicles-container" >
     <app-vehicle-item 
     *ngFor="let vehicle of vehicles" 
