@@ -137,6 +137,9 @@
           </button>
           <span *ngIf="uploadedImages.length > 0">Chose cover image by clicking on it.</span>
           <input required #imagesUploader hidden type="file" multiple (change)="handleImageSelect($event)" />
+          <div fxLayout="column" fxLayoutAlign="center center" *ngIf="!vehicleIsAdded">
+            <app-loading-spinner></app-loading-spinner>
+          </div>
           <button class="action-button add-vehicle" type="submit" mat-flat-button *ngIf="screenType === 'add'"
             [disabled]="!formIsValid || !this.coverIsPicked">
             <mat-icon>add</mat-icon>

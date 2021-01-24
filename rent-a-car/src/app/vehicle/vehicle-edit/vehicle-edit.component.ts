@@ -1,14 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { ViewChild } from '@angular/core';
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/auth/user.service';
 import { Image } from 'src/app/shared/image.model';
 import { VehicleService } from 'src/app/shared/vehicle.service';
-import { environment } from 'src/environments/environment';
-import { Vehicle } from '../vehicle.model';
 
 @Component({
   selector: 'app-vehicle-edit',
@@ -18,11 +14,12 @@ import { Vehicle } from '../vehicle.model';
 export class VehicleEditComponent implements OnInit {
 
   constructor(
-    private http: HttpClient,
     private element: ElementRef,
     private renderer: Renderer2,
     private route: ActivatedRoute,
-    private vehicleService: VehicleService
+    private router: Router,
+    private vehicleService: VehicleService,
+    private userService: UserService
   ) { }
 
   imagesAreUploaded: boolean = false;
@@ -33,6 +30,7 @@ export class VehicleEditComponent implements OnInit {
   formIsValid: boolean = false;
   vehicleForm: FormGroup;
   uploadedImages: Image[] = [];
+  vehicleIsAdded: boolean = true;
   @ViewChild('imagesUploader') imagesUploader;
 
   marks = [
@@ -130,21 +128,17 @@ export class VehicleEditComponent implements OnInit {
       this.screenType = 'add'
     }
   }
-  // fetchVehicleByID(): Vehicle {
-
-  //   return tempVehicle;
-  // }
   fillInputs(): void {
     this.vehicleForm.controls.mark.setValue(this.vehicle.mark);
     this.vehicleForm.controls.model.setValue(this.vehicle.model);
     this.vehicleForm.controls.modelYear.setValue(this.getYear(this.vehicle.modelYear));
     this.vehicleForm.controls.manufactureYear.setValue(this.getYear(this.vehicle.manufactureYear));
     this.vehicleForm.controls.gears.setValue(this.vehicle.gears);
-    this.vehicleForm.controls.color.setValue(this.handleColorsSelect(this.vehicle.color));
+    this.vehicleForm.controls.color.setValue(this.vehicle.color);
     this.vehicleForm.controls.gearbox.setValue(this.vehicle.gearbox);
     this.vehicleForm.controls.status.setValue(this.vehicle.status);
     this.vehicleForm.controls.power.setValue(this.vehicle.power);
-    this.vehicleForm.controls.type.setValue(this.handleTypeSelect(this.vehicle.type));
+    this.vehicleForm.controls.type.setValue(this.vehicle.type);
     this.vehicleForm.controls.price.setValue(this.vehicle.price);
     this.vehicleForm.controls.fuelType.setValue(this.vehicle.fuelType);
     this.vehicleForm.controls.gateNumber.setValue(this.vehicle.gateNumber);
@@ -152,7 +146,13 @@ export class VehicleEditComponent implements OnInit {
     this.setImages();
   }
   getYear(date:any): number{
-    let tempDate = new Date(date.date);
+    let tempDate;
+    if(date.date){
+      tempDate = new Date(date.date);
+    }
+    else{
+      tempDate = new Date(date);
+    }
    let year = +tempDate.getFullYear();
     return year;
   }
@@ -221,71 +221,62 @@ export class VehicleEditComponent implements OnInit {
     let element = this.element.nativeElement.querySelectorAll('.uploaded-image')[index];
     this.renderer.addClass(element, 'cover-image');
   }
-  // fetchOtherImages(coverIndex): string[] {
-  //   let tempImages: string[] = [];
-  //   this.uploadedImages.forEach((imagePath, index) => {
-  //     if (index != coverIndex) {
-  //       tempImages.push(imagePath);
-  //     }
-  //   })
-  //   return tempImages;
-  // }
   removeImages(): void {
     this.imagesUploader.nativeElement.value = '';
     this.uploadedImages = [];
     this.coverIsPicked = false;
   }
+  compareImages(images: Image[],images2: Image[]): boolean{
+    let same = true;
+    images.forEach((image,index)=>{
+      if(image !== images2[index]){
+        same = false;
+        return;
+      }
+    });
+    return same;
+  }
   addNewVehicle(): void {
     let vehicle = {
-      ...this.vehicleForm.value
+      ...this.vehicleForm.value,
+      manufactureYear: new Date(this.vehicleForm.controls.manufactureYear.value,1,1),
+      modelYear: new Date(this.vehicleForm.controls.modelYear.value,1,1),
+      user_id: this.userService.getUser().id
     };
     if (this.screenType === 'add') {
       vehicle = {
         ...vehicle,
         images: this.uploadedImages
       }
-      console.log('add...');
-      console.log(vehicle);
+      this.vehicleService.addNewVehicle(vehicle).subscribe(
+        response=>{
+          this.vehicleIsAdded = false;
+          this.vehicleService.fetchVehicles().subscribe(
+            response=>{
+              this.vehicleIsAdded = true;
+              this.router.navigate(['/vehicle']);
+            },
+            errorResponse => {}
+          );
+        },
+        errorResponse => {}
+      );
     }
     else {
       vehicle = {
         ...vehicle,
+        carRental: this.vehicle.carRental,
         id: this.vehicle.id
       }
-      if((this.vehicle.images === this.uploadedImages)){
-        console.log('iste')
-      }
-      else{
-        // this.
+      let same = this.compareImages(this.vehicle.images,this.uploadedImages);
+      if(!same){
         vehicle = {
           ...vehicle,
           images: this.uploadedImages
         }
-        console.log(vehicle);
-
-        this.updateVehicle(vehicle).subscribe();
       }
-      // console.log(this.uploadedImages)
-      // console.log(this.vehicle.images);
+      this.vehicleService.updateVehicle(vehicle);
     }
 
-  }
-
-  updateVehicle(vehicle:any): Observable<any>{
-    return this.http
-    .put<string>(
-      environment.apiUrl + '/vehicles/'+this.vehicle.id,
-      vehicle
-    )
-    .pipe(
-      tap(
-        (response: string) => {
-          console.log(response);
-        },
-        (errorResponse: string)=> {
-          console.log(errorResponse)
-        }
-      )
-    );
   }
 }

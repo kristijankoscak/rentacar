@@ -48,6 +48,7 @@ import { VehicleEditComponent } from './vehicle/vehicle-edit/vehicle-edit.compon
 import { CompanyRegisterComponent } from './company-register/company-register.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackBarSuccSignUpComponent } from './auth/snack-bar-succ-sign-up/snack-bar-succ-sign-up.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { SnackBarSuccSignUpComponent } from './auth/snack-bar-succ-sign-up/snack
     MatToolbarModule,
     NoopAnimationsModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

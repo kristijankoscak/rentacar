@@ -1,18 +1,19 @@
 <div fxLayout="column" fxLayoutAlign="start center" class="vehicle-detail-background">
-  <div fxLayout="row" fxFlex="100" *ngIf="!spinnerIsClosed">
+  <div fxLayout="row" fxLayoutAlign="center center" *ngIf="!spinnerIsClosed">
     <app-loading-spinner></app-loading-spinner>
   </div>
   <div fxLayout="column" fxLayoutAlign=" center" class="vehicle-detail-container" *ngIf="spinnerIsClosed">
     <div class="vehicle-image">
       <div class="slide-container" (scroll)="handleScroll($event)">
-        <button mat-button class="images-button" *ngFor="let image of vehicleImages"
-          [ngStyle]="{ 'background-image': 'url(' + image.base64 + ')' }"></button>
+        <button mat-button class="images-button" *ngFor="let image of vehicle.images">
+          <img class="images-button" [src]="image.base64">
+        </button>
       </div>
       <div class="actions-container">
         <button mat-flat-button class="icon back" routerLink="../">
           <mat-icon>keyboard_backspace</mat-icon>
         </button>
-        <button mat-flat-button class="icon share">
+        <button mat-flat-button class="icon share" [cdkCopyToClipboard]="fetchCurrentLink()">
           <mat-icon>input</mat-icon>
         </button>
       </div>
@@ -27,38 +28,38 @@
         <mat-icon>directions_car</mat-icon>
         <span class="text-size-18 font-weight-300">Marka: {{ vehicle.mark }}</span>
         <span class="text-size-18 font-weight-300">Model: {{ vehicle.model }}</span>
-        <span class="text-size-18 font-weight-300">Godina modela: {{ vehicle.modelYear }}</span>
-        <span class="text-size-18 font-weight-300">Godina proizvodnje: {{ vehicle.manufactureYear }}</span>
+        <span class="text-size-18 font-weight-300">Model year: {{ getYear(vehicle.modelYear) }}</span>
+        <span class="text-size-18 font-weight-300">Manufacture year: {{ getYear(vehicle.manufactureYear) }}</span>
       </div>
       <div fxLayout="column">
         <img src="https://cdn0.iconfinder.com/data/icons/thin-transportation-1/24/thin-0505_car_manual_gearbox-512.png"
           alt="" class="img-block" />
-        <span class="text-size-18 font-weight-300">Mjenjač: {{ vehicle.gearbox }}</span>
-        <span class="text-size-18 font-weight-300">Broj brzina: {{ vehicle.gears }}</span>
-        <span class="text-size-18 font-weight-300">Snaga: {{ vehicle.power }} kW</span>
-        <span class="text-size-18 font-weight-300"></span>
+        <span class="text-size-18 font-weight-300">Gearbox: {{ vehicle.gearbox }}</span>
+        <span class="text-size-18 font-weight-300">Gears: {{ vehicle.gears }}</span>
+        <span class="text-size-18 font-weight-300">Power: {{ vehicle.power }} kW</span>
+        <span class="text-size-18 font-weight-300">Fuel type: {{ vehicle.fuelType }} </span>
       </div>
       <div fxLayout="column">
         <mat-icon>info</mat-icon>
         <span class="text-size-18 font-weight-300">Status: {{ vehicle.status }}</span>
-        <span class="text-size-18 font-weight-300">Boja:
+        <span class="text-size-18 font-weight-300">Color:
           <div class="color-block" [style.backgroundColor]="vehicle.color"></div>
         </span>
-        <span class="text-size-18 font-weight-300">Tip: {{ vehicle.type }}</span>
-        <span class="text-size-18 font-weight-300">Cijena: {{ vehicle.price }} €/dan</span>
+        <span class="text-size-18 font-weight-300">Type: {{ vehicle.type }}</span>
+        <span class="text-size-18 font-weight-300">Price: {{ vehicle.price }} €/dan</span>
       </div>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-evenly" class="vehicle-actions-container" *ngIf="spinnerIsClosed">
-    <button mat-flat-button class="edit" (click)="navigateToEditScreen()">
+    <button mat-flat-button class="edit" (click)="navigateToEditScreen()" *ngIf="loggedUser&&(loggedUser.email === vehicle.carRental.email)">
       <span>Izmjeni</span>
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-flat-button class="remove">
+    <button mat-flat-button class="remove" *ngIf="loggedUser&&(loggedUser.email === vehicle.carRental.email)" (click)="deleteCurrentVehicle()">
       <span>Obriši</span>
       <mat-icon>remove_circle_outline</mat-icon>
     </button>
-    <button mat-flat-button class="reserve" (click)="handleReservation()">
+    <button mat-flat-button class="reserve" (click)="handleReservation()" *ngIf="loggedUser">
       <span>Rezerviraj</span>
       <mat-icon>shopping_cart</mat-icon>
     </button>

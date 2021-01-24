@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { User } from 'src/app/auth/user.model';
+import { UserService } from 'src/app/auth/user.service';
 import { Image } from 'src/app/shared/image.model';
 import { VehicleService } from 'src/app/shared/vehicle.service';
 import { Vehicle } from '../vehicle.model';
@@ -14,9 +16,10 @@ import { Vehicle } from '../vehicle.model';
 })
 export class VehicleDetailComponent implements OnInit {
 
-  subscription: Subscription;
-  spinnerIsClosed: boolean;
-
+  spinnerIsClosed: boolean = false;
+  vehiclesSubscription: Subscription;
+  userSubscription: Subscription;
+  loggedUser: User;
   vehicle: Vehicle;
   vehicleImages: Image[];
 
@@ -37,6 +40,7 @@ export class VehicleDetailComponent implements OnInit {
   warningWindowIsOpened: boolean = false;
 
   constructor(
+    private userService: UserService,
     private vehicleService: VehicleService,
     private element: ElementRef,
     private activeRoute: ActivatedRoute,
@@ -44,39 +48,47 @@ export class VehicleDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.spinnerIsClosed = false;
     this.fetchVehicle();
+    this.fetchUser();
   }
   fetchVehicle(): void {
     const id = +this.activeRoute.snapshot.paramMap.get('id');
-    let tempVehicles = this.vehicleService.getVehicles();
-    if (tempVehicles.length === 0) {
-      this.subscription = this.vehicleService.vehiclesChanged.subscribe((vehicles) => {
-        this.vehicle = vehicles.find(vehicle => { return vehicle.id === id });
+    if (this.vehicleService.getVehicles().length === 0) {
+      this.vehiclesSubscription = this.vehicleService.vehiclesChanged.subscribe((vehicles) => {
+        this.vehicle = this.vehicleService.getVehicle(id);
         this.showVehicle();
       })
     }
     else {
-      this.vehicleService.fetchVehicleByID(id);
-      this.subscription = this.vehicleService.vehicleIsPicked.subscribe(vehicle => {
-        this.vehicle = vehicle;
-        this.showVehicle();
-      })
+      this.vehicle = this.vehicleService.getVehicle(id);
+      this.showVehicle();
     }
   }
+  fetchUser(): void{
+    if(!this.userService.getUser()){
+      this.userSubscription = this.userService.userChanged.subscribe(user=>{
+        this.loggedUser = this.userService.getUser();
+      })
+    }
+    else{
+      this.loggedUser = this.userService.getUser();
+    }
+  }
+
   showVehicle(): void{
     this.spinnerIsClosed = true;
-    this.initImagesData();
-    this.initBorders();
+    setTimeout(()=>{
+      this.initImagesData();
+    },500)
   }
   initImagesData(): void {
     const image = this.element.nativeElement.querySelector('.slide-container');
     this.imageWidth = image.offsetWidth;
-    this.imagesCount = this.vehicleImages.length;
+    this.imagesCount = this.vehicle.images.length;
     this.initBorders();
   }
   initBorders(): void {
-    for (let i = 0; i < this.vehicleImages.length; i++) {
+    for (let i = 0; i < this.vehicle.images.length; i++) {
       this.borders.push(i * this.imageWidth);
     }
   }
@@ -151,21 +163,30 @@ export class VehicleDetailComponent implements OnInit {
   navigateToEditScreen(): void {
     this.router.navigate(['/vehicle/' + this.vehicle.id + '/edit']);
   }
-  removeCurrentVehicle(): void {
-    //todo
-  }
   navigateTonConfirmScreen(): void {
     if (!this.routeParams.location) {
       this.routeParams = this.filterForm.value;
-      console.log(this.routeParams);
     }
     this.router.navigate(['reserve'], { relativeTo: this.activeRoute, queryParams: this.routeParams });
   }
-
-
+  deleteCurrentVehicle(): void{
+    this.vehicleService.deleteVehicle(this.vehicle.id);
+    this.router.navigate(['/vehicle']);
+  }
+  getYear(date:any): number{
+    let tempDate = new Date(date.date);
+   let year = +tempDate.getFullYear();
+    return year;
+  }
+  fetchCurrentLink(): string{
+    return window.location.href;
+  }
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.vehiclesSubscription) {
+      this.vehiclesSubscription.unsubscribe();
+    }
+    if(this.userSubscription){
+      this.userSubscription.unsubscribe();
     }
   }
 }
