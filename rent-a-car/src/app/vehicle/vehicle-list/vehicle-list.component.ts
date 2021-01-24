@@ -13,7 +13,7 @@ import { Vehicle } from '../vehicle.model';
 })
 export class VehicleListComponent implements OnInit {
 
-  vehicles: Vehicle[]
+  vehicles: Vehicle[];
   subscription: Subscription;
 
   constructor(private vehicleService: VehicleService,
@@ -26,7 +26,7 @@ export class VehicleListComponent implements OnInit {
   }
   getParametersFromURL(): void{
     this.route.queryParams.subscribe((params: Params) => {
-      if(params.location !== undefined && params.start_date !== undefined && params.end_date !== undefined){
+      if (params.location !== undefined && params.start_date !== undefined && params.end_date !== undefined){
         this.fetchVehicleByParameters();
       }
       else{
@@ -44,12 +44,19 @@ export class VehicleListComponent implements OnInit {
     this.vehicles = this.vehicleService.getFilteredVehicles();
   }
   fetchAllVehicles(): void {
-    this.dataStorageService.fetchVehicles().subscribe(
-      resVehicles => {
-        this.vehicles = resVehicles;
-      }
+    this.subscription = this.vehicleService.vehiclesChanged.subscribe(
+      ((vehicles: Vehicle[]) => {
+        this.vehicles = vehicles;
+      })
     );
     this.vehicles = this.vehicleService.getVehicles();
+    if (this.vehicles.length === 0){
+      this.dataStorageService.fetchVehicles().subscribe(
+        response => {
+          this.vehicles = response;
+        }
+      );
+    }
   }
 
   ngOnDestroy(): void {

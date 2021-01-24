@@ -16,28 +16,28 @@ export class VehicleResolverService implements Resolve<Vehicle[]>{
   ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Vehicle[] | Observable<Vehicle[]> | Promise<Vehicle[]>{
-    const vehicles = this.vehicleService.getVehicles();
-    if (vehicles.length === 0) {
-      if(Object.keys(route.queryParams).length === 0){
+    if (Object.keys(route.queryParams).length === 0) {
+      const vehicles = this.vehicleService.getVehicles();
+      if(vehicles.length === 0){
         return this.dataStorageService.fetchVehicles().pipe(
           catchError((error) => {
             return EMPTY;
           })
         );
       }
-      else{
-        return this.dataStorageService.fetchVehiclesByParameters(
-          route.queryParams.location,
-          route.queryParams.start_date,
-          route.queryParams.end_date).pipe(
-            catchError((error) => {
-              return EMPTY;
-            })
-        );
+      else {
+        return vehicles;
       }
     }
-    else {
-      return vehicles;
+    else{
+      return this.dataStorageService.fetchVehiclesByParameters(
+        route.queryParams.location,
+        route.queryParams.start_date,
+        route.queryParams.end_date).pipe(
+          catchError((error) => {
+            return EMPTY;
+          })
+      );
     }
   }
 }
