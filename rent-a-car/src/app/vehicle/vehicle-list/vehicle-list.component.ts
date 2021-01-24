@@ -36,7 +36,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   fetchVehicleByParameters(): void{
-    this.subscription = this.vehicleService.vehiclesChanged.subscribe(
+    this.subscription = this.vehicleService.filteredVehiclesChanged.subscribe(
       ((vehicles: Vehicle[]) => {
         this.vehicles = vehicles;
       })
@@ -44,10 +44,10 @@ export class VehicleListComponent implements OnInit {
     this.vehicles = this.vehicleService.getFilteredVehicles();
   }
   fetchAllVehicles(): void {
-    this.subscription = this.vehicleService.vehiclesChanged.subscribe(
-      ((vehicles: Vehicle[]) => {
-        this.vehicles = vehicles;
-      })
+    this.dataStorageService.fetchVehicles().subscribe(
+      resVehicles => {
+        this.vehicles = resVehicles;
+      }
     );
     this.vehicles = this.vehicleService.getVehicles();
   }
