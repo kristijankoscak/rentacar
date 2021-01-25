@@ -1,5 +1,6 @@
 import { HttpClient, HttpDownloadProgressEvent } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/internal/operators/tap';
@@ -18,7 +19,7 @@ import { Vehicle } from '../vehicle.model';
 export class VehicleReserveComponent implements OnInit {
   backgroundColor = 'rgb(255, 211, 130)';
   vehicle: Vehicle = undefined;
-  times: string[] = [
+  /* times: string[] = [
     'I dont know',
     '08:00-09:00',
     '09:00-10:00',
@@ -32,14 +33,15 @@ export class VehicleReserveComponent implements OnInit {
     '17:00-18:00',
     '18:00-19:00',
     '19:00-20:00',
-  ];
+  ]; */
+  selected = 'Cash';
   modelYear = '';
   manufactureYear = '';
-  startDate: Date=new Date();
-  endDate: Date=new Date();
-  numberOfDays=0;
+  startDate: Date = new Date();
+  endDate: Date = new Date();
+  numberOfDays = 0;
   loggedUser: User;
-  userBirthday:Date=new Date()
+  userBirthday: Date = new Date();
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -51,13 +53,12 @@ export class VehicleReserveComponent implements OnInit {
 
   ngOnInit(): void {
     this.getParametersFromURL();
-    this.getUserInfo()
+    this.getUserInfo();
   }
   getParametersFromURL(): void{
     this.route.params.subscribe(
       (params: Params) => {
         this.vehicle = this.vehicleService.getVehicle(+params.id);
-        console.log(this.vehicle)
         this.setUpCarYears();
       }
     );
@@ -72,19 +73,19 @@ export class VehicleReserveComponent implements OnInit {
       this.modelYear = this.vehicle.modelYear.date.split('-')[0];
   }
   setUpReservationDates(params: any): void{
-    console.log(params)
-    this.startDate = new Date(params.start_time);
-    this.endDate = new Date(params.end_time);
+    console.log(params);
+    this.startDate = new Date(params.start_date);
+    this.endDate = new Date(params.end_date);
     this.getNumberOfDays();
   }
-  getNumberOfDays(){
-    var diff = Math.abs(this.endDate.getTime() - this.startDate.getTime());
+  getNumberOfDays(): void{
+    const diff = Math.abs(this.endDate.getTime() - this.startDate.getTime());
     this.numberOfDays = Math.ceil(diff / (1000 * 3600 * 24));
   }
-  getUserInfo(){
-    this.loggedUser = this.userService.getUser()
-    console.log(this.loggedUser)
-    if(this.userService.getUser()===undefined){
+  getUserInfo(): void{
+    this.loggedUser = this.userService.getUser();
+    console.log(this.loggedUser);
+    if (this.userService.getUser() === undefined){
       this.http
       .post<any>(
         environment.apiUrl + '/auth',
@@ -108,24 +109,27 @@ export class VehicleReserveComponent implements OnInit {
   }
 
   sendReservation(): void{
-    let reservation = this.fetchReservationData();
-    this.dataStorageService.addReservation(this.vehicle.id,reservation).subscribe(
-      response => {this.router.navigate(['/home'])},
+    const reservation = this.fetchReservationData();
+    this.dataStorageService.addReservation(this.vehicle.id, reservation).subscribe(
+      response => {this.router.navigate(['/home']); },
       errorResponse => {}
     );
   }
 
   fetchReservationData(): any{
-    let reservation = {
+    const reservation = {
       user_id: this.loggedUser.id,
       startTime: this.startDate,
       endTime: this.endDate,
-      paymentMethod: 'Cash',   // ovo dvoje promjenit..
-      paymentAmount: 250,      //
+      paymentMethod: this.selected,   // ovo dvoje promjenit..
+      paymentAmount: this.vehicle.price * this.numberOfDays + 5,      //
       carRental: this.vehicle.carRental.id,
       info: ''
 
-    }
+    };
     return reservation;
+  }
+  getSelected(event: MatSelectChange){
+    console.log(event);
   }
 }

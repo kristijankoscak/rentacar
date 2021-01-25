@@ -18,6 +18,7 @@ import { CompanyRegisterComponent } from './company-register/company-register.co
 import { VehicleResolverService } from './vehicle/vehicle-resolver.service';
 import { AuthResolverService } from './auth/auth-resolver.service';
 import { ReservationResolverService } from './reservation/reservation-resolver.service';
+import { ReserveVehicleResolverService } from './vehicle/vehicle-reserve/reserve-vehicle-resolver.service';
 
 
 const appRoutes: Routes = [
@@ -34,9 +35,9 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: VehicleListComponent , resolve: [VehicleResolverService]},
       { path: 'new', component: VehicleEditComponent },
-      { path: ':id', component: VehicleDetailComponent, resolve: [VehicleResolverService]},
+      { path: ':id', component: VehicleDetailComponent, resolve: [ReserveVehicleResolverService]},
       { path: ':id/edit', component: VehicleEditComponent , resolve: [VehicleResolverService]},
-      { path: ':id/reserve', component: VehicleReserveComponent , resolve: [VehicleResolverService]}
+      { path: ':id/reserve', component: VehicleReserveComponent , resolve: [ReserveVehicleResolverService]}
     ]
   },
   {

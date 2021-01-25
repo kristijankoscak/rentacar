@@ -100,7 +100,7 @@ fxLayout=column>
         class="taxes-wrapper"
         fxLayout=row>
             <span>Taxes and charges</span>
-            <span>+ € 21</span>
+            <span>+ € 5</span>
         </div>
     </div>
     <div
@@ -112,30 +112,51 @@ fxLayout=column>
         class="sum-price">€ {{vehicle.price * numberOfDays + 21}}</span>
     </div>
   </div>
-  <div
+  <!-- <div
     fxFlexOffset=2
     class="estimate-arrival-time-container"
     fxLayout=row>
-        <span
-        class="material-icons material-icons-outlined clock-icon">
-        query_builder</span>
-        <div
-        fxFlexOffset=1.5em
-        fxLayout=column>
-            <span
-            class="normal-bold"><b>Share your estimated arrival time</b></span>
-            <span>
-                We would like to know when you arrive. Don't worry - you can send us mail if your plan changed.
-            </span>
-            <mat-form-field>
-                <mat-select [value]="times[0]">
-                    <mat-option *ngFor="let time of times" [value]="times[0]">
-                    {{time}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+      <span
+      class="material-icons material-icons-outlined clock-icon">
+      query_builder</span>
+      <div
+      fxFlexOffset=1.5em
+      fxLayout=column>
+          <span
+          class="normal-bold"><b>Share your estimated arrival time</b></span>
+          <span>
+              We would like to know when you arrive. Don't worry - you can send us mail if your plan changed.
+          </span>
+          <mat-form-field>
+              <mat-select [value]="times[0]">
+                  <mat-option *ngFor="let time of times" [value]="times[0]">
+                  {{time}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+  </div> -->
+  <div
+  fxFlexOffset=2
+  class="payment-method-container"
+  fxLayout=row>
+    <span
+    class="material-icons material-icons-outlined clock-icon">
+    monetization_on</span>
+    <div
+    fxFlexOffset=1.5em
+    fxLayout=column>
+      <span
+      class="normal-bold"><b>Choose payment method</b></span>
+      <mat-form-field>
+        <mat-label>Payment method</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option value="Cash">Cash</mat-option>
+          <mat-option value="Credit card">Credit card</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
+  </div>
   <div
     fxLayout=row>
       <div

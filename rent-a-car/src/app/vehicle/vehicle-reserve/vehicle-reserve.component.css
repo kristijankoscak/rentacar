@@ -103,7 +103,8 @@ hr{
 .price-wrapper{
     padding: 1rem 0;
 }
-.estimate-arrival-time-container{
+.estimate-arrival-time-container,
+.payment-method-container{
     padding: 1rem 1rem 0 1rem;
 }
 .user-info-wrapper{
