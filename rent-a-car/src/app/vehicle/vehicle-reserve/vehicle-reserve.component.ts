@@ -57,6 +57,7 @@ export class VehicleReserveComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.vehicle = this.vehicleService.getVehicle(+params.id);
+        console.log(this.vehicle)
         this.setUpCarYears();
       }
     );
@@ -71,6 +72,7 @@ export class VehicleReserveComponent implements OnInit {
       this.modelYear = this.vehicle.modelYear.date.split('-')[0];
   }
   setUpReservationDates(params: any): void{
+    console.log(params)
     this.startDate = new Date(params.start_time);
     this.endDate = new Date(params.end_time);
     this.getNumberOfDays();

@@ -16,18 +16,12 @@ export class VehicleListComponent implements OnInit {
 
   vehicles: Vehicle[] = [];
   subscription: Subscription;
-  error: boolean;
   constructor(private vehicleService: VehicleService,
               private route: ActivatedRoute,
               private http: HttpClient,
               private dataStorageService: DataStorageService) { }
 
   ngOnInit(): void {
-    this.vehicleService.errorHappened.subscribe(
-      value => {
-        this.error = value;
-      }
-    )
     this.getParametersFromURL();
   }
   getParametersFromURL(): void{

@@ -8,17 +8,25 @@ import { VehicleService } from '../vehicle.service';
   styleUrls: ['./error-alert.component.css']
 })
 export class ErrorAlertComponent implements OnInit {
-  error: boolean;
+  error: boolean=false;
+  errorMessage: string;
   constructor(private vehicleService: VehicleService,
               private router: Router) { }
 
   ngOnInit(): void {
     this.vehicleService.errorHappened.subscribe((value) => {
-      this.error = value;
+      if(value === 'no vehicles'){
+        this.error = true;
+        this.errorMessage = "We don't have available cars for you. Try change location or term";
+      }
+      else {
+        this.error = true;
+        this.errorMessage = "Ups, error occured. Check your internet connection";
+      }
     });
   }
   closeErrorBox(): void{
-    this.error = null;
+    this.error = false;
     this.router.navigate(['/home'])
   }
 }

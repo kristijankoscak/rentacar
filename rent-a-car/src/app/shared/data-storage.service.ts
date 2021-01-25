@@ -55,7 +55,8 @@ export class DataStorageService {
                 this.vehicleService.setFilteredVehicles(vehicles);
               },
               (errorResponse: any)=> {
-                this.vehicleService.errorHappened.next(true);
+                console.log(errorResponse.error)
+                this.vehicleService.errorHappened.next(errorResponse.error);
               })
             );
   }

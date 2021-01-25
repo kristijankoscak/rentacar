@@ -16,7 +16,7 @@ export class VehicleService {
   specificVehicle: Vehicle;
   vehiclesChanged = new Subject<Vehicle[]>();
   filteredVehiclesChanged = new Subject<Vehicle[]>();
-  errorHappened = new Subject<boolean>();
+  errorHappened = new Subject<string>();
   constructor(
     private http: HttpClient,
     private router:Router
@@ -41,6 +41,8 @@ export class VehicleService {
     return this.vehicles.filter(vehicle => vehicle.carRental.name === carRentalName);
   }
   getVehicle(id: number): Vehicle{
+    console.log(this.vehicles)
+    console.log(this.vehicles.find(vehicle => vehicle.id === id))
     return this.vehicles.find(vehicle => vehicle.id === id);
   }
   getVehiclesByRentalId(id: number): Vehicle[]{
