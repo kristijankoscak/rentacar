@@ -42,6 +42,7 @@ export class VehicleReserveComponent implements OnInit {
   numberOfDays = 0;
   loggedUser: User;
   userBirthday: Date = new Date();
+  coverImage: string;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -60,6 +61,7 @@ export class VehicleReserveComponent implements OnInit {
       (params: Params) => {
         this.vehicle = this.vehicleService.getVehicle(+params.id);
         this.setUpCarYears();
+        this.setCarImage();
       }
     );
     this.route.queryParams.subscribe(
@@ -67,6 +69,10 @@ export class VehicleReserveComponent implements OnInit {
         this.setUpReservationDates(params);
       }
     );
+  }
+  setCarImage(): void{
+    const imageObject = this.vehicle.images.find( imageObject => imageObject.isCover === true);
+    this.coverImage = imageObject.base64;
   }
   setUpCarYears(): void{
       this.manufactureYear = this.vehicle.manufactureYear.date.split('-')[0];
