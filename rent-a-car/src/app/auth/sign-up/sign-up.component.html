@@ -37,7 +37,7 @@ fxLayoutGap=1rem>
             <input matInput
             formControlName="firstName">
             <mat-icon matSuffix>person_outline</mat-icon>
-            <mat-error *ngIf="this.signUpForm.controls.firstName.invalid">You must enter a value</mat-error>
+            <mat-error *ngIf="this.signUpForm.controls.firstName.invalid">{{getFirstNameErrorMessage()}}</mat-error>
           </mat-form-field>
           <mat-form-field
           fxFlex=48>
@@ -45,7 +45,7 @@ fxLayoutGap=1rem>
             <input matInput
             formControlName="lastName">
             <mat-icon matSuffix>person_outline</mat-icon>
-            <mat-error *ngIf="this.signUpForm.controls.lastName.invalid">You must enter a value</mat-error>
+            <mat-error *ngIf="this.signUpForm.controls.lastName.invalid">{{getLastNameErrorMessage()}}</mat-error>
 
           </mat-form-field>
         </div>

@@ -64,14 +64,16 @@ export class CompanyRegisterComponent implements OnInit {
   initForm(): void{
     this.companyForm = new FormGroup({
       companyName : new FormControl('', [
-        Validators.required
+        Validators.required,
+        this.noWhitespaceValidator
       ]),
       city : new FormControl('', [
         Validators.required,
         this.allowCity.bind(this)
       ]),
       address : new FormControl('', [
-        Validators.required
+        Validators.required,
+        this.noWhitespaceValidator
       ]),
       phoneNumber : new FormControl('', [
         Validators.required,
@@ -83,11 +85,24 @@ export class CompanyRegisterComponent implements OnInit {
       ]),
     });
   }
+  public noWhitespaceValidator(control: FormControl): any {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    console.log(isWhitespace)
+    const isValid = !isWhitespace;
+    return isValid ? null : { whitespace: true };
+  }
   allowCity(control: FormControl): {[s: string]: boolean} {
-    if (!this.options.includes(control.value)) {
-      return {allowCity: true};
+    const isInputIncluded = this.options.includes(control.value)
+    return isInputIncluded ? null : {allowCity: true}
+  }
+  getCompanyNameError(): string {
+    if (this.companyForm.controls.companyName.hasError('required')) {
+      return 'You must enter a value';
     }
-    return null;
+    if (this.companyForm.controls.companyName.hasError('whitespace')) {
+      return 'Not a valid enter';
+    }
+    return this.companyForm.controls.companyName.hasError('companyName') ? 'Not a valid enter' : '';
   }
   getCityError(): string {
     if (this.city.hasError('required')) {
@@ -97,6 +112,16 @@ export class CompanyRegisterComponent implements OnInit {
       return 'Not valid city. Please choose one from list!';
     }
     return this.city.hasError('city') ? 'Not a valid enter' : '';
+  }
+
+  getAddressError(): string {
+    if (this.companyForm.controls.address.hasError('required')) {
+      return 'You must enter a value';
+    }
+    if (this.companyForm.controls.address.hasError('whitespace')) {
+      return 'Not a valid enter';
+    }
+    return this.companyForm.controls.address.hasError('address') ? 'Not a valid enter' : '';
   }
   getEmailErrorMessage(): string {
     if (this.companyForm.controls.email.hasError('required')) {

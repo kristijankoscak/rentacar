@@ -28,14 +28,14 @@ export class SignInComponent implements OnInit {
   ngOnInit(): void {
     this.authService.succLogin.subscribe(
       value => {
-        if(value === true){
+        if (value === true){
           this.snackBar.openFromComponent(SnackBarSuccSignUpComponent, {
             duration: this.durationInSeconds * 1000,
           });
           this.authService.succLogin.next(false);
         }
       }
-    )
+    );
     this.initForm();
   }
   initForm(): void{
@@ -84,7 +84,7 @@ export class SignInComponent implements OnInit {
         .subscribe(
           responseData => {
             this.authService.saveToken(responseData.token);
-            this.router.navigate(['/home'])
+            this.router.navigate(['/home']);
           },
           errorResponse => {
             if (errorResponse.error){

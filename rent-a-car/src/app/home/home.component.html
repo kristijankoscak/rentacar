@@ -32,7 +32,7 @@ fxLayoutAlign="space-between">
             {{option}}
           </mat-option>
         </mat-autocomplete>
-        <mat-error *ngIf="location.invalid">{{getLocationError()}}</mat-error>
+        <mat-error *ngIf="this.filterForm.controls.location.invalid">Not valid city. Please choose one from list!</mat-error>
       </mat-form-field>
       <mat-form-field
       fxFlexOffset=1rem

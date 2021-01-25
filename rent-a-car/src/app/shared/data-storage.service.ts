@@ -14,10 +14,6 @@ import { VehicleService } from './vehicle.service';
 })
 export class DataStorageService {
 
-  allVehicles: Vehicle[];
-  allReservations: Reservation[];
-  userReservations: Reservation[];
-
   // dohvacanje i filtriranje vozila
   // logirani korisnik?
 
@@ -28,7 +24,12 @@ export class DataStorageService {
     private userService: UserService
     ) { }
 
+  allVehicles: Vehicle[];
+  allReservations: Reservation[];
+  userReservations: Reservation[];
+
   private dataRefreshInterval = 5; // in minutes
+z;
 
   fetchVehicles(): Observable<Vehicle[]>{
     return this.http
@@ -54,8 +55,8 @@ export class DataStorageService {
               tap((vehicles: Vehicle[]) => {
                 this.vehicleService.setFilteredVehicles(vehicles);
               },
-              (errorResponse: any)=> {
-                console.log(errorResponse.error)
+              (errorResponse: any) => {
+                console.log(errorResponse.error);
                 this.vehicleService.errorHappened.next(errorResponse.error);
               })
             );
@@ -72,7 +73,7 @@ export class DataStorageService {
   }
 
   fetchAllReservations(): Observable<Reservation []>{
-    console.log('dohvaćam sve rezervacije api...')
+    console.log('dohvaćam sve rezervacije api...');
     return this.http
     .get<any>(
       environment.apiUrl + '/reservations'
@@ -90,8 +91,8 @@ export class DataStorageService {
               firstName: reservation.user.firstName,
               lastName: reservation.user.lastName
             }
-          }
-        })
+          };
+        });
       }),
       tap((reservations: Reservation[]) => {
         this.reservationService.saveAllReservations(reservations);
@@ -99,10 +100,10 @@ export class DataStorageService {
     );
   }
   fetchUserReservations(): Observable<Reservation []>{
-    console.log('dohvaćam korisnicke rezervacije api...')
+    console.log('dohvaćam korisnicke rezervacije api...');
     return this.http
     .get<any>(
-      environment.apiUrl + '/reservations/'+ this.userService.getUser().id
+      environment.apiUrl + '/reservations/' + this.userService.getUser().id
     )
     .pipe(
       tap((reservations: Reservation[]) => {
@@ -111,10 +112,10 @@ export class DataStorageService {
       })
     );
   }
-  addReservation(vehicleID: number,reservation: any): Observable<any>{
+  addReservation(vehicleID: number, reservation: any): Observable<any>{
     return this.http
     .post<any>(
-      environment.apiUrl + '/reservations/'+vehicleID,
+      environment.apiUrl + '/reservations/' + vehicleID,
       reservation
     )
     .pipe(
@@ -123,38 +124,38 @@ export class DataStorageService {
       })
     );
   }
-  updateReservation(id:number,status:string,message:string): Observable<string>{
+  updateReservation(id: number, status: string, message: string): Observable<string>{
     return this.http
     .put<string>(
-      environment.apiUrl + '/reservations/update/'+id,
+      environment.apiUrl + '/reservations/update/' + id,
       {
-        status: status,
+        status,
         info: message
       }
     )
     .pipe(
       tap(
         (response: string) => { },
-        (errorResponse: string)=> {
-          console.log(errorResponse)
+        (errorResponse: string) => {
+          console.log(errorResponse);
         }
       )
     );
   }
   removeReservation(reservationID: number): Observable<string>{
-    console.log('uso ,id: '+reservationID)
+    console.log('uso ,id: ' + reservationID);
     return this.http
     .delete<string>(
-      environment.apiUrl + '/reservations/'+reservationID
+      environment.apiUrl + '/reservations/' + reservationID
     )
     .pipe(
       tap(
         (response: string) => { },
-        (errorResponse: string)=> { }
+        (errorResponse: string) => { }
       )
     );
   }
-  addVehicle(vehicle:any): Observable<any>{
+  addVehicle(vehicle: any): Observable<any>{
     return this.http
     .post<any>(
       environment.apiUrl + '/vehicles/',
@@ -165,16 +166,16 @@ export class DataStorageService {
         (response: string) => {
           console.log(response);
         },
-        (errorResponse: string)=> {
-          console.log(errorResponse)
+        (errorResponse: string) => {
+          console.log(errorResponse);
         }
       )
     );
   }
-  updateVehicle(vehicle:any): Observable<any>{
+  updateVehicle(vehicle: any): Observable<any>{
     return this.http
     .put<string>(
-      environment.apiUrl + '/vehicles/'+vehicle.id,
+      environment.apiUrl + '/vehicles/' + vehicle.id,
       vehicle
     )
     .pipe(
@@ -182,29 +183,28 @@ export class DataStorageService {
         (response: string) => {
           console.log(response);
         },
-        (errorResponse: string)=> {
-          console.log(errorResponse)
+        (errorResponse: string) => {
+          console.log(errorResponse);
         }
       )
     );
   }
-  deleteVehicle(id:number): Observable<any>{
+  deleteVehicle(id: number): Observable<any>{
     return this.http
     .delete<any>(
-      environment.apiUrl + '/vehicles/'+id
+      environment.apiUrl + '/vehicles/' + id
     )
     .pipe(
       tap(
         (response: string) => {
           console.log(response);
         },
-        (errorResponse: string)=> {
-          console.log(errorResponse)
+        (errorResponse: string) => {
+          console.log(errorResponse);
         }
       )
     );
   }
-
 
   setVehicleRefreshInterval(): void {
     setTimeout(() => {

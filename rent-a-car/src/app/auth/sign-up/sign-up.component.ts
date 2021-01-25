@@ -24,10 +24,12 @@ export class SignUpComponent implements OnInit {
   initForm(): void{
     this.signUpForm = new FormGroup({
       firstName : new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.pattern(/^\S*$/)
       ]),
       lastName : new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.pattern(/^\S*$/)
       ]),
       dateOfBirth : new FormControl('', [
         Validators.required
@@ -45,6 +47,24 @@ export class SignUpComponent implements OnInit {
         Validators.minLength(6)
       ])
     });
+  }
+  getFirstNameErrorMessage(): string {
+    if (this.signUpForm.controls.firstName.hasError('required')) {
+      return 'You must enter a value';
+    }
+    if (this.signUpForm.controls.firstName.hasError('pattern')) {
+      return 'Required one word input';
+    }
+    return this.signUpForm.controls.firstName.hasError('firstName') ? 'Not a valid enter' : '';
+  }
+  getLastNameErrorMessage(): string {
+    if (this.signUpForm.controls.lastName.hasError('required')) {
+      return 'You must enter a value';
+    }
+    if (this.signUpForm.controls.lastName.hasError('pattern')) {
+      return 'Required one word input';
+    }
+    return this.signUpForm.controls.lastName.hasError('lastName') ? 'Not a valid enter' : '';
   }
   getEmailErrorMessage(): string {
     if (this.signUpForm.controls.email.hasError('required')) {
@@ -74,6 +94,7 @@ export class SignUpComponent implements OnInit {
     }
     return this.signUpForm.controls.password.hasError('password') ? 'Not a valid enter' : '';
   }
+
   onSubmit(form): void {
     if (!form.valid) {
       return;
@@ -90,7 +111,7 @@ export class SignUpComponent implements OnInit {
           }
         )
         .subscribe(responseData => {
-            if(responseData === 'success'){
+            if (responseData === 'success'){
               this.router.navigate(['../sign-in'],
                 {
                   relativeTo: this.route,

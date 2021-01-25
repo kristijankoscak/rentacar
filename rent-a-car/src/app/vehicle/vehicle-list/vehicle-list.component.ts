@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { error } from 'protractor';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { Vehicle } from '../vehicle.model';
   templateUrl: './vehicle-list.component.html',
   styleUrls: ['./vehicle-list.component.css']
 })
-export class VehicleListComponent implements OnInit {
+export class VehicleListComponent implements OnInit, OnDestroy {
 
   vehicles: Vehicle[] = [];
   subscription: Subscription;
@@ -47,9 +47,6 @@ export class VehicleListComponent implements OnInit {
     this.subscription = this.vehicleService.vehiclesChanged.subscribe(
       (vehicles: Vehicle[]) => {
         this.vehicles = vehicles;
-      },
-      (error) => {
-        console.log("eeeeerrorr happened")
       }
     );
     this.vehicles = this.vehicleService.getVehicles();

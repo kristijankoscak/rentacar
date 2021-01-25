@@ -32,7 +32,7 @@ fxLayoutGap=1rem>
           <input matInput
           formControlName="companyName">
           <mat-icon matSuffix>emoji_transportation</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.companyName.invalid">You must enter a value</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.companyName.invalid">{{getCompanyNameError()}}</mat-error>
 
         </mat-form-field>
         <mat-form-field>
@@ -47,14 +47,14 @@ fxLayoutGap=1rem>
             </mat-option>
           </mat-autocomplete>
           <mat-icon matSuffix>map</mat-icon>
-          <mat-error *ngIf="city.invalid">{{getCityError()}}</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.city.invalid">Not valid city. Please choose one from list!</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Address</mat-label>
           <input matInput
           formControlName="address">
           <mat-icon matSuffix>place</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.address.invalid">You must enter a value</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.address.invalid">{{getAddressError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Phone number</mat-label>

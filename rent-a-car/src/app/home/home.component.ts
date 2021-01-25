@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
 
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
-  getLocationError(): string {
+  /* getLocationError(): string {
     if (this.location.hasError('required')) {
       return 'You must enter a value';
     }
@@ -63,20 +63,20 @@ export class HomeComponent implements OnInit {
       return 'Not valid city. Please choose one from list!';
     }
     return this.location.hasError('city') ? 'Not a valid enter' : '';
-  }
-  getStartDateErrorMessage(){
+  } */
+  getStartDateErrorMessage(): string{
     if (this.filterForm.controls.start.hasError('required')) {
       return 'You must enter a value';
     }
     return this.filterForm.controls.start.hasError('start') ? 'Not a valid enter' : '';
   }
-  getEndDateErrorMessage(){
+  getEndDateErrorMessage(): string{
     if (this.filterForm.controls.end.hasError('required')) {
       return 'You must enter a value';
     }
     return this.filterForm.controls.end.hasError('end') ? 'Not a valid enter' : '';
   }
-  onSubmit(form){
+  onSubmit(form): void{
     if (!form.valid) {
       return;
     }
