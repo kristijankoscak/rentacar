@@ -12,7 +12,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" *ngIf="reservationsLoading">
           <app-loading-spinner></app-loading-spinner>
         </div>
-        <app-reservation-item *ngFor="let reservation of userReservations" [reservation]="reservation"></app-reservation-item>
+        <app-reservation-item *ngFor="let reservation of userReservations" [reservation]="reservation" [userReservations]="true"></app-reservation-item>
       </div>
     </mat-tab>
     <mat-tab *ngIf="loggedUser && loggedUser.roles.includes('ROLE_ADMIN')">
@@ -24,7 +24,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" *ngIf="reservationsLoading">
           <app-loading-spinner></app-loading-spinner>
         </div>
-        <app-reservation-item *ngFor="let reservation of waitingReservations" [reservation]="reservation"></app-reservation-item>
+        <app-reservation-item *ngFor="let reservation of waitingReservations" [reservation]="reservation" [userReservations]="false"></app-reservation-item>
       </div>
     </mat-tab>
 
@@ -37,7 +37,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" *ngIf="reservationsLoading">
           <app-loading-spinner></app-loading-spinner>
         </div>
-        <app-reservation-item *ngFor="let reservation of acceptedReservations" [reservation]="reservation"></app-reservation-item>
+        <app-reservation-item *ngFor="let reservation of acceptedReservations" [reservation]="reservation" [userReservations]="false"></app-reservation-item>
       </div>
     </mat-tab>
 
@@ -50,7 +50,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" *ngIf="reservationsLoading">
           <app-loading-spinner></app-loading-spinner>
         </div>
-        <app-reservation-item *ngFor="let reservation of rejectedReservations" [reservation]="reservation"></app-reservation-item>
+        <app-reservation-item *ngFor="let reservation of rejectedReservations" [reservation]="reservation" [userReservations]="false"></app-reservation-item>
       </div>
     </mat-tab>
   </mat-tab-group>

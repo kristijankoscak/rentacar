@@ -94,21 +94,26 @@ export class VehicleEditComponent implements OnInit {
   initForm(): void {
     this.vehicleForm = new FormGroup({
       mark: new FormControl(null, [Validators.required]),
-      model: new FormControl(null, [Validators.required]),
-      modelYear: new FormControl(null, [Validators.required]),
-      manufactureYear: new FormControl(null, [Validators.required]),
-      gears: new FormControl(null, [Validators.required]),
+      model: new FormControl(null, [Validators.required,this.whiteSpaceValidator]),
+      modelYear: new FormControl(null, [Validators.required,this.whiteSpaceValidator]),
+      manufactureYear: new FormControl(null, [Validators.required,this.whiteSpaceValidator]),
+      gears: new FormControl(null, [Validators.required,this.whiteSpaceValidator]),
       color: new FormControl(null, [Validators.required]),
       gearbox: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
-      power: new FormControl(null, [Validators.required]),
+      power: new FormControl(null, [Validators.required,this.whiteSpaceValidator]),
       type: new FormControl(null, [Validators.required]),
-      price: new FormControl(null, [Validators.required]),
+      price: new FormControl(null, [Validators.required,this.whiteSpaceValidator]),
       fuelType: new FormControl(null, [Validators.required]),
-      discount: new FormControl(null, [Validators.required]),
-      gateNumber: new FormControl(null, [Validators.required])
+      discount: new FormControl(null, [Validators.required,this.whiteSpaceValidator]),
+      gateNumber: new FormControl(null, [Validators.required,this.whiteSpaceValidator])
     });
     this.validateForm();
+  }
+  public whiteSpaceValidator(control: FormControl): any {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { whitespace: true };
   }
   validateForm(): void {
     this.vehicleForm.valueChanges.subscribe(() => {

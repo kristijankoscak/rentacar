@@ -12,13 +12,17 @@ import { VehicleService } from '../vehicle.service';
 export class ReservationItemComponent implements OnInit {
 
   @Input() reservation: Reservation;
+  @Input() userReservations: boolean;
+  statusColor: string;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute
     ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.setStatusColor();
+   }
 
   getDate(date:any): string{
     let formatedDate = '';
@@ -30,6 +34,27 @@ export class ReservationItemComponent implements OnInit {
   }
   fetchNewPrice(): number{
     return this.reservation.vehicle.price - this.reservation.vehicle.price*(this.reservation.vehicle.discount/100);
+  }
+  setStatusColor(): void{
+    if(this.userReservations){
+      switch(this.reservation.status) {
+        case 'Waiting': {
+          this.statusColor = '#ffd382';
+          break;
+        }
+        case 'Accepted': {
+          this.statusColor = 'green';
+          break;
+        }
+        case 'Rejected': {
+          this.statusColor = 'red';
+          break;
+        }
+      }
+    }
+    else{
+      this.statusColor = "#ffd382";
+    }
   }
 
   navigateToDetailedReservation(): void{
