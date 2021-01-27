@@ -1,6 +1,6 @@
 
 <div fxLayout="row" class="reservation-item-container">
-  <div fxLayout="row" fxLayoutAlign="center center" class="reservation-id bg-secondary">
+  <div fxLayout="row" fxLayoutAlign="center center" class="reservation-id" [ngStyle]="{'background-color':statusColor}">
     <span class="text-size-16">{{reservation.id}}</span>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-around center" class="reservation-info">

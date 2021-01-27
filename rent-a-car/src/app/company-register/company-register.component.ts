@@ -87,7 +87,6 @@ export class CompanyRegisterComponent implements OnInit {
   }
   public noWhitespaceValidator(control: FormControl): any {
     const isWhitespace = (control.value || '').trim().length === 0;
-    console.log(isWhitespace)
     const isValid = !isWhitespace;
     return isValid ? null : { whitespace: true };
   }
