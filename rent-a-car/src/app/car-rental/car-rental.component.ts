@@ -45,7 +45,6 @@ export class CarRentalComponent implements OnInit {
   getParametersFromRoute(): void{
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
-      console.log(typeof this.id)
       this.http
         .get<any>(
           'https://sbdrustvo.com/carrental/' + params.id,
@@ -57,6 +56,7 @@ export class CarRentalComponent implements OnInit {
           }
           else{
             this.rentalImage = this.carRental.image;
+            console.log(this.carRental.image)
           }
         });
       });
