@@ -13,12 +13,14 @@ export class ErrorAlertComponent implements OnInit,OnDestroy {
   errorSubscription: Subscription;
   error: boolean=false;
   errorMessage: string;
+  backdrop: HTMLElement = document.querySelector('.backdrop') as HTMLElement;
   constructor(private vehicleService: VehicleService,
               private router: Router) { }
 
   ngOnInit(): void {
     this.errorSubscription = this.vehicleService.errorHappened.subscribe((value) => {
-      if(value === 'no vehicles'){
+      this.backdrop.style.display = 'block'
+      if(value === 'No vehicles.'){
         this.error = true;
         this.errorMessage = "We don't have available cars for you. Try change location or term";
       }
@@ -32,6 +34,7 @@ export class ErrorAlertComponent implements OnInit,OnDestroy {
   closeErrorBox(): void{
     this.error = false;
     this.router.navigate(['/home'])
+    this.backdrop.style.display = 'none'
   }
 
   ngOnDestroy(): void {

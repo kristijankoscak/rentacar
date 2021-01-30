@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { SnackBarSuccSignUpComponent } from '../auth/snack-bar-succ-sign-up/snack-bar-succ-sign-up.component';
 import { UserService } from '../auth/user.service';
+import { VehicleService } from '../shared/vehicle.service';
 
 
 @Component({
@@ -23,9 +24,11 @@ export class HomeComponent implements OnInit {
   startTime: string;
   endTime: string;
   durationInSeconds:number = 3;
+  showLoader = false;
+  
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private http: HttpClient,
+              private vehicleService: VehicleService,
               private userService: UserService,
               private snackBar: MatSnackBar) {
     }
@@ -36,6 +39,9 @@ export class HomeComponent implements OnInit {
       map(value => this._filter(value))
     );
     this.initForm()
+    this.vehicleService.showspinner.subscribe(value => {
+      this.showLoader = value;
+    })
   }
   subscribeToNavigationErrors(): void{
     this.userService.showNotAllowedError.subscribe(
@@ -94,6 +100,8 @@ export class HomeComponent implements OnInit {
     if (!form.valid) {
       return;
     }
+    this.showLoader = true;
+
     if(this.formatDates(form.value.start, form.value.end)){
       this.router.navigate(['../vehicle'], {
         relativeTo: this.route,

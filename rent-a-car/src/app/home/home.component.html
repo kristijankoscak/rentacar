@@ -1,14 +1,3 @@
-<!--
-
-  Početna stranica s filterom u sredini.
-  Forma za:
-    Datum preuzimanja auta,
-    vraćanja auta.
-
-  Lokacija?
-  (Toga nema u prema dokum. zahtjevi na softver)
-
--->
 <div
 class="form-wrapper"
 fxLayout="column"
@@ -54,8 +43,12 @@ fxLayoutAlign="space-between">
       </mat-form-field>
     </div>
     <button
-  mat-stroked-button>
-    Filter</button>
+    mat-stroked-button>
+    <app-button-spinner
+    *ngIf=showLoader></app-button-spinner>
+      <span
+      *ngIf=!showLoader>Filter</span>
+    </button>
   </form>
   
 </div>

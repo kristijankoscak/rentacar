@@ -16,6 +16,7 @@ export class VehicleResolverService implements Resolve<Vehicle[]>{
   ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Vehicle[] | Observable<Vehicle[]> | Promise<Vehicle[]>{
+    
     if (Object.keys(route.queryParams).length === 0) {
       const vehicles = this.vehicleService.getVehicles();
       if(vehicles.length === 0){

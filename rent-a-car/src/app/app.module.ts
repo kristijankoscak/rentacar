@@ -50,6 +50,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackBarSuccSignUpComponent } from './auth/snack-bar-succ-sign-up/snack-bar-succ-sign-up.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { ErrorAlertComponent } from './shared/error-alert/error-alert.component';
+import { ButtonSpinnerComponent } from './shared/button-spinner/button-spinner.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { ErrorAlertComponent } from './shared/error-alert/error-alert.component'
     VehicleEditComponent,
     CompanyRegisterComponent,
     SnackBarSuccSignUpComponent,
-    ErrorAlertComponent
+    ErrorAlertComponent,
+    ButtonSpinnerComponent
   ],
   imports: [
     BrowserModule,
