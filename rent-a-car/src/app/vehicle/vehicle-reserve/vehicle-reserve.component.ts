@@ -37,6 +37,7 @@ export class VehicleReserveComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.vehicleService.vehicleDetailSpinner.next(false)
     this.getParametersFromURL();
     this.getUserInfo();
   }

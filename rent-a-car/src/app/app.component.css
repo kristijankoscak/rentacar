@@ -3,6 +3,10 @@
   background-size: cover;
   min-height: calc(100vh - 4rem);
 }
+.spinner{
+  position: absolute;
+  left: 50%;
+}
 .screen-center{
   width : 100%;
   height: calc(100vh - 60px);

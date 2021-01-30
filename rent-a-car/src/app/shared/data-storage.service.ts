@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../auth/user.service';
+import { HeaderService } from '../header/header.service';
 import { Reservation } from '../reservation/reservation.model';
 import { ReservationService } from '../reservation/reservation.service';
 import { Vehicle } from '../vehicle/vehicle.model';
@@ -18,7 +19,8 @@ export class DataStorageService {
     private reservationService: ReservationService,
     private vehicleService: VehicleService,
     private http: HttpClient,
-    private userService: UserService
+    private userService: UserService,
+    private headerService: HeaderService
     ) { }
 
   allVehicles: Vehicle[];
@@ -35,6 +37,7 @@ z;
     )
     .pipe(
       tap((vehicles: Vehicle[]) => {
+        this.headerService.spinner.next(false)
         this.vehicleService.setVehicles(vehicles);
       })
     );
@@ -50,7 +53,7 @@ z;
     );
   }
   fetchVehiclesByParameters(p_location, p_startTime, p_endTime): Observable<Vehicle[]>{
-    
+    this.headerService.spinner.next(true)
     return this.http
             .post<Vehicle[]>(
               'https://sbdrustvo.com/vehicles/filter',
@@ -61,11 +64,10 @@ z;
             })
             .pipe(
               tap((vehicles: Vehicle[]) => {
-                console.log("evo")
+                this.headerService.spinner.next(false)
                 this.vehicleService.setFilteredVehicles(vehicles);
               },
               (errorResponse: any) => {
-                this.vehicleService.showspinner.next(false)
                 this.vehicleService.errorHappened.next(errorResponse.error);
               })
             );

@@ -15,6 +15,7 @@ export class VehicleService {
   filteredVehiclesChanged = new Subject<Vehicle[]>();
   errorHappened = new Subject<string>();
   showspinner = new Subject<boolean>();
+  vehicleDetailSpinner = new Subject<boolean>();
   constructor(
     private http: HttpClient,
     private router:Router

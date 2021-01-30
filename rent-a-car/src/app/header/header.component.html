@@ -5,7 +5,10 @@
   fxLayoutAlign="center center"
   fxLayoutGap="2rem">
     <span class="nav-item" routerLink="/home" routerLinkActive="active">Home</span>
-    <span class="nav-item" routerLink="/vehicle" routerLinkActive="active">Vehicles</span>
+    <span class="nav-item" routerLink="/vehicle" routerLinkActive="active"  (click)="showSpinner()">
+      <span *ngIf=!spinner>Vehicles</span>
+      <app-button-spinner *ngIf=spinner></app-button-spinner>
+    </span>
     <span
     class="login nav-item"
     [matMenuTriggerFor]="menu2"
@@ -26,13 +29,5 @@
     </mat-menu>
   </div>
 </div>
-<!--
-
-  Komponenta header s dugmicima za Vozila, prijavu ili
-  registraciju korisnika te Profil ukoliko je logiran.
-
-  [Imeapp]                 [Vozila]  [Prijava/Registracija]
-
- -->
 
 

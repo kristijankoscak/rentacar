@@ -42,7 +42,6 @@ export class VehicleDetailComponent implements OnInit {
 
   startTime: string;
   endTime: string;
-
   constructor(
     private userService: UserService,
     private vehicleService: VehicleService,
@@ -68,6 +67,7 @@ export class VehicleDetailComponent implements OnInit {
     }
     else {
       this.dataStorageService.fetchVehicleByID(+id).subscribe(vehicle => {
+        this.vehicleService.vehicleDetailSpinner.next(false)
         this.vehicle = vehicle[0];
         this.showVehicle();
       });

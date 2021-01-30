@@ -16,7 +16,7 @@ export class ReserveVehicleResolverService implements Resolve<Vehicle[]>{
   ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Vehicle[] | Observable<Vehicle[]> | Promise<Vehicle[]>{
-
+      this.vehicleService.vehicleDetailSpinner.next(true)
       const vehicles = this.vehicleService.getVehicles();
       if (vehicles.length === 0){
         this.dataStorageService.setVehicleRefreshInterval();

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../auth/user.model';
 import { UserService } from '../auth/user.service';
+import { HeaderService } from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -14,10 +15,11 @@ export class HeaderComponent implements OnInit,OnDestroy {
  loggedUser: User;
  userType: string = 'none';
  subscription: Subscription;
-
+ spinner=false
   constructor(
     private router:Router,
-    private userService: UserService
+    private userService: UserService,
+    private headerService: HeaderService
   ) { }
 
   ngOnInit(): void {
@@ -25,6 +27,11 @@ export class HeaderComponent implements OnInit,OnDestroy {
       this.loggedUser = user;
     })
     this.loggedUser = this.userService.getUser();
+    this.headerService.spinner.subscribe(
+      value => {
+        this.spinner = value;
+      }
+    )
   }
 
   logout(): void{
@@ -37,5 +44,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
   ngOnDestroy(): void{
     this.subscription.unsubscribe();
   }
-
+  showSpinner(){
+    this.spinner = true
+  }
 }

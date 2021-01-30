@@ -26,16 +26,13 @@ button:focus {outline:0;}
   border-color: rgba(0, 0, 0, 0.5);
   padding: 0.1rem;
 }
-
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+::ng-deep button > span.mat-button-wrapper > app-button-spinner > div > div:nth-child(1),
+::ng-deep button > span.mat-button-wrapper > app-button-spinner > div > div:nth-child(2),
+::ng-deep button > span.mat-button-wrapper > app-button-spinner > div > div:nth-child(3),
+::ng-deep button > span.mat-button-wrapper > app-button-spinner > div > div:nth-child(4)
+{
+  top: unset!important;
 }
-
 @media only screen and (max-width: 350px) {
   .form-wrapper > form{
     flex-direction: column!important;

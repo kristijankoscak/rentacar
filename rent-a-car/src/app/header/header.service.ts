@@ -9,4 +9,5 @@ export class HeaderService {
   constructor() { }
 
   companyCreated = new Subject<boolean>();
+  spinner = new Subject<boolean>();
 }

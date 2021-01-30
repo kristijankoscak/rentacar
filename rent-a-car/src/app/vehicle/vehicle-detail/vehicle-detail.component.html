@@ -1,8 +1,5 @@
 <div fxLayout="column" fxLayoutAlign="start center" class="vehicle-detail-background">
-  <div fxLayout="row" fxLayoutAlign="center center" *ngIf="!spinnerIsClosed">
-    <app-loading-spinner></app-loading-spinner>
-  </div>
-  <div fxLayout="column" fxLayoutAlign=" center" class="vehicle-detail-container" *ngIf="spinnerIsClosed">
+  <div fxLayout="column" fxLayoutAlign=" center" class="vehicle-detail-container" >
     <div class="vehicle-image">
       <div class="slide-container" (scroll)="handleScroll($event)">
         <button mat-button class="images-button" *ngFor="let image of vehicle.images">
