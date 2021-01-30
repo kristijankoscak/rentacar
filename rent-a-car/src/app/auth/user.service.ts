@@ -15,7 +15,6 @@ export class UserService {
 
   saveUser(user: User): void{
     this.user = user;
-    console.log(this.user)
     this.userChanged.next(user);
   }
   removeUser(): void{

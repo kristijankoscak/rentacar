@@ -13,7 +13,6 @@ import { UserService } from './user.service';
 export class AuthService {
 
   dataRefreshInterval: number = 0.5;
-  // loggedUser = new Subject<User>();
   succLogin = new BehaviorSubject(false)
 
   constructor(
@@ -60,12 +59,3 @@ export class AuthService {
   }
 }
 
-
-
-
-
-/*
-  Rukovanje podacima o korisniku i poduzimanje
-  odgovarajuće akcije (prijava korisnika, prebacivanje
-  na naslovnu stranicu...).
-*/

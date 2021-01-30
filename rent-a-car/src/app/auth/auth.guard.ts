@@ -15,12 +15,10 @@ export class AuthGuard implements CanActivate {
     router: RouterStateSnapshot
   ): | boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree>
   {
-    console.log('uso u guard...')
     return this.authService.fetchUserData().pipe(
       map(
         status =>{
           if(status){
-            console.log('logiran je... ');
             return true;
           }
           else{

@@ -70,7 +70,6 @@ export class SignInComponent implements OnInit {
     return this.signInForm.controls.password.hasError('password') ? 'Not a valid enter' : '';
   }
   onSubmit(form): void {
-    console.log(typeof form);
     if (!form.valid) {
       return;
     }

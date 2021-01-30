@@ -36,27 +36,7 @@ export class VehicleItemComponent implements OnInit {
     this.router.navigate(['/vehicle/'+this.vehicle.id], {relativeTo: this.route,queryParams: this.params});
   }
   seeRentalCar(): void {
-    console.log("seecarrental")
     this.router.navigate(['/car-rental/'+this.vehicle.carRental.id]
     );
   }
 }
-
-
-/*
-
-Forma s podacima o:
-Marki vozila,
-modelu,
-godini modela,
-godini proizvodnje,
-broju brzina,
-boji,
-vrsti mjenjaca,
-snagi u kW,
-cijeni,
-tipu,
-naslovna slika,     [jpeg,jpg,png]
-ostale slike...     [jpeg,jpg,png]
-
-*/

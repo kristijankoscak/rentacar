@@ -18,12 +18,10 @@ export class UserGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | Observable<boolean | UrlTree>
     {
-      console.log('uso u guard...')
       return this.authService.fetchUserData().pipe(
         map(
           status=>{
             if(status[0].roles.includes('ROLE_USER') &&status[0].roles.length === 1){
-              console.log('if ');
               return true;
             }
             else{

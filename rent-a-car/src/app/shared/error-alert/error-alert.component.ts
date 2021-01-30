@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { VehicleService } from '../vehicle.service';
@@ -8,7 +8,7 @@ import { VehicleService } from '../vehicle.service';
   templateUrl: './error-alert.component.html',
   styleUrls: ['./error-alert.component.css']
 })
-export class ErrorAlertComponent implements OnInit {
+export class ErrorAlertComponent implements OnInit,OnDestroy {
 
   errorSubscription: Subscription;
   error: boolean=false;
@@ -35,8 +35,7 @@ export class ErrorAlertComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
+    this.errorSubscription.unsubscribe()
 
   }
 }

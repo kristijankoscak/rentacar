@@ -18,12 +18,10 @@ export class OwnerGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | Observable<boolean | UrlTree>
     {
-      console.log('uso u guard...')
       return this.authService.fetchUserData().pipe(
         map(
           status=>{
             if(status[0].roles.includes('ROLE_ADMIN')){
-              console.log('if ');
               return true;
             }
             else{

@@ -57,7 +57,6 @@ export class CarRentalComponent implements OnInit {
           }
           else{
             this.rentalImage = this.carRental.image;
-            console.log(this.carRental.image)
           }
         });
       });

@@ -1,8 +1,7 @@
-import { HttpClient, HttpDownloadProgressEvent } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { tap } from 'rxjs/internal/operators/tap';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
@@ -19,21 +18,6 @@ import { Vehicle } from '../vehicle.model';
 export class VehicleReserveComponent implements OnInit {
   backgroundColor = 'rgb(255, 211, 130)';
   vehicle: Vehicle = undefined;
-  /* times: string[] = [
-    'I dont know',
-    '08:00-09:00',
-    '09:00-10:00',
-    '10:00-11:00',
-    '11:00-12:00',
-    '12:00-13:00',
-    '13:00-14:00',
-    '14:00-15:00',
-    '15:00-16:00',
-    '16:00-17:00',
-    '17:00-18:00',
-    '18:00-19:00',
-    '19:00-20:00',
-  ]; */
   selected = 'Cash';
   modelYear = '';
   manufactureYear = '';
@@ -79,7 +63,6 @@ export class VehicleReserveComponent implements OnInit {
       this.modelYear = this.vehicle.modelYear.date.split('-')[0];
   }
   setUpReservationDates(params: any): void{
-    console.log(params);
     this.startDate = new Date(params.start_date);
     this.endDate = new Date(params.end_date);
     this.getNumberOfDays();
@@ -90,7 +73,6 @@ export class VehicleReserveComponent implements OnInit {
   }
   getUserInfo(): void{
     this.loggedUser = this.userService.getUser();
-    console.log(this.loggedUser);
     if (this.userService.getUser() === undefined){
       this.http
       .post<any>(
@@ -127,8 +109,8 @@ export class VehicleReserveComponent implements OnInit {
       user_id: this.loggedUser.id,
       startTime: this.startDate,
       endTime: this.endDate,
-      paymentMethod: this.selected,   // ovo dvoje promjenit..
-      paymentAmount: this.vehicle.price * this.numberOfDays + 5,      //
+      paymentMethod: this.selected,  
+      paymentAmount: this.vehicle.price * this.numberOfDays + 5,    
       carRental: this.vehicle.carRental.id,
       info: ''
 
@@ -136,6 +118,5 @@ export class VehicleReserveComponent implements OnInit {
     return reservation;
   }
   getSelected(event: MatSelectChange){
-    console.log(event);
   }
 }

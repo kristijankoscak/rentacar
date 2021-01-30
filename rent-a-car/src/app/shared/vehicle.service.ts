@@ -21,12 +21,10 @@ export class VehicleService {
   setVehicles(vehicles: Vehicle[]): void {
     this.vehicles = vehicles;
     this.vehiclesChanged.next(this.vehicles.slice());
-    console.log(this.vehicles);
   }
   setFilteredVehicles(vehicles: Vehicle[]): void {
     this.filteredVehicles = vehicles;
     this.filteredVehiclesChanged.next(this.filteredVehicles.slice());
-    console.log(this.filteredVehicles);
   }
   getVehicles(): Vehicle[]{
     return this.vehicles;
@@ -38,8 +36,6 @@ export class VehicleService {
     return this.vehicles.filter(vehicle => vehicle.carRental.name === carRentalName);
   }
   getVehicle(id: number): Vehicle{
-    console.log(this.vehicles)
-    console.log(this.vehicles.find(vehicle => vehicle.id === id))
     return this.vehicles.find(vehicle => vehicle.id === id);
   }
   getVehiclesByRentalId(id: number): Vehicle[]{

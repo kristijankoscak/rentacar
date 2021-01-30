@@ -14,9 +14,6 @@ import { VehicleService } from './vehicle.service';
 })
 export class DataStorageService {
 
-  // dohvacanje i filtriranje vozila
-  // logirani korisnik?
-
   constructor(
     private reservationService: ReservationService,
     private vehicleService: VehicleService,
@@ -49,7 +46,6 @@ z;
     )
     .pipe(
       tap((vehicle: Vehicle) => {
-        console.log(vehicle)
       })
     );
   }
@@ -67,7 +63,6 @@ z;
                 this.vehicleService.setFilteredVehicles(vehicles);
               },
               (errorResponse: any) => {
-                console.log(errorResponse.error);
                 this.vehicleService.errorHappened.next(errorResponse.error);
               })
             );
@@ -84,7 +79,6 @@ z;
   }
 
   fetchAllReservations(): Observable<Reservation []>{
-    console.log('dohvaćam sve rezervacije api...');
     return this.http
     .post<any>(
       environment.apiUrl + '/reservations/',
@@ -112,7 +106,6 @@ z;
     );
   }
   fetchUserReservations(): Observable<Reservation []>{
-    console.log('dohvaćam korisnicke rezervacije api...');
     return this.http
     .post<any>(
       environment.apiUrl + '/reservations/user/' + this.userService.getUser().id,
@@ -120,7 +113,6 @@ z;
     )
     .pipe(
       tap((reservations: Reservation[]) => {
-        console.log(reservations);
         this.reservationService.saveUserReservations(reservations);
       })
     );
@@ -133,7 +125,6 @@ z;
     )
     .pipe(
       tap(response => {
-        console.log('sending reservation... ' + response);
       })
     );
   }
@@ -151,7 +142,6 @@ z;
       tap(
         (response: string) => { },
         (errorResponse: string) => {
-          console.log(errorResponse);
         }
       )
     );
@@ -173,7 +163,7 @@ z;
     .pipe(
       tap(
         (response: string) => { },
-        (errorResponse: string) => { console.log(errorResponse) }
+        (errorResponse: string) => {  }
       )
     );
   }
@@ -186,10 +176,8 @@ z;
     .pipe(
       tap(
         (response: string) => {
-          console.log(response);
         },
         (errorResponse: string) => {
-          console.log(errorResponse);
         }
       )
     );
@@ -203,10 +191,8 @@ z;
     .pipe(
       tap(
         (response: string) => {
-          console.log(response);
         },
         (errorResponse: string) => {
-          console.log(errorResponse);
         }
       )
     );
@@ -228,10 +214,8 @@ z;
     .pipe(
       tap(
         (response: string) => {
-          console.log(response);
         },
         (errorResponse: string) => {
-          console.log(errorResponse);
         }
       )
     );

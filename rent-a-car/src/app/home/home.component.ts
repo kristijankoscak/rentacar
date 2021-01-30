@@ -78,15 +78,6 @@ export class HomeComponent implements OnInit {
 
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
-  /* getLocationError(): string {
-    if (this.location.hasError('required')) {
-      return 'You must enter a value';
-    }
-    if (this.location.hasError('allowCity')) {
-      return 'Not valid city. Please choose one from list!';
-    }
-    return this.location.hasError('city') ? 'Not a valid enter' : '';
-  } */
   getStartDateErrorMessage(): string{
     if (this.filterForm.controls.start.hasError('required')) {
       return 'You must enter a value';

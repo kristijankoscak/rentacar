@@ -34,9 +34,6 @@
   background-color: black;
   display: flex;
   object-fit: contain;
-  /* background-size: cover;
-  background-position: center;
-  object-fit: contain; */
 }
 .images-button > ::ng-deep .mat-button-wrapper {
   width: 100vw;

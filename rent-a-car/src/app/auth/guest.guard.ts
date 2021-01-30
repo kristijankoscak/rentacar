@@ -15,13 +15,10 @@ export class GuestGuard implements CanActivate {
     router: RouterStateSnapshot
   ): | boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree>
   {
-    console.log('uso u guard...')
     return this.authService.fetchUserData().pipe(
       map(
         status =>{
-          console.log(status)
           if(!status){
-            console.log('nema usera ... ');
             return true;
           }
           else{

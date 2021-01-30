@@ -146,7 +146,6 @@ export class CompanyRegisterComponent implements OnInit {
     return this.companyForm.controls.email.hasError('phoneNumber') ? 'Not a valid enter' : '';
   }
   onSubmit(form){
-    console.log(form);
     if (!form.valid) {
       return;
     }
@@ -171,7 +170,6 @@ export class CompanyRegisterComponent implements OnInit {
             }
           },
           errorResponse => {
-            console.log(errorResponse)
           }
         );
   }
