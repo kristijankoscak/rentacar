@@ -56,6 +56,7 @@ export class VehicleDetailComponent implements OnInit {
     this.fetchUser();
   }
   fetchVehicle(): void {
+    
     const id = +this.activeRoute.snapshot.paramMap.get('id');
     if (this.vehicleService.getVehicles().length === 0) {
       this.vehiclesSubscription = this.vehicleService.vehiclesChanged.subscribe((vehicles) => {
@@ -66,7 +67,9 @@ export class VehicleDetailComponent implements OnInit {
       })
     }
     else {
-      this.dataStorageService.fetchVehicleByID(+id).subscribe(vehicle => {
+      
+      this.dataStorageService.fetchVehicleByID(+id).subscribe(
+        vehicle => {
         this.vehicleService.vehicleDetailSpinner.next(false)
         this.vehicle = vehicle[0];
         this.showVehicle();

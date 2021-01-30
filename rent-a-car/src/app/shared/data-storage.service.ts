@@ -37,7 +37,6 @@ z;
     )
     .pipe(
       tap((vehicles: Vehicle[]) => {
-        this.vehicleService.vehicleDetailSpinner.next(false)
         this.vehicleService.setVehicles(vehicles);
       })
     );
