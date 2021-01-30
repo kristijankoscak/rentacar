@@ -24,7 +24,6 @@ export class HomeComponent implements OnInit {
   startTime: string;
   endTime: string;
   durationInSeconds:number = 3;
-  showBtnLoader = false;
   
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -39,9 +38,6 @@ export class HomeComponent implements OnInit {
       map(value => this._filter(value))
     );
     this.initForm()
-    this.vehicleService.showspinner.subscribe(value => {
-      this.showBtnLoader = value;
-    })
   }
   subscribeToNavigationErrors(): void{
     this.userService.showNotAllowedError.subscribe(
@@ -100,7 +96,6 @@ export class HomeComponent implements OnInit {
     if (!form.valid) {
       return;
     }
-    this.showBtnLoader = true;
 
     if(this.formatDates(form.value.start, form.value.end)){
       this.router.navigate(['../vehicle'], {

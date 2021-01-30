@@ -22,7 +22,7 @@ export class VehicleResolverService implements Resolve<Vehicle[]>{
     if (Object.keys(route.queryParams).length === 0) {
       const vehicles = this.vehicleService.getVehicles();
       if(vehicles.length === 0){
-        this.headerService.spinner.next(true)
+        this.vehicleService.vehicleDetailSpinner.next(true)
         this.dataStorageService.setVehicleRefreshInterval();
         return this.dataStorageService.fetchVehicles().pipe(
           catchError((error) => {
@@ -31,11 +31,11 @@ export class VehicleResolverService implements Resolve<Vehicle[]>{
         );
       }
       else {
-        this.headerService.spinner.next(false)
         return vehicles;
       }
     }
     else{
+      this.vehicleService.vehicleDetailSpinner.next(true)
       return this.dataStorageService.fetchVehiclesByParameters(
         route.queryParams.location,
         route.queryParams.start_date,

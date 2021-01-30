@@ -35,10 +35,10 @@ export class ErrorAlertComponent implements OnInit,OnDestroy {
     this.error = false;
     this.router.navigate(['/home'])
     this.backdrop.style.display = 'none'
+    this.vehicleService.vehicleDetailSpinner.next(false)
   }
 
   ngOnDestroy(): void {
     this.errorSubscription.unsubscribe()
-
   }
 }

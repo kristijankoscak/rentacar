@@ -37,7 +37,7 @@ z;
     )
     .pipe(
       tap((vehicles: Vehicle[]) => {
-        this.headerService.spinner.next(false)
+        this.vehicleService.vehicleDetailSpinner.next(false)
         this.vehicleService.setVehicles(vehicles);
       })
     );
@@ -53,7 +53,6 @@ z;
     );
   }
   fetchVehiclesByParameters(p_location, p_startTime, p_endTime): Observable<Vehicle[]>{
-    this.headerService.spinner.next(true)
     return this.http
             .post<Vehicle[]>(
               'https://sbdrustvo.com/vehicles/filter',
@@ -64,7 +63,7 @@ z;
             })
             .pipe(
               tap((vehicles: Vehicle[]) => {
-                this.headerService.spinner.next(false)
+                this.vehicleService.vehicleDetailSpinner.next(false)
                 this.vehicleService.setFilteredVehicles(vehicles);
               },
               (errorResponse: any) => {

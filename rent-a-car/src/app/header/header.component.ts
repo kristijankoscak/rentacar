@@ -27,11 +27,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
       this.loggedUser = user;
     })
     this.loggedUser = this.userService.getUser();
-    this.headerService.spinner.subscribe(
-      value => {
-        this.spinner = value;
-      }
-    )
+
   }
 
   logout(): void{
@@ -43,8 +39,5 @@ export class HeaderComponent implements OnInit,OnDestroy {
 
   ngOnDestroy(): void{
     this.subscription.unsubscribe();
-  }
-  showSpinner(){
-    this.spinner = true
   }
 }
