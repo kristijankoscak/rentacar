@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/home']);
     localStorage.removeItem('userToken');
     this.userService.saveUser(undefined);
+    this.userService.showNotAllowedError.next(false);
   }
 
   ngOnDestroy(): void{

@@ -14,7 +14,7 @@
           <mat-icon>keyboard_backspace</mat-icon>
         </button>
         <button mat-flat-button class="icon share" [cdkCopyToClipboard]="fetchCurrentLink()">
-          <mat-icon>input</mat-icon>
+          <mat-icon>share</mat-icon>
         </button>
       </div>
       <div class="counter-container">
@@ -51,11 +51,11 @@
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-evenly" class="vehicle-actions-container" *ngIf="spinnerIsClosed">
-    <button mat-flat-button class="edit" (click)="navigateToEditScreen()" *ngIf="loggedUser&&(loggedUser.email === vehicle.carRental.email)">
+    <button mat-flat-button class="edit" (click)="navigateToEditScreen()" *ngIf="loggedUser&&(loggedUser.id === vehicle.carRental.owner.id)">
       <span>Izmjeni</span>
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-flat-button class="remove" *ngIf="loggedUser&&(loggedUser.email === vehicle.carRental.email)" (click)="deleteCurrentVehicle()">
+    <button mat-flat-button class="remove" *ngIf="loggedUser&&(loggedUser.id === vehicle.carRental.owner.id)" (click)="deleteCurrentVehicle()">
       <span>Obriši</span>
       <mat-icon>remove_circle_outline</mat-icon>
     </button>

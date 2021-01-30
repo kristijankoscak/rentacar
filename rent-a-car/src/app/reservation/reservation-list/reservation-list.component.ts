@@ -51,7 +51,7 @@ export class ReservationListComponent implements OnInit {
           this.reservationsLoading = false;
         },
         errorResponse => {
-          if(errorResponse.error === 'no reservations'){
+          if(errorResponse){
             this.reservationsLoading = false;
           }
          }

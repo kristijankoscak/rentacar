@@ -1,9 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { SnackBarSuccSignUpComponent } from '../auth/snack-bar-succ-sign-up/snack-bar-succ-sign-up.component';
+import { UserService } from '../auth/user.service';
+
 
 @Component({
   selector: 'app-home',
@@ -18,17 +22,36 @@ export class HomeComponent implements OnInit {
   location = new FormControl('');
   startTime: string;
   endTime: string;
+  durationInSeconds:number = 3;
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private userService: UserService,
+              private snackBar: MatSnackBar) {
     }
   ngOnInit(): void {
+    this.subscribeToNavigationErrors();
     this.filteredOptions = this.location.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value))
     );
     this.initForm()
   }
+  subscribeToNavigationErrors(): void{
+    this.userService.showNotAllowedError.subscribe(
+      value => {
+        if (value === true){
+          this.snackBar.openFromComponent(SnackBarSuccSignUpComponent, {
+            data: 'You are not allowed to visit this page. You are redirectered to home page.',
+            duration: this.durationInSeconds * 1000
+
+          });
+          this.userService.showNotAllowedError.next(false);
+        }
+      }
+    );
+  }
+
   initForm(){
     this.filterForm = new FormGroup({
       location : new FormControl('', [
@@ -49,7 +72,7 @@ export class HomeComponent implements OnInit {
     }
     return null;
   }
- 
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 

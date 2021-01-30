@@ -60,13 +60,18 @@ export class VehicleDetailComponent implements OnInit {
     const id = +this.activeRoute.snapshot.paramMap.get('id');
     if (this.vehicleService.getVehicles().length === 0) {
       this.vehiclesSubscription = this.vehicleService.vehiclesChanged.subscribe((vehicles) => {
-        this.vehicle = this.vehicleService.getVehicle(id);
+        this.dataStorageService.fetchVehicleByID(+id).subscribe(vehicle => {
+          this.vehicle = vehicle[0];
+        });
         this.showVehicle();
       })
     }
     else {
-      this.vehicle = this.vehicleService.getVehicle(id);
-      this.showVehicle();
+      this.dataStorageService.fetchVehicleByID(+id).subscribe(vehicle => {
+        this.vehicle = vehicle[0];
+        this.showVehicle();
+      });
+
     }
   }
   fetchUser(): void{

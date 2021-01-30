@@ -45,13 +45,10 @@ export class AuthService {
               firstName: responseData[0].firstName,
               lastName: responseData[0].lastName
             };
-            // this.navigateToHomeScreen();
-            // this.loggedUser.next(user);
             this.userService.saveUser(user);
           },
           errorResponse => {
             if(errorResponse.status === 500){
-              console.log(errorResponse)
               localStorage.removeItem('userToken');
             }
           }

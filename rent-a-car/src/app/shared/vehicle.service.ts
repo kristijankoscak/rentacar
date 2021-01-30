@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 import { Vehicle } from '../vehicle/vehicle.model';
-import { DataStorageService } from './data-storage.service';
 
 @Injectable({
   providedIn: 'root'

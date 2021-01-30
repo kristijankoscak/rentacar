@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../auth/user.service';
@@ -42,6 +42,17 @@ z;
       })
     );
   }
+  fetchVehicleByID(id: number): Observable<Vehicle>{
+    return this.http
+    .get<any>(
+      environment.apiUrl + '/vehicles/get/'+id
+    )
+    .pipe(
+      tap((vehicle: Vehicle) => {
+        console.log(vehicle)
+      })
+    );
+  }
   fetchVehiclesByParameters(p_location, p_startTime, p_endTime): Observable<Vehicle[]>{
     return this.http
             .post<Vehicle[]>(
@@ -75,8 +86,9 @@ z;
   fetchAllReservations(): Observable<Reservation []>{
     console.log('dohvaćam sve rezervacije api...');
     return this.http
-    .get<any>(
-      environment.apiUrl + '/reservations'
+    .post<any>(
+      environment.apiUrl + '/reservations/',
+      {token: localStorage.getItem('userToken')}
     )
     .pipe(
       map(reservations => {
@@ -102,8 +114,9 @@ z;
   fetchUserReservations(): Observable<Reservation []>{
     console.log('dohvaćam korisnicke rezervacije api...');
     return this.http
-    .get<any>(
-      environment.apiUrl + '/reservations/' + this.userService.getUser().id
+    .post<any>(
+      environment.apiUrl + '/reservations/user/' + this.userService.getUser().id,
+      {token: localStorage.getItem('userToken')}
     )
     .pipe(
       tap((reservations: Reservation[]) => {
@@ -116,7 +129,7 @@ z;
     return this.http
     .post<any>(
       environment.apiUrl + '/reservations/' + vehicleID,
-      reservation
+      {...reservation, token: localStorage.getItem('userToken')}
     )
     .pipe(
       tap(response => {
@@ -129,6 +142,7 @@ z;
     .put<string>(
       environment.apiUrl + '/reservations/update/' + id,
       {
+        token: localStorage.getItem('userToken'),
         status,
         info: message
       }
@@ -143,15 +157,23 @@ z;
     );
   }
   removeReservation(reservationID: number): Observable<string>{
-    console.log('uso ,id: ' + reservationID);
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: {
+        token: localStorage.getItem('userToken')
+      }
+    }
     return this.http
-    .delete<string>(
-      environment.apiUrl + '/reservations/' + reservationID
+    .delete<any>(
+      environment.apiUrl + '/reservations/' + reservationID,
+      options
     )
     .pipe(
       tap(
         (response: string) => { },
-        (errorResponse: string) => { }
+        (errorResponse: string) => { console.log(errorResponse) }
       )
     );
   }
@@ -159,7 +181,7 @@ z;
     return this.http
     .post<any>(
       environment.apiUrl + '/vehicles/',
-      vehicle
+      {...vehicle, token: localStorage.getItem('userToken')}
     )
     .pipe(
       tap(
@@ -176,7 +198,7 @@ z;
     return this.http
     .put<string>(
       environment.apiUrl + '/vehicles/' + vehicle.id,
-      vehicle
+      {...vehicle, token: localStorage.getItem('userToken')}
     )
     .pipe(
       tap(
@@ -190,9 +212,18 @@ z;
     );
   }
   deleteVehicle(id: number): Observable<any>{
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: {
+        token: localStorage.getItem('userToken')
+      }
+    }
     return this.http
     .delete<any>(
-      environment.apiUrl + '/vehicles/' + id
+      environment.apiUrl + '/vehicles/' + id,
+      options
     )
     .pipe(
       tap(

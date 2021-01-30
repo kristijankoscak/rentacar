@@ -46,8 +46,9 @@ export class CarRentalComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
       this.http
-        .get<any>(
+        .post<any>(
           'https://sbdrustvo.com/carrental/' + params.id,
+          {}
         )
         .subscribe(responseData => {
           this.carRental = responseData[0];

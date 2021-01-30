@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { SnackBarSuccSignUpComponent } from '../auth/snack-bar-succ-sign-up/snack-bar-succ-sign-up.component';
 import { User } from '../auth/user.model';
 import { UserService } from '../auth/user.service';
+import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-company-register',
@@ -21,6 +24,7 @@ export class CompanyRegisterComponent implements OnInit {
   uploadedImage = '';
   imgTitle = 'Choose image';
   loggedUser: User;
+  registerCompanyErrorAppeared: boolean = false;
   constructor(private userService: UserService,
               private http: HttpClient,
               private router: Router) { }
@@ -32,6 +36,7 @@ export class CompanyRegisterComponent implements OnInit {
     );
     this.initForm();
     this.getUserInfo();
+
   }
   getUserInfo(){
       this.loggedUser = this.userService.getUser();
@@ -155,14 +160,20 @@ export class CompanyRegisterComponent implements OnInit {
             address: form.value.address,
             contactNumber: form.value.phoneNumber,
             email: form.value.email,
-            image: this.uploadedImage
+            image: this.uploadedImage,
+            token: localStorage.getItem('userToken')
           }
         )
-        .subscribe(responseData => {
-            if (responseData === 'success'){
+        .subscribe(
+          responseData => {
+            if (responseData){
               this.router.navigate(['/home']);
             }
-        });
+          },
+          errorResponse => {
+            console.log(errorResponse)
+          }
+        );
   }
   handleImageSelect(event): void {
     this.fetchBase64ImagePaths(event);

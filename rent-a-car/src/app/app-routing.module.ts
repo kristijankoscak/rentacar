@@ -19,6 +19,10 @@ import { VehicleResolverService } from './vehicle/vehicle-resolver.service';
 import { AuthResolverService } from './auth/auth-resolver.service';
 import { ReservationResolverService } from './reservation/reservation-resolver.service';
 import { ReserveVehicleResolverService } from './vehicle/vehicle-reserve/reserve-vehicle-resolver.service';
+import { AuthGuard } from './auth/auth.guard';
+import { OwnerGuard } from './auth/owner.guard';
+import { UserGuard } from './auth/user.guard';
+import { GuestGuard } from './auth/guest.guard';
 
 
 const appRoutes: Routes = [
@@ -34,15 +38,16 @@ const appRoutes: Routes = [
     resolve: [AuthResolverService],
     children: [
       { path: '', component: VehicleListComponent , resolve: [VehicleResolverService]},
-      { path: 'new', component: VehicleEditComponent },
-      { path: ':id', component: VehicleDetailComponent, resolve: [ReserveVehicleResolverService]},
-      { path: ':id/edit', component: VehicleEditComponent , resolve: [VehicleResolverService]},
-      { path: ':id/reserve', component: VehicleReserveComponent , resolve: [ReserveVehicleResolverService]}
+      { path: 'new', component: VehicleEditComponent, canActivate:[AuthGuard,OwnerGuard] },
+      { path: ':id', component: VehicleDetailComponent,  canActivate:[AuthGuard],resolve: [ReserveVehicleResolverService]},
+      { path: ':id/edit', component: VehicleEditComponent , canActivate:[AuthGuard,OwnerGuard],resolve: [VehicleResolverService]},
+      { path: ':id/reserve', component: VehicleReserveComponent , canActivate:[AuthGuard], resolve: [ReserveVehicleResolverService]}
     ]
   },
   {
     path: 'reservation',
     component: ReservationComponent,
+    canActivate:[AuthGuard],
     resolve: [AuthResolverService,ReservationResolverService,VehicleResolverService],
     children: [
       { path: '', component: ReservationListComponent },
@@ -53,6 +58,7 @@ const appRoutes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
+    canActivate:[GuestGuard],
     children: [
       { path: 'sign-in', component: SignInComponent },
       { path: 'sign-up', component: SignUpComponent }
@@ -65,6 +71,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'company-register',
+    resolve: [AuthResolverService],
+    canActivate:[AuthGuard,UserGuard],
     component: CompanyRegisterComponent,
   }
 ];

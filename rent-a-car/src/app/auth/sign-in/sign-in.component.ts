@@ -30,6 +30,7 @@ export class SignInComponent implements OnInit {
       value => {
         if (value === true){
           this.snackBar.openFromComponent(SnackBarSuccSignUpComponent, {
+            data: 'You successfully registered, please log in.',
             duration: this.durationInSeconds * 1000,
           });
           this.authService.succLogin.next(false);

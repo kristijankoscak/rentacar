@@ -16,7 +16,7 @@ export class AuthResolverService implements Resolve<User>{
     const user = this.userService.getUser();
     if (user === undefined) {
       this.authService.fetchUserData().subscribe(
-        userData => { },
+        userData => {  },
         errorMessage => { }
       );
     }

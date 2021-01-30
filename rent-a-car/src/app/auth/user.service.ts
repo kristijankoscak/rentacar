@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { AuthService } from './auth.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { User } from './user.model';
 
 @Injectable({
@@ -11,6 +9,7 @@ export class UserService {
 
   user: User = undefined;
   userChanged = new Subject<User>();
+  showNotAllowedError = new BehaviorSubject<boolean>(null);
   constructor() { }
 
 
