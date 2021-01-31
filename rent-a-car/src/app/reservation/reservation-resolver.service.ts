@@ -16,8 +16,8 @@ export class ReservationResolverService implements Resolve<Reservation[]>{
   resolve(): Reservation[]{
     const reservations = this.reservationService.fetchAllReservations();
     if (reservations.length === 0) {
-      this.dataStorageService.fetchAllReservations().subscribe(
-        userData => {  },
+      this.dataStorageService.fetchUserReservations().subscribe(
+        userData => { },
         errorMessage => {  }
       );
     }

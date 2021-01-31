@@ -48,7 +48,7 @@ const appRoutes: Routes = [
     path: 'reservation',
     component: ReservationComponent,
     canActivate:[AuthGuard],
-    resolve: [AuthResolverService,ReservationResolverService,VehicleResolverService],
+    resolve: [AuthResolverService,ReservationResolverService],
     children: [
       { path: '', component: ReservationListComponent },
       { path: ':id', component: ReservationDetailComponent },

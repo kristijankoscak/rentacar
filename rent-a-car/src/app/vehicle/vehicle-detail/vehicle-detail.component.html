@@ -43,21 +43,21 @@
           <div class="color-block" [style.backgroundColor]="vehicle.color"></div>
         </span>
         <span class="text-size-18 font-weight-300">Type: {{ vehicle.type }}</span>
-        <span class="text-size-18 font-weight-300">Price: {{ vehicle.price }} €/dan</span>
+        <span class="text-size-18 font-weight-300">Price: {{ vehicle.price }} €/day</span>
       </div>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-evenly" class="vehicle-actions-container" *ngIf="spinnerIsClosed">
     <button mat-flat-button class="edit" (click)="navigateToEditScreen()" *ngIf="loggedUser&&(loggedUser.id === vehicle.carRental.owner.id)">
-      <span>Izmjeni</span>
+      <span>Update</span>
       <mat-icon>edit</mat-icon>
     </button>
     <button mat-flat-button class="remove" *ngIf="loggedUser&&(loggedUser.id === vehicle.carRental.owner.id)" (click)="deleteCurrentVehicle()">
-      <span>Obriši</span>
+      <span>Remove</span>
       <mat-icon>remove_circle_outline</mat-icon>
     </button>
     <button mat-flat-button class="reserve" (click)="handleReservation()" *ngIf="loggedUser">
-      <span>Rezerviraj</span>
+      <span>Reserve</span>
       <mat-icon>shopping_cart</mat-icon>
     </button>
   </div>
@@ -70,8 +70,8 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-evenly center" class="warning-header">
         <mat-icon class="warning-icon">warning</mat-icon>
-        <span class="text-size-16 warning-text">Niste unijeli datum i lokaciju preuzimanja te datum povratka. Molimo,
-          unesite!</span>
+        <span class="text-size-16 warning-text">You didn't enter pickup and return date. Please,
+          pick dates!</span>
       </div>
       <div fxLayout="row" class="enter-data-container">
         <div class="form-wrapper" fxLayout="column" fxLayoutAlign="center space-between">
@@ -79,7 +79,7 @@
             <mat-form-field class="example-full-width">
               <input type="text" placeholder="Location" aria-label="Number" matInput formControlName="location"
                 [matAutocomplete]="auto" />
-              <mat-error *ngIf="filterForm.controls.location.invalid">* Polje je obavezno!</mat-error>
+              <mat-error *ngIf="filterForm.controls.location.invalid">* Field is required!</mat-error>
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                   {{ option }}
@@ -88,23 +88,23 @@
             </mat-form-field>
 
             <mat-form-field fxFlexOffset="1rem" (click)="picker.open()">
-              <mat-label>Datum preuzimanja</mat-label>
+              <mat-label>Pickup date:</mat-label>
               <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="start_date"
                 (dateChange)="fetchStartDate($event.value)" />
-              <mat-error *ngIf="filterForm.controls.start_date.invalid">* Polje je obavezno!</mat-error>
+              <mat-error *ngIf="filterForm.controls.start_date.invalid">* Field is required!</mat-error>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <mat-form-field fxFlexOffset="1rem" (click)="picker1.open()">
-              <mat-label>Datum preuzimanja</mat-label>
+              <mat-label>Return date:</mat-label>
               <input matInput [min]="minDate2" [matDatepicker]="picker1" formControlName="end_date" />
-              <mat-error *ngIf="filterForm.controls.end_date.invalid">* Polje je obavezno!</mat-error>
+              <mat-error *ngIf="filterForm.controls.end_date.invalid">* Field is required!</mat-error>
               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
           </form>
           <button mat-flat-button class="continue-reservation-button" [disabled]="!formIsValid"
-            (click)="navigateTonConfirmScreen()">Continue with registration</button>
+            (click)="navigateTonConfirmScreen()">Continue with reservation</button>
         </div>
       </div>
     </div>

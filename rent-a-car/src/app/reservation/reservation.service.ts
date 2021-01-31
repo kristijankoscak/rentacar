@@ -11,7 +11,7 @@ import { Reservation } from './reservation.model';
 export class ReservationService {
 
   allReservations: Reservation[] = [];
-  allReservationsChanged = new Subject<Reservation[]>();
+  reservationsChanged = new Subject<boolean>();
   userReservations: Reservation[] = [];
   waitingReservations: Reservation[] = [];
   acceptedReservations: Reservation[] = [];
@@ -21,10 +21,11 @@ export class ReservationService {
 
   saveAllReservations(reservations: Reservation[]): void{
     this.allReservations = reservations;
-    this.allReservationsChanged.next(reservations);
+    this.reservationsChanged.next(true);
   }
   saveUserReservations(reservations: Reservation[]): void {
     this.userReservations = reservations;
+    this.reservationsChanged.next(true);
   }
 
   fetchAllReservations(): Reservation[] {
@@ -42,12 +43,17 @@ export class ReservationService {
   fetchRejectedReservations(): Reservation[] {
     return this.rejectedReservations;
   }
-  fetchReservationByID(id:number): Reservation {
-    return this.allReservations.find( reservation => {return reservation.id === id});
+  fetchReservationByID(id:number,userType: string): Reservation {
+    if(userType === 'ROLE_USER'){
+      return this.userReservations.find( reservation => {return reservation.id === id});
+    }
+    else {
+      return this.allReservations.find( reservation => {return reservation.id === id});
+    }
   }
   removeReservation(reservation: Reservation): void{
     this.allReservations = this.allReservations.filter(res => res !== reservation);
-    this.allReservationsChanged.next(this.allReservations);
+    this.reservationsChanged.next(true);
   }
   updateReservation(loggedUserID:number ,id:number,status:string,message:string): void{
     this.allReservations.find(reservation => {

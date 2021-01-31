@@ -45,21 +45,29 @@ export class ReservationListComponent implements OnInit {
 
   fetchReservationsByUserType(): void{
     if(this.loggedUser && this.loggedUser.roles.includes('ROLE_USER')){;
-      this.dataStorageService.fetchUserReservations().subscribe(
-        response => {
-          this.userReservations = this.reservationService.fetchUserReservations();
-          this.reservationsLoading = false;
-        },
-        errorResponse => {
-          if(errorResponse){
+      if(this.reservationService.fetchUserReservations().length === 0){
+        this.dataStorageService.fetchUserReservations().subscribe(
+          response => {
+            this.userReservations = this.reservationService.fetchUserReservations();
             this.reservationsLoading = false;
-          }
-         }
-      );
+          },
+          errorResponse => {
+            if(errorResponse){
+              this.reservationsLoading = false;
+            }
+           }
+        );
+      }
+      else{
+        this.userReservations = this.reservationService.fetchUserReservations();
+        this.reservationsLoading = false;
+      }
     }
     if(this.loggedUser && this.loggedUser.roles.includes('ROLE_ADMIN')){
       if(this.reservationService.fetchAllReservations().length === 0){
-        this.reservationsSubscription = this.reservationService.allReservationsChanged.subscribe(reservations => {
+        console.log('prazno')
+        this.dataStorageService.fetchAllReservations().subscribe();
+        this.reservationsSubscription = this.reservationService.reservationsChanged.subscribe(reservations => {
           this.reservationsLoading = false
           this.reservationService.filterReservations(this.loggedUser.id);
           this.fetchRentalCarReservations();

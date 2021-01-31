@@ -95,7 +95,7 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleForm = new FormGroup({
       mark: new FormControl(null, [Validators.required]),
       model: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
-      modelYear: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
+      modelYear: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.pattern('[1960-2021]*')]),
       manufactureYear: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
       gears: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
       color: new FormControl(null, [Validators.required]),
@@ -301,6 +301,16 @@ export class VehicleEditComponent implements OnInit {
     this.formatedVehicle = {
       ...this.formatedVehicle,
       images: this.uploadedImages
+    }
+  }
+
+  getErrorMessage(formControl: FormControl): string{
+    console.log(formControl.errors)
+    if(formControl.hasError('required')){
+      return '* Field is required!'
+    }
+    if(formControl.hasError('required')){
+      return '* Field is required!'
     }
   }
 }

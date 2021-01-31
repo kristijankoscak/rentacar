@@ -18,12 +18,12 @@
                 {{ mark.value }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="vehicleForm.controls.mark.invalid">* Field is required!</mat-error>
+            <mat-error *ngIf="vehicleForm.controls.mark.invalid">{{getErrorMessage(vehicleForm.controls.mark)}}</mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Model:</mat-label>
             <input matInput formControlName="model" />
-            <mat-error *ngIf="vehicleForm.controls.model.invalid">* Field is required!</mat-error>
+            <mat-error *ngIf="vehicleForm.controls.model.invalid">{{getErrorMessage(vehicleForm.controls.model)}}</mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Model year:</mat-label>

@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/auth/user.model';
 import { UserService } from 'src/app/auth/user.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
-import { VehicleService } from 'src/app/shared/vehicle.service';
 import { Vehicle } from 'src/app/vehicle/vehicle.model';
 import { Reservation } from '../reservation.model';
 import { ReservationService } from '../reservation.service';
@@ -17,10 +16,11 @@ import { ReservationService } from '../reservation.service';
 export class ReservationDetailComponent implements OnInit {
 
   reservationID:number;
-  reservation: Reservation;
+  userSubscription: Subscription = new Subscription();
   loggedUser: User;
+  reservation: Reservation = null;
   reservationSubscription: Subscription;
-  vehicle: Vehicle;
+  vehicle: Vehicle = null;
   shortMessage: string = '';
 
   constructor(
@@ -28,30 +28,55 @@ export class ReservationDetailComponent implements OnInit {
     private router: Router,
     private reservationService: ReservationService,
     private dataStorageService: DataStorageService,
-    private userService: UserService,
-    private vehicleService: VehicleService
+    private userService: UserService
     ) { }
 
   ngOnInit(): void {
     this.fetchReservationID();
-    this.fetchReservation();
-    this.fetchVehicle();
+    this.fetchUser();
   }
 
   fetchReservationID(): void{
     this.reservationID = +this.route.snapshot.paramMap.get('id');
   }
-  fetchReservation(): void{
-    this.reservationSubscription = this.reservationService.allReservationsChanged.subscribe((reservations) => {
-      this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
-      this.loggedUser = this.userService.getUser();
-    })
-    this.reservation = this.reservationService.fetchReservationByID(this.reservationID);
-    this.loggedUser = this.userService.getUser();
-    this.shortMessage = this.reservation.info;
+  fetchUser(): void{
+    let user = this.userService.getUser();
+    if(!user){
+      this.userSubscription = this.userService.userChanged.subscribe( user =>{
+        this.loggedUser = this.userService.getUser();
+        this.fetchReservtionByUserType();
+      })
+    }
+    else{
+      this.loggedUser = user;
+      this.fetchReservtionByUserType();
+    }
+  }
+  fetchReservtionByUserType(): void{
+    if(this.loggedUser.roles.includes('ROLE_USER')&&this.loggedUser.roles.length===1){
+      this.fetchReservation('ROLE_USER');
+    }
+    else{
+      this.fetchReservation('ROLE_ADMIN');
+    }
+  }
+  fetchReservation(type: string): void{
+    let reservation = this.reservationService.fetchReservationByID(this.reservationID,type);
+    if(!reservation){
+      this.reservationSubscription = this.reservationService.reservationsChanged.subscribe((state) => {
+        this.reservation = this.reservationService.fetchReservationByID(this.reservationID,type);
+        this.fetchVehicle();
+      })
+    }
+    else{
+      this.reservation = this.reservationService.fetchReservationByID(this.reservationID,type);
+      this.shortMessage = this.reservation.info;
+      this.fetchVehicle();
+    }
+
   }
   fetchVehicle(): void{
-    this.vehicle = this.vehicleService.getVehicle(this.reservation.vehicle.id);
+    this.vehicle = this.reservation.vehicle;
   }
   getDate(date:any): string{
     let formatedDate = '';
@@ -85,8 +110,12 @@ export class ReservationDetailComponent implements OnInit {
       error => {}
     );
   }
+  goBack(): void{
+    this.router.navigate(['../'],{relativeTo:this.route});
+  }
 
   ngOnDestroy(): void {
     this.reservationSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 }
