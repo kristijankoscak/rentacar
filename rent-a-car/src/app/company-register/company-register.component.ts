@@ -17,6 +17,9 @@ import { DataStorageService } from '../shared/data-storage.service';
   styleUrls: ['./company-register.component.css']
 })
 export class CompanyRegisterComponent implements OnInit {
+  imageExtensions: string[] = ['jpg','jpeg','png'];
+  imageIsValid: boolean;
+  imageSelected: boolean = false;
   companyForm: FormGroup;
   options: string[] = ['Zagreb', 'Split', 'Osijek', 'Rijeka'];
   filteredOptions: Observable<string[]>;
@@ -99,54 +102,34 @@ export class CompanyRegisterComponent implements OnInit {
     const isInputIncluded = this.options.includes(control.value)
     return isInputIncluded ? null : {allowCity: true}
   }
-  getCompanyNameError(): string {
-    if (this.companyForm.controls.companyName.hasError('required')) {
-      return 'You must enter a value';
+  getError(formControl: FormControl): string {
+    if(formControl.hasError('required')){
+      return 'Field is required!';
     }
-    if (this.companyForm.controls.companyName.hasError('whitespace')) {
-      return 'Not a valid enter';
+    if(formControl.hasError('whitespace')){
+      return 'Enter is not valid!'
     }
-    return this.companyForm.controls.companyName.hasError('companyName') ? 'Not a valid enter' : '';
-  }
-  getCityError(): string {
-    if (this.city.hasError('required')) {
-      return 'You must enter a value';
-    }
-    if (this.city.hasError('allowCity')) {
+    if (formControl.hasError('allowCity')) {
       return 'Not valid city. Please choose one from list!';
     }
-    return this.city.hasError('city') ? 'Not a valid enter' : '';
-  }
-
-  getAddressError(): string {
-    if (this.companyForm.controls.address.hasError('required')) {
-      return 'You must enter a value';
+    if (formControl.hasError('companyName')) {
+      return 'Not a valid enter!';
     }
-    if (this.companyForm.controls.address.hasError('whitespace')) {
-      return 'Not a valid enter';
+    if (formControl.hasError('city')) {
+      return 'Not a valid enter!';
     }
-    return this.companyForm.controls.address.hasError('address') ? 'Not a valid enter' : '';
-  }
-  getEmailErrorMessage(): string {
-    if (this.companyForm.controls.email.hasError('required')) {
-      return 'You must enter a value';
+    if (formControl.hasError('email')) {
+      return 'Not a valid email!';
     }
-    if (this.companyForm.controls.email.hasError('email')) {
-      return 'Not a valid email';
+    if (formControl.hasError('pattern')) {
+      return 'Phone number is not valid!';
     }
-    return this.companyForm.controls.email.hasError('email') ? 'Not a valid enter' : '';
-  }
-  getPhoneNumberErrorMessage(): string {
-    if (this.companyForm.controls.phoneNumber.hasError('required')) {
-      return 'You must enter a value';
+    else {
+      return 'Enter is not valid!';
     }
-    if (this.companyForm.controls.phoneNumber.hasError('pattern')) {
-      return 'Not a valid phone number';
-    }
-    return this.companyForm.controls.email.hasError('phoneNumber') ? 'Not a valid enter' : '';
   }
   onSubmit(form){
-    if (!form.valid) {
+    if (!form.valid || !this.imageIsValid) {
       return;
     }
     this.http
@@ -167,13 +150,19 @@ export class CompanyRegisterComponent implements OnInit {
           responseData => {
             if (responseData){
               this.router.navigate(['/home']);
+              this.userService.successCompanyRegister.next(true);
             }
           },
           errorResponse => {
+            this.userService.companyRegisterError.next(errorResponse.error)
           }
         );
   }
-  handleImageSelect(event): void {
+  handleImageSelect(event,image): void {
+    this.imageSelected = true;
+    let extension = image.value.split('.').pop();
+    console.log(this.imageIsValid)
+    this.imageIsValid = this.validateImageExtension(extension);
     this.fetchBase64ImagePaths(event);
   }
   fetchBase64ImagePaths(event) {
@@ -183,5 +172,22 @@ export class CompanyRegisterComponent implements OnInit {
     reader.onload = (event: any) => {
       this.uploadedImage = reader.result as string;
     };
+  }
+  validateImageExtension(extension: string): boolean{
+    if(this.imageExtensions.includes(extension)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  getImageMessage(): string{
+    if(this.imageIsValid){
+      return 'Image is valid.';
+    }
+    else{
+      return 'Image is not valid! (Only: jpg,jpeg and png formats are allowed.)';
+    }
   }
 }

@@ -24,7 +24,9 @@ export class VehicleEditComponent implements OnInit {
     private userService: UserService
   ) { }
 
+  imageExtensions: string[] = ['jpg','jpeg','png'];
   imagesAreUploaded: boolean = false;
+  imagesAreValid: boolean = false;
   coverIsPicked: boolean = false;
   screenType: string;
   vehicleID: number;
@@ -58,7 +60,9 @@ export class VehicleEditComponent implements OnInit {
     { value: 'Orange' },
     { value: 'Purple' },
     { value: 'Gray' },
-    { value: 'Black' }
+    { value: 'Black' },
+    { value: 'White' },
+    { value: 'Light blue' }
   ];
   gearboxs = [
     { value: 'Automatic' },
@@ -95,18 +99,18 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleForm = new FormGroup({
       mark: new FormControl(null, [Validators.required]),
       model: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
-      modelYear: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.pattern('[1960-2021]*')]),
-      manufactureYear: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
-      gears: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
+      modelYear: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.min(2000),Validators.max(2021)]),
+      manufactureYear: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.min(2000),Validators.max(2021)]),
+      gears: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.min(0),Validators.max(10)]),
       color: new FormControl(null, [Validators.required]),
       gearbox: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
-      power: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
+      power: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.min(0),Validators.max(500)]),
       type: new FormControl(null, [Validators.required]),
-      price: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
+      price: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.min(0),Validators.max(5000)]),
       fuelType: new FormControl(null, [Validators.required]),
-      discount: new FormControl('', [Validators.required,this.whiteSpaceValidator]),
-      gateNumber: new FormControl('', [Validators.required,this.whiteSpaceValidator])
+      discount: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.min(0),Validators.max(100)]),
+      gateNumber: new FormControl('', [Validators.required,this.whiteSpaceValidator,Validators.min(2),Validators.max(8)])
     });
     this.validateForm();
   }
@@ -133,6 +137,8 @@ export class VehicleEditComponent implements OnInit {
       this.vehicleID = id;
       this.screenType = 'edit';
       this.vehicle = this.vehicleService.getVehicle(this.vehicleID)
+      this.imagesAreUploaded = true;
+      this.imagesAreValid = true;
       this.fillInputs();
     }
     else {
@@ -204,7 +210,21 @@ export class VehicleEditComponent implements OnInit {
   }
 
   handleImageSelect(event): void {
+    this.imagesAreUploaded = true;
+    this.imagesAreValid = this.validateImages(Array.from(event.target.files));
     this.fetchBase64ImagePaths(event);
+  }
+  validateImages(images: any): boolean{
+    let status = true;
+    let extension;
+    images.forEach(image => {
+      extension = image.name.split('.').pop();
+      if(!this.imageExtensions.includes(extension)){
+        status = false;
+        return;
+      }
+    })
+    return status;
   }
   fetchBase64ImagePaths(event) {
     Array.from(event.target.files).forEach((file: File) => {
@@ -236,6 +256,16 @@ export class VehicleEditComponent implements OnInit {
     this.imagesUploader.nativeElement.value = '';
     this.uploadedImages = [];
     this.coverIsPicked = false;
+    this.imagesAreUploaded = false;
+    this.imagesAreValid = false;
+  }
+  getImagesStatus(): string{
+    if(this.imagesAreValid){
+      return 'Images are valid!';
+    }
+    else{
+      return 'Images are not valid!(jpg, jpeg, png format only)'
+    }
   }
   compareImages(images: Image[],images2: Image[]): boolean{
     let same = true;
@@ -265,7 +295,8 @@ export class VehicleEditComponent implements OnInit {
         this.dataStorageService.fetchVehicles().subscribe(
           response=>{
             this.vehicleIsAdded = true;
-            this.router.navigate(['/vehicle']);
+            this.router.navigate(['/home']);
+            this.vehicleService.successVehicleAdd.next(true);
           },
           errorResponse => {}
         );
@@ -304,13 +335,32 @@ export class VehicleEditComponent implements OnInit {
     }
   }
 
-  getErrorMessage(formControl: FormControl): string{
-    console.log(formControl.errors)
+  getErrorMessage(formControl: FormControl,type: string): string{
     if(formControl.hasError('required')){
       return '* Field is required!'
     }
-    if(formControl.hasError('required')){
-      return '* Field is required!'
+    if(formControl.hasError('whitespace')){
+      return '* Invalid enter!'
+    }
+    if(formControl.hasError('min') || formControl.hasError('max')){
+      if(type === 'year') {
+        return '* Invalid range! (2000-2021)'
+      }
+      if(type === 'power') {
+        return '* Invalid range! (0-500)'
+      }
+      if(type === 'price') {
+        return '* Invalid range! (0-5000)'
+      }
+      if(type === 'gates') {
+        return '* Invalid range! (2-8)'
+      }
+      if(type === 'discount') {
+        return '* Invalid range! (0-100)'
+      }
+      if(type === 'gears') {
+        return '* Invalid range! (0-10)'
+      }
     }
   }
 }

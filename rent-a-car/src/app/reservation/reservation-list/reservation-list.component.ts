@@ -65,8 +65,10 @@ export class ReservationListComponent implements OnInit {
     }
     if(this.loggedUser && this.loggedUser.roles.includes('ROLE_ADMIN')){
       if(this.reservationService.fetchAllReservations().length === 0){
-        console.log('prazno')
-        this.dataStorageService.fetchAllReservations().subscribe();
+        this.dataStorageService.fetchAllReservations().subscribe(
+          response => {console.log(response)},
+          error => {console.log(error)}
+        );
         this.reservationsSubscription = this.reservationService.reservationsChanged.subscribe(reservations => {
           this.reservationsLoading = false
           this.reservationService.filterReservations(this.loggedUser.id);

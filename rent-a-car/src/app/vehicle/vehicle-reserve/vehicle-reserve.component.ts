@@ -17,7 +17,7 @@ import { Vehicle } from '../vehicle.model';
 })
 export class VehicleReserveComponent implements OnInit {
   backgroundColor = 'rgb(255, 211, 130)';
-  vehicle: Vehicle = undefined;
+  vehicle: Vehicle = null;
   selected = 'Cash';
   modelYear = '';
   manufactureYear = '';
@@ -37,16 +37,25 @@ export class VehicleReserveComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.vehicleService.vehicleDetailSpinner.next(false)
     this.getParametersFromURL();
     this.getUserInfo();
   }
   getParametersFromURL(): void{
+    this.vehicleService.vehicleDetailSpinner.next(false)
     this.route.params.subscribe(
       (params: Params) => {
-        this.vehicle = this.vehicleService.getVehicle(+params.id);
-        this.setUpCarYears();
-        this.setCarImage();
+        if(this.vehicleService.getVehicles().length>0){
+          this.vehicle = this.vehicleService.getVehicle(+params.id);
+          this.setUpCarYears();
+          this.setCarImage();
+        }
+        else{
+          this.dataStorageService.fetchVehicleByID(+params.id).subscribe(vehicle=>{
+            this.vehicle = vehicle[0];
+          })
+          this.setUpCarYears();
+          this.setCarImage();
+        }
       }
     );
     this.route.queryParams.subscribe(
@@ -100,7 +109,10 @@ export class VehicleReserveComponent implements OnInit {
   sendReservation(): void{
     const reservation = this.fetchReservationData();
     this.dataStorageService.addReservation(this.vehicle.id, reservation).subscribe(
-      response => {this.router.navigate(['/home']); },
+      response => {
+        this.router.navigate(['/home']);
+        this.vehicleService.successVehicleReservation.next(true);
+      },
       errorResponse => {}
     );
   }
@@ -110,8 +122,8 @@ export class VehicleReserveComponent implements OnInit {
       user_id: this.loggedUser.id,
       startTime: this.startDate,
       endTime: this.endDate,
-      paymentMethod: this.selected,  
-      paymentAmount: this.vehicle.price * this.numberOfDays + 5,    
+      paymentMethod: this.selected,
+      paymentAmount: this.vehicle.price * this.numberOfDays + 5,
       carRental: this.vehicle.carRental.id,
       info: ''
 

@@ -28,7 +28,7 @@
         <span class="text-size-16 break-word">Car-rental name: {{reservation.vehicle.carRental.name}}</span>
         <span class="text-size-16 break-word">Collection date: {{getDate(reservation.startTime)}}</span>
         <span class="text-size-16 break-word">Return date: {{getDate(reservation.endTime)}}</span>
-        <span class="text-size-16 break-word">Rezervations status: {{reservation.status}}</span>
+        <span class="text-size-16 break-word">Reservations status: {{reservation.status}}</span>
         <span class="text-size-16 break-word" *ngIf="reservation.status !== 'Waiting'">Notice: {{ reservation.info}}</span>
       </div>
     </div>

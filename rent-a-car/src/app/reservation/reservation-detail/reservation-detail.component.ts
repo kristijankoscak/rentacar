@@ -19,7 +19,7 @@ export class ReservationDetailComponent implements OnInit {
   userSubscription: Subscription = new Subscription();
   loggedUser: User;
   reservation: Reservation = null;
-  reservationSubscription: Subscription;
+  reservationSubscription: Subscription = new Subscription();
   vehicle: Vehicle = null;
   shortMessage: string = '';
 

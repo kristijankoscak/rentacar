@@ -39,7 +39,7 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: VehicleListComponent , resolve: [VehicleResolverService]},
       { path: 'new', component: VehicleEditComponent, canActivate:[AuthGuard,OwnerGuard] },
-      { path: ':id', component: VehicleDetailComponent,  canActivate:[AuthGuard],resolve: [ReserveVehicleResolverService]},
+      { path: ':id', component: VehicleDetailComponent,  canActivate:[AuthGuard],resolve: [VehicleResolverService]},
       { path: ':id/edit', component: VehicleEditComponent , canActivate:[AuthGuard,OwnerGuard],resolve: [VehicleResolverService]},
       { path: ':id/reserve', component: VehicleReserveComponent , canActivate:[AuthGuard], resolve: [ReserveVehicleResolverService]}
     ]

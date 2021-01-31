@@ -10,6 +10,8 @@ export class UserService {
   user: User = undefined;
   userChanged = new Subject<User>();
   showNotAllowedError = new BehaviorSubject<boolean>(null);
+  successCompanyRegister = new BehaviorSubject<boolean>(null);
+  companyRegisterError = new BehaviorSubject<string>('');
   constructor() { }
 
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../auth/user.model';
 import { UserService } from '../auth/user.service';
+import { ReservationService } from '../reservation/reservation.service';
 import { HeaderService } from './header.service';
 
 @Component({
@@ -19,7 +20,8 @@ export class HeaderComponent implements OnInit,OnDestroy {
   constructor(
     private router:Router,
     private userService: UserService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private reservationService: ReservationService
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
     localStorage.removeItem('userToken');
     this.userService.saveUser(undefined);
     this.userService.showNotAllowedError.next(false);
+    this.reservationService.userReservations = [];
   }
 
   ngOnDestroy(): void{

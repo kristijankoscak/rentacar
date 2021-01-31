@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/auth/user.service';
 import { VehicleService } from '../vehicle.service';
 
 @Component({
@@ -10,15 +11,17 @@ import { VehicleService } from '../vehicle.service';
 })
 export class ErrorAlertComponent implements OnInit,OnDestroy {
 
-  errorSubscription: Subscription;
+  vehicleErrorSubscription: Subscription;
+  companyRegisterErrorSubscription: Subscription;
   error: boolean=false;
   errorMessage: string;
   backdrop: HTMLElement = document.querySelector('.backdrop') as HTMLElement;
   constructor(private vehicleService: VehicleService,
-              private router: Router) { }
+              private router: Router,
+              private userService:UserService) { }
 
   ngOnInit(): void {
-    this.errorSubscription = this.vehicleService.errorHappened.subscribe((value) => {
+    this.vehicleErrorSubscription = this.vehicleService.errorHappened.subscribe((value) => {
       this.backdrop.style.display = 'block'
       if(value === 'No vehicles.'){
         this.error = true;
@@ -29,6 +32,13 @@ export class ErrorAlertComponent implements OnInit,OnDestroy {
         this.errorMessage = "Ups, error occured. Check your internet connection";
       }
     });
+    this.companyRegisterErrorSubscription = this.userService.companyRegisterError.subscribe(value=>{
+      // this.backdrop.style.display = 'block'
+      if(value){
+        this.error = true;
+        this.errorMessage = value;
+      }
+    })
   }
 
   closeErrorBox(): void{
@@ -39,6 +49,7 @@ export class ErrorAlertComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.errorSubscription.unsubscribe()
+    this.vehicleErrorSubscription.unsubscribe();
+    this.companyRegisterErrorSubscription.unsubscribe();
   }
 }

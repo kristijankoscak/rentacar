@@ -17,7 +17,7 @@ fxLayoutGap=1rem>
       </p>
     </div>
   </div>
-  <form 
+  <form
   fxLayoutGap=1rem
   action=""
   class="company-form"
@@ -32,7 +32,7 @@ fxLayoutGap=1rem>
           <input matInput
           formControlName="companyName">
           <mat-icon matSuffix>emoji_transportation</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.companyName.invalid">{{getCompanyNameError()}}</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.companyName.invalid">{{getError(this.companyForm.controls.companyName)}}</mat-error>
 
         </mat-form-field>
         <mat-form-field>
@@ -47,21 +47,21 @@ fxLayoutGap=1rem>
             </mat-option>
           </mat-autocomplete>
           <mat-icon matSuffix>map</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.city.invalid">Not valid city. Please choose one from list!</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.city.invalid">{{getError(this.companyForm.controls.city)}}</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Address</mat-label>
           <input matInput
           formControlName="address">
           <mat-icon matSuffix>place</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.address.invalid">{{getAddressError()}}</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.address.invalid">{{getError(this.companyForm.controls.address)}}</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Phone number</mat-label>
           <input matInput
           formControlName="phoneNumber">
           <mat-icon matSuffix>smartphone</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.phoneNumber.invalid">{{getPhoneNumberErrorMessage()}}</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.phoneNumber.invalid">{{getError(this.companyForm.controls.phoneNumber)}}</mat-error>
 
         </mat-form-field>
         <mat-form-field>
@@ -69,31 +69,35 @@ fxLayoutGap=1rem>
           <input matInput
           formControlName="email">
           <mat-icon matSuffix>email</mat-icon>
-          <mat-error *ngIf="this.companyForm.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
+          <mat-error *ngIf="this.companyForm.controls.email.invalid">{{getError(this.companyForm.controls.email)}}</mat-error>
         </mat-form-field>
       </div>
       <div
       fxLayout=row
       fxLayoutAlign=" center"
       class="image-wrapper">
-        <button 
-        class="action-button upload-image" 
+        <button
+        class="action-button upload-image"
         type="button"
-        mat-flat-button 
+        mat-flat-button
         (click)="imageUploader.click()">Upload company image</button>
-        <input 
-        required 
+        <input
+        required
         #imageUploader
         hidden
-        type="file"  
-        (change)="handleImageSelect($event)" />
+        type="file"
+
+        accept="image/*"
+        (change)="handleImageSelect($event,imageUploader)" />
         <span>
-          {{imgTitle}}
+          {{imgTitle}} &nbsp;
         </span>
+        <span *ngIf="imageSelected">{{getImageMessage()}}</span>
       </div>
     <div
     fxLayoutAlign=end>
-      <button 
+      <button
+      buttonSelectImage="ngModel"
       class="btn-register-company bg-primary"
       mat-raised-button>
       Register Company</button>

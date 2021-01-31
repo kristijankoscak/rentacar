@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Vehicle } from '../vehicle/vehicle.model';
 
 @Injectable({
@@ -16,6 +16,8 @@ export class VehicleService {
   errorHappened = new Subject<string>();
   showspinner = new Subject<boolean>();
   vehicleDetailSpinner = new Subject<boolean>();
+  successVehicleAdd = new BehaviorSubject<boolean>(false);
+  successVehicleReservation = new BehaviorSubject<boolean>(false);
   constructor(
     private http: HttpClient,
     private router:Router
