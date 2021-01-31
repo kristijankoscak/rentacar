@@ -134,6 +134,8 @@ z;
     )
     .pipe(
       tap(response => {
+        this.fetchAllReservations();
+        this.fetchUserReservations();
       })
     );
   }
