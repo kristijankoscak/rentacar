@@ -38,6 +38,11 @@ z;
     .pipe(
       tap((vehicles: Vehicle[]) => {
         this.vehicleService.setVehicles(vehicles);
+        this.vehicleService.vehicleDetailSpinner.next(false)
+      },
+      (errorResponse: any) => {
+        this.vehicleService.vehicleDetailSpinner.next(false)
+        this.vehicleService.errorHappened.next(errorResponse.error);
       })
     );
   }
@@ -66,6 +71,7 @@ z;
                 this.vehicleService.setFilteredVehicles(vehicles);
               },
               (errorResponse: any) => {
+                this.vehicleService.vehicleDetailSpinner.next(false)
                 this.vehicleService.errorHappened.next(errorResponse.error);
               })
             );

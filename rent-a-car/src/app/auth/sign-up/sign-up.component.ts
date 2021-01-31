@@ -12,7 +12,7 @@ import { AuthService } from '../auth.service';
 })
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
-
+  passwordNotMatch = false;
   constructor(private router: Router,
               private route: ActivatedRoute,
               private http: HttpClient,
@@ -99,6 +99,11 @@ export class SignUpComponent implements OnInit {
     if (!form.valid) {
       return;
     }
+    if(this.signUpForm.controls.password.value !== this.signUpForm.controls.confPassword.value){
+      this.passwordNotMatch = true;
+      return;
+    }
+    console.log("ovdje ne smije")
     this.http
         .post<any>(
           'https://sbdrustvo.com/register',
@@ -121,5 +126,9 @@ export class SignUpComponent implements OnInit {
               form.reset();
             }
         });
+  }
+  
+  hideMessage(): void {
+    this.passwordNotMatch = false;
   }
 }
