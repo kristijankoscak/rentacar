@@ -49,3 +49,13 @@
     cursor: pointer;
     border-bottom: rgb(255, 211, 130) 1px solid;
 }
+.alert{
+    margin-bottom: 0!important;
+    padding: 0!important;
+    color: red;
+}
+.btn-ok{
+    margin-left: 1rem;
+    border: 1px solid red;
+    color: red;
+}

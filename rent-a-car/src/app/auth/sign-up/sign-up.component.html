@@ -87,12 +87,20 @@ fxLayoutGap=1rem>
           <mat-error *ngIf="this.signUpForm.controls.confPassword.invalid">{{getConfPasswordErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
+      
     <div
-    fxLayoutAlign=end>
+    fxLayoutAlign=space-between>
+      
       <button 
+      fxLayoutAlign=end
       class="btn-signup bg-primary"
       mat-raised-button>
       Sign up</button>
+      <p 
+      class="alert" 
+      *ngIf="passwordNotMatch">Password don't match 
+                              <button class="btn-ok" (click)="hideMessage()">OK</button>
+        </p>
     </div>
   </form>
   <div
